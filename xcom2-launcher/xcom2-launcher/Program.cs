@@ -8,12 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using JR.Utils.GUI.Forms;
-using Newtonsoft.Json;
-using Semver;
+using log4net;
 using Sentry;
 using Sentry.Protocol;
 using XCOM2Launcher.Classes;
-using XCOM2Launcher.Classes.Helper;
 using XCOM2Launcher.Classes.Steam;
 using XCOM2Launcher.Forms;
 using XCOM2Launcher.Helper;
@@ -25,19 +23,19 @@ namespace XCOM2Launcher
 {
     internal static class Program
     {
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(nameof(Program));
+        private static readonly ILog Log = LogManager.GetLogger(nameof(Program));
         public static readonly bool IsDebugBuild;
         public static XcomEnvironment XEnv;
 
         static Program()
         {
-            #if DEBUG
-                IsDebugBuild = true;
-            #else
-                IsDebugBuild = false;
-            #endif
+#if DEBUG
+            IsDebugBuild = false;
+#else
+            IsDebugBuild = false;
+#endif
 
-            Log.Info($"Application started (AML {GitVersionInfo.FullSemVer} {GitVersionInfo.Sha})");
+            // Log.Info($"Application started (AML {GitVersionInfo.FullSemVer} {GitVersionInfo.Sha})");
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace XCOM2Launcher
             }
 
             // Mutex is used to check if another instance of AML is already running
-            Mutex mutex = new Mutex(true, "E3241D27-3DD8-4615-888A-502252B9E2A1", out var isFirstInstance);
+            Mutex mutex = new Mutex(true, "E3241D27-3DD8-4615-888A-502252B9E2A9", out var isFirstInstance);
             IDisposable sentrySdkInstance = null;
 
             try
@@ -64,12 +62,12 @@ namespace XCOM2Launcher
 
                 InitAppSettings();
                 sentrySdkInstance = InitSentry();
-                
+
                 if (!CheckDotNet4_7_2())
                 {
-                    Log.Warn(".NET Framework v4.7.2 required");
+                    Log.Warn("需要安装.NET Framework v4.7.2(百度)");
 
-                    var result = MessageBox.Show("This program requires Microsoft .NET Framework v4.7.2 or newer. Do you want to open the download page now?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    var result = MessageBox.Show("此程序需要Microsoft .NET Framework v4.7.2或更高版本。您要立即打开下载页面吗?", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 
                     if (result == DialogResult.Yes)
                         Tools.StartProcess("https://dotnet.microsoft.com/download/dotnet-framework");
@@ -77,15 +75,16 @@ namespace XCOM2Launcher
                     return;
                 }
 
-                if (!SteamAPIWrapper.Init()) {
+                if (!SteamAPIWrapper.Init())
+                {
                     Log.Warn("Failed to detect Steam");
 
                     StringBuilder message = new StringBuilder();
-                    message.AppendLine("Please make sure that:");
-                    message.AppendLine("- Steam is running");
-                    message.AppendLine("- the file steam_appid.txt exists in the AML folder");
-                    message.AppendLine("- neither (or both) of Steam and AML are running\n  with admin privileges");
-                    MessageBox.Show(message.ToString(), "Error - unable to detect Steam!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    message.AppendLine("请确保：");
+                    message.AppendLine("- Steam已经启动");
+                    message.AppendLine("- AML文件夹中存在文件steam_appid.txt");
+                    message.AppendLine("- Steam和AML均未使用管理员模式运行（或同时运行）\n ");
+                    MessageBox.Show(message.ToString(), "错误-无法检测Steam!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -98,23 +97,18 @@ namespace XCOM2Launcher
                 }
 
                 // Exit if another instance of AML is already running and multiple instances are disabled.
-                if (!settings.AllowMultipleInstances && !isFirstInstance) {
-                    MessageBox.Show("Another instance of AML is already running.", "AML already started", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!settings.AllowMultipleInstances && !isFirstInstance)
+                {
+                    MessageBox.Show("AML的另一个实例已经在运行.", "AML已经启动", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                // Check for update
-                if (!IsDebugBuild && settings.CheckForUpdates)
-                {
-                    CheckForUpdate();
-                }
-
                 // clean up old files
-                if (File.Exists(Program.XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak"))
+                if (File.Exists(XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak"))
                 {
                     // Restore backup
-                    File.Copy(Program.XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak", Program.XEnv.DefaultConfigDir + @"\DefaultModOptions.ini", true);
-                    File.Delete(Program.XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak");
+                    File.Copy(XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak", XEnv.DefaultConfigDir + @"\DefaultModOptions.ini", true);
+                    File.Delete(XEnv.DefaultConfigDir + @"\DefaultModOptions.ini.bak");
                 }
 
                 Application.Run(new MainForm(settings));
@@ -125,20 +119,16 @@ namespace XCOM2Launcher
                 Log.Info("Shutting down...");
                 sentrySdkInstance?.Dispose();
                 GlobalSettings.Instance.Save();
-                GC.KeepAlive(mutex);    // prevent the mutex from being garbage collected early
+                GC.KeepAlive(mutex); // prevent the mutex from being garbage collected early
                 mutex.Dispose();
             }
         }
 
-        static void HandleUnhandledException(Exception e, string source)
+        private static void HandleUnhandledException(Exception e, string source)
         {
             Log.Fatal("Unhandled exception", e);
-            File.WriteAllText("error.log", $"Version: {GetCurrentVersionString(true)}\n" +
-                                           $"Sentry GUID: {GlobalSettings.Instance.Guid}\n" +
-                                           $"Source: {source}\n" +
-                                           $"Message: {e.Message}\n\n" +
-                                           $"Stack:\n{e.StackTrace}");
-            
+            // File.WriteAllText("error.log", $"Version: {GetCurrentVersionString(true)}\n" + $"Sentry GUID: {GlobalSettings.Instance.Guid}\n" + $"Source: {source}\n" + $"Message: {e.Message}\n\n" + $"Stack:\n{e.StackTrace}");
+
             var dlg = new UnhandledExceptionDialog(e);
             dlg.ShowDialog();
             Application.Exit();
@@ -160,19 +150,19 @@ namespace XCOM2Launcher
             Log.Info("Initializing Sentry");
 
             IDisposable sentrySdkInstance = null;
-            
+
             try
             {
                 string environment = "Release";
-                
-                #if DEBUG
-                    environment = "Debug";
-                #endif
+
+#if DEBUG
+                // environment = "Debug";
+#endif
 
                 sentrySdkInstance = SentrySdk.Init(o =>
                 {
                     o.Dsn = new Dsn("https://3864ad83bed947a2bc16d88602ac0d87@sentry.io/1478084");
-                    o.Release = "AML@" + GitVersionInfo.SemVer;     // prefix because releases are global per organization
+                    // o.Release = "AML@" + GitVersionInfo.SemVer; // prefix because releases are global per organization
                     o.Debug = false;
                     o.Environment = environment;
                     o.MaxBreadcrumbs = 50;
@@ -207,7 +197,6 @@ namespace XCOM2Launcher
             return sentrySdkInstance;
         }
 
-
         /// <summary>
         /// Initializes GlobalSettings class.
         /// Used for all settings that we want to persist, even if the user decides to delete the
@@ -216,12 +205,12 @@ namespace XCOM2Launcher
         private static void InitAppSettings()
         {
             var appSettings = GlobalSettings.Instance;
-            var currentVersion = new Version(GitVersionInfo.MajorMinorPatch);
+            // var currentVersion = new Version(GitVersionInfo.MajorMinorPatch);
 
-            if (appSettings.MaxVersion < currentVersion)
-            {
-                appSettings.MaxVersion = currentVersion;
-            }
+            // if (appSettings.MaxVersion < currentVersion)
+            // {
+            //     appSettings.MaxVersion = currentVersion;
+            // }
 
             // AML will either be used for XCOM2 or Chimera Squad
             // Create Steam application id file if it does not exist (depending on game choice of the user)
@@ -241,7 +230,7 @@ namespace XCOM2Launcher
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Unable to create {Workshop.APPID_FILENAME}. {Environment.NewLine} {ex.Message} ");
+                    MessageBox.Show($"无法建立 {Workshop.APPID_FILENAME}. {Environment.NewLine} {ex.Message} ");
                     return;
                 }
             }
@@ -255,7 +244,7 @@ namespace XCOM2Launcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unable to access {Workshop.APPID_FILENAME}. {Environment.NewLine} {ex.Message} ");
+                MessageBox.Show($"无法访问 {Workshop.APPID_FILENAME}. {Environment.NewLine} {ex.Message} ");
                 return;
             }
 
@@ -266,15 +255,16 @@ namespace XCOM2Launcher
                     case GameId.X2:
                         XEnv = new Xcom2Env();
                         break;
+
                     case GameId.ChimeraSquad:
                         XEnv = new XComChimeraSquadEnv();
                         break;
+
                     default:
-                        MessageBox.Show($"The {Workshop.APPID_FILENAME} file contains an unexpected application id: {appId}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($" {Workshop.APPID_FILENAME} 文件包含意外的应用程序ID: {appId}.", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                 }
             }
-
 
             appSettings.Save();
         }
@@ -311,15 +301,10 @@ namespace XCOM2Launcher
             {
                 Log.Warn("Incompatible settings.json");
 
-                MessageBoxManager.Cancel = "Exit";
-                MessageBoxManager.OK = "Continue";
+                MessageBoxManager.Cancel = "退出";
+                MessageBoxManager.OK = "继续";
                 MessageBoxManager.Register();
-                var choice = MessageBox.Show("This launcher version is NOT COMPATIBLE with the old 'settings.json' file.\n" +
-                                             "Stop NOW and launch the old version to export a profile of your mods INCLUDING GROUPS!\n" +
-                                             "Once that is done, move the old 'settings.json' file to a SAFE PLACE and then proceed.\n" +
-                                             "After loading, import the profile you saved to recover groups.\n\n" +
-                                             "If you are not ready to do this, click 'Exit' to leave with no changes.",
-                                             "WARNING!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                var choice = MessageBox.Show("此启动器版本与旧的\"settings.json\"文件不兼容.\n" + "立即停止并启动旧版本以导出您的mod的配置文件，包括分组!\n" + "完成后，将旧的“ settings.json”文件移至“安全位置”，然后继续.\n" + "加载后，导入保存的配置文件以恢复分组。\n\n" + "如果您尚未准备好执行此操作，请单击“退出”以保留所有更改.", "警告!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
                 if (choice == DialogResult.Cancel)
                     Environment.Exit(0);
@@ -335,11 +320,7 @@ namespace XCOM2Launcher
                 {
                     var targetGame = settings.Game == GameId.X2 ? "XCOM 2" : "XCOM Chimera Squad";
                     var activeGame = XEnv.Game == GameId.X2 ? "XCOM 2" : "XCOM Chimera Squad";
-                    MessageBox.Show($"The current settings were created for '{targetGame}', but this copy of AML was configured to run '{activeGame}'. " +
-                                    "To resolve this close AML and:\n\n" + 
-                                    "a) delete the file 'settings.json' to reset the settings\n\n" +
-                                    "    OR\n\n" +
-                                    $"b) delete the file 'steam_appid.txt' and select '{targetGame}' on startup", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show($"当前设置是针对 '{targetGame}', 但此AML副本已配置为运行 '{activeGame}'. " + "要解决此问题,请关闭AML然后执行以下操作:\n\n" + "a) 删除文件“ settings.json”以重置设置\n\n" + "    或者\n\n" + $"b) 删除文件“ steam_appid.txt”并在启动时选择' {targetGame}'", "警告", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                     Environment.Exit(0);
                 }
@@ -350,12 +331,12 @@ namespace XCOM2Launcher
 
             // Verify Game Path
             if (!Directory.Exists(settings.GamePath))
-                settings.GamePath = Program.XEnv.DetectGameDir();
+                settings.GamePath = XEnv.DetectGameDir();
 
             if (settings.GamePath == "")
             {
                 Log.Warn("Unable to detect installation path");
-                MessageBox.Show(@"Could not detect path to installation directory. Please select it manually from the settings.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(@"无法检测到安装目录。请从设置中手动选择.", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             // Make sure, that all mod paths have a trailing backslash
@@ -374,7 +355,7 @@ namespace XCOM2Launcher
             }
             else
             {
-                MessageBox.Show("Unable to read mod directories from 'XComEngine.ini'. See file 'AML.log' for details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("无法从\" XComEngine.ini\"读取mod目录。有关详细信息，请参见文件“ AML.log”.", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Remove obsolete mod paths
@@ -383,7 +364,7 @@ namespace XCOM2Launcher
             if (settings.ModPaths.Count == 0)
             {
                 Log.Warn("No mod directories configured");
-                MessageBox.Show(@"Unable to detect mod directories. Please select them manually from the settings dialog.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(@"无法检测到mod目录。请从设置对话框中手动添加.", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             if (settings.Mods.Entries.Count > 0)
@@ -391,7 +372,7 @@ namespace XCOM2Launcher
                 settings.Mods.MarkDuplicates();
                 settings.Mods.InitCategoryIndices();
 
-                // Verify Mods 
+                // Verify Mods
                 foreach (var mod in settings.Mods.All)
                 {
                     if (!settings.ModPaths.Any(mod.IsInModPath))
@@ -435,9 +416,9 @@ namespace XCOM2Launcher
                 if (newlyBrokenMods.Count > 0)
                 {
                     if (newlyBrokenMods.Count == 1)
-                        FlexibleMessageBox.Show($"The mod '{newlyBrokenMods[0].Name}' no longer exists and has been hidden.");
+                        FlexibleMessageBox.Show($"mod'{newlyBrokenMods[0].Name}'不再存在，并且已被隐藏.");
                     else
-                        FlexibleMessageBox.Show($"{newlyBrokenMods.Count} mods no longer exist and have been hidden:\r\n\r\n" + string.Join("\r\n", newlyBrokenMods.Select(m => m.Name)));
+                        FlexibleMessageBox.Show($"{newlyBrokenMods.Count} mod已不存在且已被隐藏:\r\n\r\n" + string.Join("\r\n", newlyBrokenMods.Select(m => m.Name)));
 
                     foreach (var m in newlyBrokenMods)
                         m.isHidden = true;
@@ -448,87 +429,6 @@ namespace XCOM2Launcher
             settings.ImportMods();
 
             return settings;
-        }
-
-        public static bool CheckForUpdate()
-        {
-            Log.Info("Checking for Updates...");
-
-            try
-            {
-                using (var client = new System.Net.WebClient())
-                {
-                    client.Headers.Add("User-Agent: Other");
-                    GitHub.Release release;
-
-                    if (Settings.Instance.CheckForPreReleaseUpdates)
-                    {
-                        Log.Info("Pre-Release updates enabled");
-                        // fetch all releases including pre-releases and select the first/newest 
-                        var jsonAllReleases = client.DownloadString("https://api.github.com/repos/X2CommunityCore/xcom2-launcher/releases");
-                        var allReleases = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GitHub.Release>>(jsonAllReleases);
-                        release = allReleases.FirstOrDefault();
-                    }
-                    else
-                    {
-                        // fetch latest non-pre-release
-                        var json = client.DownloadString("https://api.github.com/repos/X2CommunityCore/xcom2-launcher/releases/latest");
-                        release = Newtonsoft.Json.JsonConvert.DeserializeObject<GitHub.Release>(json);
-                    }
-
-                    if (release == null)
-                    {
-                        Log.Warn("No release information found");
-                        return false;
-                    }
-
-                    bool parsingSucceeded = SemVersion.TryParse(GitVersionInfo.SemVer, out SemVersion currentVersion);
-                    parsingSucceeded &= SemVersion.TryParse(release.tag_name.TrimStart('v'), out SemVersion newVersion);
-
-                    if (parsingSucceeded)
-                    {
-                        // If not explicitly enabled, we ignore alpha versions.
-                        if (!Settings.Instance.IncludeAlphaVersions && newVersion.Prerelease.Contains("alpha"))
-                            return false;
-
-                        if (currentVersion < newVersion)
-                        {
-                            // New version available
-                            Log.Info("New version available " + newVersion);
-                            new UpdateAvailableDialog(release, currentVersion, newVersion).ShowDialog();
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        var message = $"{nameof(CheckForUpdate)}: Error parsing release version information '{release.tag_name}'.";
-                        Log.Error(message);
-                        Debug.Fail(message);
-                    }
-                }
-            }
-            catch (System.Net.WebException ex)
-            {
-                Log.Warn("Web request failed", ex);
-            }
-            catch (JsonReaderException ex)
-            {
-                Log.Warn("Failed to parse version information from Github", ex);
-            }
-
-            return false;
-        }
-
-        public static string GetCurrentVersionString(bool includePostfix = false)
-        {
-            var result = GitVersionInfo.SemVer;
-
-            if (includePostfix && IsDebugBuild)
-            {
-                result += " [DEBUG]";
-            }
-
-            return result;
         }
     }
 }

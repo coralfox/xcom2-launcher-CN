@@ -23,9 +23,18 @@ namespace XCOM2Launcher.Forms
         {
             // Register Events
             // run buttons
-            runXCOM2ToolStripMenuItem.Click += (a, b) => { RunVanilla(); };
-            runWarOfTheChosenToolStripMenuItem.Click += (a, b) => { RunWotC(); };
-            runChallengeModeToolStripMenuItem.Click += (a, b) => { RunChallengeMode(); };
+            runXCOM2ToolStripMenuItem.Click += (a, b) =>
+            {
+                RunVanilla();
+            };
+            runWarOfTheChosenToolStripMenuItem.Click += (a, b) =>
+            {
+                RunWotC();
+            };
+            runChallengeModeToolStripMenuItem.Click += (a, b) =>
+            {
+                RunChallengeMode();
+            };
             runChimeraSquadToolStripMenuItem.Click += (sender, args) => RunChimeraSquad();
 
             #region Menu->File
@@ -40,13 +49,13 @@ namespace XCOM2Launcher.Forms
             {
                 Log.Info("Menu->File->Reset settings");
                 // Confirmation dialog
-                var r = MessageBox.Show("Unsaved changes will be lost.\r\nAre you sure?", "Reload settings?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                var r = MessageBox.Show("未保存的更改将丢失.\r\n你确定吗?", "重新加载设置?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (r != DialogResult.OK)
                     return;
 
                 Reset();
             };
-            
+
             searchForModsToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->File->Search for new mods");
@@ -56,14 +65,14 @@ namespace XCOM2Launcher.Forms
                     ShowModUpdateRunningMessageBox();
                     return;
                 }
-                
+
                 var importedMods = Settings.ImportMods();
-                
+
                 if (importedMods.Any())
                 {
                     UpdateMods(importedMods, () =>
                     {
-                        Invoke(new Action(() => 
+                        Invoke(new Action(() =>
                         {
                             RefreshModList();
                             modlist_ListObjectListView.EnsureModelVisible(importedMods.FirstOrDefault());
@@ -75,14 +84,14 @@ namespace XCOM2Launcher.Forms
             updateEntriesToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->File->Update mod info");
-                
+
                 if (IsModUpdateTaskRunning)
                 {
                     ShowModUpdateRunningMessageBox();
                     return;
                 }
-                
-                SetStatus("Updating all mods...");
+
+                SetStatus("更新所有Mod...");
 
                 var mods = Settings.Mods.All.ToList();
                 UpdateMods(mods);
@@ -138,7 +147,7 @@ namespace XCOM2Launcher.Forms
                     if (dialog.IsRestartRequired)
                     {
                         appRestartPendingLabel.Visible = true;
-                        MessageBox.Show("Some changes won't take effect, until after the application has been restarted.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("在重新启动应用程序之后，某些更改才会生效.", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             };
@@ -146,11 +155,14 @@ namespace XCOM2Launcher.Forms
             manageCategoriesToolStripMenuItem.Click += ManageCategoriesToolStripMenuItem_Click;
 
             #endregion Menu->Options
-            
+
             #region Menu->Tools
 
             // -> Tools
-            cleanModsToolStripMenuItem.Click += delegate { new CleanModsForm(Settings).ShowDialog(); };
+            cleanModsToolStripMenuItem.Click += delegate
+            {
+                new CleanModsForm(Settings).ShowDialog();
+            };
 
             importFromXCOM2ToolStripMenuItem.Click += delegate
             {
@@ -191,22 +203,22 @@ namespace XCOM2Launcher.Forms
                 var choice = false;
 
                 if (modsToDownload.Count == 0)
-                    MessageBox.Show("No uninstalled workshop mods were found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("未安装MOD未找到.", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else if (modsToDownload.Count == 1)
-                    choice = MessageBox.Show($"Are you sure you want to download the mod {modsToDownload[0].Name}?", "Confirm Download", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
+                    choice = MessageBox.Show($"您确定要下载mod {modsToDownload[0].Name}?", "确认下载", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
                 else
-                    choice = MessageBox.Show($"Are you sure you want to download {modsToDownload.Count} mods?", "Confirm Download", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
+                    choice = MessageBox.Show($"您确定要下载{modsToDownload.Count} mod?", "确认下载", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
 
                 if (choice)
                 {
                     foreach (var m in modsToDownload)
                     {
                         Log.Info("Subscribe and download " + m.ID);
-                        Workshop.Subscribe((ulong) m.WorkshopID);
-                        Workshop.DownloadItem((ulong) m.WorkshopID);
+                        Workshop.Subscribe((ulong)m.WorkshopID);
+                        Workshop.DownloadItem((ulong)m.WorkshopID);
                     }
 
-                    MessageBox.Show("Launch XCOM after the download is finished in order to use the mod" + (modsToDownload.Count == 1 ? "." : "s."), "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("下载完成后启动XCOM以使用mod" + (modsToDownload.Count == 1 ? "." : "们."), "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             };
 
@@ -224,20 +236,24 @@ namespace XCOM2Launcher.Forms
             checkForUpdatesToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->About->Check Update");
-
-                if (!Program.CheckForUpdate())
-                {
-                    MessageBox.Show("No updates available", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
             };
 
-            openHomepageToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher"); };
+            openHomepageToolStripMenuItem.Click += delegate
+            {
+                Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher");
+            };
 
-            amlWikiToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher/wiki"); };
+            amlWikiToolStripMenuItem.Click += delegate
+            {
+                Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher/wiki");
+            };
 
-            openDiscordToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://discord.gg/QHSVGRn"); };
+            openDiscordToolStripMenuItem.Click += delegate
+            {
+                Tools.StartProcess(@"https://discord.gg/QHSVGRn");
+            };
 
-            #endregion
+            #endregion Menu->About
 
             // RichTextBox clickable links
             //modinfo_readme_RichTextBox.LinkClicked += ControlLinkClicked;
@@ -269,7 +285,8 @@ namespace XCOM2Launcher.Forms
             };
         }
 
-        private void QuickArgumentItemClick(object sender, EventArgs e) {
+        private void QuickArgumentItemClick(object sender, EventArgs e)
+        {
             // Add or remove the respective argument from the argument list, depending on its check-state.
             if (sender is ToolStripMenuItem item)
             {
@@ -322,7 +339,6 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // If the mod update task is still running we cancel it and prevent the form from getting closed immediately
@@ -333,15 +349,15 @@ namespace XCOM2Launcher.Forms
                 Log.Info("Cancelled FormClosing because ModUpdateTask is still running");
 
                 ModUpdateCancelSource?.Cancel();
-                
+
                 // We asynchronously wait (can't block UI thread at this point) for the ModUpdateTask to complete
                 var waitForUpdateTaskToComplete = Task.Run(async () =>
                 {
                     await ModUpdateTask;
                 });
-                
+
                 // Close the form as soon as the ModUpdateTask finished
-                waitForUpdateTaskToComplete.ContinueWith((x) =>
+                waitForUpdateTaskToComplete.ContinueWith(x =>
                 {
                     Log.Info("Closing form (mod update task completed)");
                     Close();
@@ -353,11 +369,14 @@ namespace XCOM2Launcher.Forms
                 e.Cancel = true;
                 return;
             }
-            
+
             Log.Info("MainForm is about to close");
 
             // Save dimensions
-            Settings.Windows["main"] = new WindowSettings(this) { Data = modlist_ListObjectListView.SaveState() };
+            Settings.Windows["main"] = new WindowSettings(this)
+            {
+                Data = modlist_ListObjectListView.SaveState()
+            };
             Settings.ShowStateFilter = cShowStateFilter.Checked;
             Settings.ShowModListGroups = cEnableGrouping.Checked;
             Settings.ShowPrimaryDuplicateAsDependency = cShowPrimaryDuplicates.Checked;
@@ -371,9 +390,10 @@ namespace XCOM2Launcher.Forms
             modinfo_inspect_propertygrid.SetLabelColumnWidth(100);
         }
 
-        #endregion
+        #endregion Form
 
         #region Event Handlers
+
         private void MainTabSelected(object sender, TabControlEventArgs e)
         {
             if (e.TabPage == export_tab)
@@ -395,7 +415,7 @@ namespace XCOM2Launcher.Forms
                 CheckFileExists = true,
                 Multiselect = false,
             };
-            
+
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -403,8 +423,7 @@ namespace XCOM2Launcher.Forms
 
             if (!Settings.NeverImportTags)
             {
-                OverrideTags = MessageBox.Show("Do you want to override the tags and categories of your current mods with the tags saved in your profile?\r\n" +
-                    "Warning: This action cannot be undone", "Importing profile", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+                OverrideTags = MessageBox.Show("您是否要使用个性配置中的标签覆盖当前的标签和分类?\r\n" + "警告：此操作无法撤消", "导入配置", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
             }
             else
             {
@@ -466,7 +485,7 @@ namespace XCOM2Launcher.Forms
             // Check entries
             if (activeMods.Count == 0)
             {
-                MessageBox.Show("No mods found. Bad profile?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("找不到MOD.配置文件不正确?", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -475,7 +494,7 @@ namespace XCOM2Launcher.Forms
             {
                 var steamMissingMods = missingMods.Where(match => match.Groups["sourceID"].Value != "Unknown").ToList();
 
-                var text = $"This profile contains {missingMods.Count} mod(s) that are not currently installed:\r\n\r\n";
+                var text = $"此配置文件包含 {missingMods.Count} mod(s) 当前并未安装:\r\n\r\n";
 
                 foreach (var match in missingMods)
                 {
@@ -489,9 +508,9 @@ namespace XCOM2Launcher.Forms
 
                 if (steamMissingMods.Count != 0)
                 {
-                    text += "\r\nDo you want to subscribe to the mods marked with an asterisk on Steam?";
+                    text += "\r\n您是否要在Steam上订阅标有星号的mod?";
 
-                    var result = FlexibleMessageBox.Show(this, text, "Mods missing!", MessageBoxButtons.YesNoCancel);
+                    var result = FlexibleMessageBox.Show(this, text, "缺少MOD!", MessageBoxButtons.YesNoCancel);
 
                     if (result == DialogResult.Cancel)
                         return;
@@ -504,7 +523,7 @@ namespace XCOM2Launcher.Forms
                             SteamUGC.SubscribeItem(id.ToPublishedFileID());
                         }
 
-                        MessageBox.Show("Done. Close the launcher, wait for steam to download the mod(s) and try again.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("关闭启动器，等待Steam下载mod，然后再试一次.", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                 }
@@ -512,13 +531,13 @@ namespace XCOM2Launcher.Forms
                 {
                     text += "\r\nDo you wish to continue?";
 
-                    if (FlexibleMessageBox.Show(this, text, "Mods missing!", MessageBoxButtons.YesNo) == DialogResult.No)
+                    if (FlexibleMessageBox.Show(this, text, "缺少MOD!", MessageBoxButtons.YesNo) == DialogResult.No)
                         return;
                 }
             }
 
             // Confirm
-            if (FlexibleMessageBox.Show(this, $"Adopt profile? {activeMods.Count} mods found.", "Confirm", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (FlexibleMessageBox.Show(this, $"导入配置?找到 {activeMods.Count} 个MOD.", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
             // Apply changes
@@ -538,7 +557,7 @@ namespace XCOM2Launcher.Forms
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Text files|*.txt",
+                Filter = "文本文件|*.txt",
                 DefaultExt = "txt",
                 OverwritePrompt = true,
                 AddExtension = true,
@@ -560,7 +579,7 @@ namespace XCOM2Launcher.Forms
             if (modinfo_tabcontrol.SelectedTab != modinfo_changelog_tab || m == null)
                 return;
 
-            modinfo_changelog_richtextbox.Text = "Loading...";
+            modinfo_changelog_richtextbox.Text = "加载中...";
             modinfo_changelog_richtextbox.Text = await ModChangelogCache.GetChangeLogAsync(m.WorkshopID);
         }
 
@@ -592,9 +611,7 @@ namespace XCOM2Launcher.Forms
             int width = senderComboBox.DropDownWidth;
             Font font = senderComboBox.Font;
 
-            int vertScrollBarWidth = (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
-                ? SystemInformation.VerticalScrollBarWidth
-                : 0;
+            int vertScrollBarWidth = senderComboBox.Items.Count > senderComboBox.MaxDropDownItems ? SystemInformation.VerticalScrollBarWidth : 0;
 
             var itemsList = senderComboBox.Items.Cast<object>().Select(item => item.ToString());
 
@@ -612,7 +629,6 @@ namespace XCOM2Launcher.Forms
 
             senderComboBox.DropDownWidth = width;
         }
-
 
         private void modinfo_config_FileSelectCueComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -705,8 +721,8 @@ namespace XCOM2Launcher.Forms
                 fillPanel.Visible = true;
                 fillPanel.BringToFront();
                 layout.Dock = DockStyle.Fill;
-                modinfo_config_ExpandButton.Text = "Collapse";
-                toolTip.SetToolTip(modinfo_config_ExpandButton, "Collapse the INI editor to normal size");
+                modinfo_config_ExpandButton.Text = "折叠";
+                toolTip.SetToolTip(modinfo_config_ExpandButton, "折叠INI编辑器到正常大小");
             }
             else
             {
@@ -715,8 +731,8 @@ namespace XCOM2Launcher.Forms
                 layout.BringToFront();
                 fillPanel.Visible = false;
                 fillPanel.SendToBack();
-                modinfo_config_ExpandButton.Text = "Expand";
-                toolTip.SetToolTip(modinfo_config_ExpandButton, "Expand the INI editor to fill the window");
+                modinfo_config_ExpandButton.Text = "展开";
+                toolTip.SetToolTip(modinfo_config_ExpandButton, "展开INI编辑器以填充窗口");
             }
         }
 
@@ -735,7 +751,7 @@ namespace XCOM2Launcher.Forms
             }
             catch (Exception configerror)
             {
-                FlexibleMessageBox.Show("An exception occured. See error.log for additional details.");
+                FlexibleMessageBox.Show("发生异常。有关更多详细信息，请参见error.log.");
                 File.WriteAllText("error.log", configerror.Message + "\r\nStack:\r\n" + configerror.StackTrace);
             }
         }
@@ -823,6 +839,6 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-        #endregion
+        #endregion Event Handlers
     }
 }

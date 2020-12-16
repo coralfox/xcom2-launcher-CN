@@ -109,12 +109,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\GitHub\Asset.cs" />
-    <Compile Include="Classes\GitHub\Release.cs" />
-    <Compile Include="Classes\GitHub\User.cs" />
     <Compile Include="Classes\GlobalSettings.cs" />
     <Compile Include="Classes\Helper\FileSizeFormatExtension.cs" />
-    <Compile Include="Classes\Helper\GitVersionInfo.cs" />
     <Compile Include="Classes\Helper\MessageBoxManager.cs" />
     <Compile Include="Classes\Helper\Tools.cs" />
     <Compile Include="Classes\Log4Net\AssemblyExtensions.cs" />
@@ -205,12 +201,6 @@
       <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Steam\SteamWorkshop.cs" />
-    <Compile Include="Forms\UpdateAvailableDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\UpdateAvailableDialog.Designer.cs">
-      <DependentUpon>UpdateAvailableDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\WelcomeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,9 +247,6 @@
     <EmbeddedResource Include="Forms\UnhandledExceptionDialog.resx">
       <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UpdateAvailableDialog.resx">
-      <DependentUpon>UpdateAvailableDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\WelcomeDialog.resx">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -273,10 +260,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserElements\AutoCompleteTextBox.resx">
+      <DependentUpon>AutoCompleteTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GitVersionConfig.yaml" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -309,7 +298,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

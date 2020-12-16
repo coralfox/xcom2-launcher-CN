@@ -23,9 +23,18 @@ namespace XCOM2Launcher.UserElements
 
         private void InitializeComponent()
         {
-            _suggestionsListBox = new ListBox();
-            KeyDown += this_KeyDown;
-            KeyUp += this_KeyUp;
+            this._suggestionsListBox = new System.Windows.Forms.ListBox();
+            this.SuspendLayout();
+            // 
+            // _suggestionsListBox
+            // 
+            this._suggestionsListBox.Location = new System.Drawing.Point(0, 0);
+            this._suggestionsListBox.Name = "_suggestionsListBox";
+            this._suggestionsListBox.Size = new System.Drawing.Size(120, 96);
+            this._suggestionsListBox.TabIndex = 0;
+            this._suggestionsListBox.SelectedIndexChanged += new System.EventHandler(this._suggestionsListBox_SelectedIndexChanged);
+            this.ResumeLayout(false);
+
         }
 
         private void ShowListBox()
@@ -177,6 +186,11 @@ namespace XCOM2Launcher.UserElements
 
             Text = updatedText;
             SelectionStart = firstPart.Length;
+        }
+
+        private void _suggestionsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

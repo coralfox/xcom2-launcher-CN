@@ -30,7 +30,7 @@ namespace XCOM2Launcher.Mod
         [JsonIgnore]
         public IEnumerable<ModEntry> Active => All.Where(m => m.isActive);
 
-        [JsonIgnore] 
+        [JsonIgnore]
         private readonly List<ModEntry> _DependencyCache = new List<ModEntry>();
 
         public virtual ModCategory this[string category]
@@ -81,16 +81,16 @@ namespace XCOM2Launcher.Mod
                                    .Distinct(StringComparer.InvariantCultureIgnoreCase);
 
             return from className in classesOverriden
-                let overridesForThisClass = allOverrides.Where(o =>
-                    o.OldClass.Equals(className, StringComparison.InvariantCultureIgnoreCase)).ToList()
-                where overridesForThisClass.Count > 1
-                    // If every mod uses a UIScreenListener, there is no conflict
-                    && overridesForThisClass.Any(o => o.OverrideType == ModClassOverrideType.Class)
-                    // If all overrides uses the same mod ID, assume there is no conflict
-                    && overridesForThisClass.Any(o => o.Mod.ID != overridesForThisClass[0].Mod.ID)
-                    // If all overrides are textually identical, no conflict
-                    && overridesForThisClass.Select(m => m.TextLine).Distinct().Count() > 1
-                select new ModConflict(className, overridesForThisClass);
+                   let overridesForThisClass = allOverrides.Where(o =>
+                       o.OldClass.Equals(className, StringComparison.InvariantCultureIgnoreCase)).ToList()
+                   where overridesForThisClass.Count > 1
+                       // If every mod uses a UIScreenListener, there is no conflict
+                       && overridesForThisClass.Any(o => o.OverrideType == ModClassOverrideType.Class)
+                       // If all overrides uses the same mod ID, assume there is no conflict
+                       && overridesForThisClass.Any(o => o.Mod.ID != overridesForThisClass[0].Mod.ID)
+                       // If all overrides are textually identical, no conflict
+                       && overridesForThisClass.Select(m => m.TextLine).Distinct().Count() > 1
+                   select new ModConflict(className, overridesForThisClass);
         }
 
         private void UpdateModsConflictState(IEnumerable<ModConflict> activeConflicts)
@@ -115,10 +115,10 @@ namespace XCOM2Launcher.Mod
         {
             var requiredMods = GetRequiredMods(mod, true, true);
             var allRequiredModsAvailable = requiredMods.All(m => m.WorkshopID != 0 && m.isActive && !m.State.HasFlag(ModState.NotInstalled) && !m.State.HasFlag(ModState.NotLoaded));
-            
+
             if (allRequiredModsAvailable)
                 mod.RemoveState(ModState.MissingDependencies);
-            else 
+            else
                 mod.AddState(ModState.MissingDependencies);
         }
 
@@ -257,7 +257,7 @@ namespace XCOM2Launcher.Mod
 
             return infoFile;
         }
-    
+
         public void AddMod(string category, ModEntry mod)
         {
             if (mod.Index == -1)
@@ -287,7 +287,7 @@ namespace XCOM2Launcher.Mod
 
             var steamMods = new List<ModEntry>();
             var localMods = new List<ModEntry>();
-                
+
             foreach (var mod in mods)
             {
                 if (!VerifyModState(mod, settings))
@@ -307,17 +307,17 @@ namespace XCOM2Launcher.Mod
             var getDetailsTasks = new List<Task<List<SteamUGCDetails_t>>>();
             var totalModCount = steamMods.Count + localMods.Count;
             var steamProgress = 1;
-            
-            while(steamModsCopy.Any())
-            {    
+
+            while (steamModsCopy.Any())
+            {
                 var batchQueryModList = new List<ModEntry>(steamModsCopy.Take(Workshop.MAX_UGC_RESULTS).ToList());
                 steamModsCopy = steamModsCopy.Skip(Workshop.MAX_UGC_RESULTS).ToList();
 
                 Log.Debug($"Creating SteamUGCDetails_t batch request for {batchQueryModList.Count} mods.");
-                
+
                 getDetailsTasks.Add(Task.Run(() =>
                 {
-                    var details = Workshop.GetDetails(batchQueryModList.ConvertAll(mod => (ulong) mod.WorkshopID), true);
+                    var details = Workshop.GetDetails(batchQueryModList.ConvertAll(mod => (ulong)mod.WorkshopID), true);
 
                     if (details == null)
                     {
@@ -352,7 +352,7 @@ namespace XCOM2Launcher.Mod
 
                                 lock (_ModUpdateLock)
                                 {
-                                    progress?.Report(new ModUpdateProgress($"Updating mods {steamProgress}/{totalModCount}...", steamProgress, totalModCount));
+                                    progress?.Report(new ModUpdateProgress($"更新Mod中 {steamProgress}/{totalModCount}...", steamProgress, totalModCount));
                                     Interlocked.Increment(ref steamProgress);
                                 }
 
@@ -367,7 +367,6 @@ namespace XCOM2Launcher.Mod
                                     throw;
                                 }
                             }
-
                         }, cancelToken));
                     }
 
@@ -405,19 +404,19 @@ namespace XCOM2Launcher.Mod
 
                 progress?.Report(new ModUpdateProgress($"Updating mods {totalProgress}/{totalModCount}...", totalProgress, totalModCount));
                 totalProgress++;
-                
+
                 UpdateLocalMod(localMod);
             }
 
             List<ModEntry> updatedEntries = new List<ModEntry>();
             updatedEntries.AddRange(steamMods);
             updatedEntries.AddRange(localMods);
-            
+
             Log.Debug($"{nameof(UpdateModsAsync)}() completed.");
             return updatedEntries;
         }
 
-        bool VerifyModState(ModEntry m, Settings settings)
+        private bool VerifyModState(ModEntry m, Settings settings)
         {
             // Check if mod directory exists
             if (!Directory.Exists(m.Path))
@@ -471,7 +470,7 @@ namespace XCOM2Launcher.Mod
             return true;
         }
 
-        void UpdateLocalMod(ModEntry m)
+        private void UpdateLocalMod(ModEntry m)
         {
             Log.Debug("Processing local information for " + m.ID);
 
@@ -500,10 +499,9 @@ namespace XCOM2Launcher.Mod
                 Log.Error("Failed parsing XComMod file for " + m.ID, ex);
                 Debug.Fail(ex.Message);
             }
-
         }
 
-        void UpdateSteamMod(ModEntry m, SteamUGCDetails_t workshopDetails)
+        private void UpdateSteamMod(ModEntry m, SteamUGCDetails_t workshopDetails)
         {
             if (m == null || m.WorkshopID <= 0)
             {
@@ -554,7 +552,7 @@ namespace XCOM2Launcher.Mod
 
             // We buffer the Steam tags so we do nor require another full UGC workshop request when the user chooses to use them.
             m.SteamTags = workshopDetails.m_rgchTags.Split(',').Select(s => s.TrimStart(' ').TrimEnd(' ')).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-            
+
             // If the mod has dependencies, request the workshop id's of those mods.
             if (workshopDetails.m_unNumChildren > 0)
             {
@@ -563,7 +561,7 @@ namespace XCOM2Launcher.Mod
                 if (dependencies != null)
                 {
                     m.Dependencies.Clear();
-                    m.Dependencies.AddRange(dependencies.ConvertAll(val => (long) val));
+                    m.Dependencies.AddRange(dependencies.ConvertAll(val => (long)val));
                 }
                 else
                 {
@@ -572,7 +570,7 @@ namespace XCOM2Launcher.Mod
             }
 
             // Check Workshop for updates
-            if (Workshop.GetDownloadStatus((ulong) m.WorkshopID).HasFlag(EItemState.k_EItemStateNeedsUpdate))
+            if (Workshop.GetDownloadStatus((ulong)m.WorkshopID).HasFlag(EItemState.k_EItemStateNeedsUpdate))
             {
                 Log.Info("Update available for " + m.ID);
                 m.AddState(ModState.UpdateAvailable);
@@ -590,7 +588,6 @@ namespace XCOM2Launcher.Mod
                 Log.Error("Failed parsing XComMod file for " + m.ID, ex);
                 Debug.Fail(ex.Message);
             }
-
         }
 
         public string GetCategory(ModEntry mod)
@@ -700,7 +697,7 @@ namespace XCOM2Launcher.Mod
                 {
                     Log.Debug($"Duplicate mod workaround active for mod ID '{duplicateGroup.First().ID}'");
                     bool primaryAlreadyAssigned = false;
-                    
+
                     foreach (var mod in duplicateGroup.OrderBy(m => m.DateAdded))
                     {
                         if (mod.CheckModFileDisabled())

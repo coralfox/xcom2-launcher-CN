@@ -179,9 +179,6 @@
             this.conflicts_tab_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.conflicts_log_label = new System.Windows.Forms.Label();
             this.conflicts_datagrid = new System.Windows.Forms.DataGridView();
-            this.ColumnModName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnInternalClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnModClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.conflicts_textbox = new System.Windows.Forms.TextBox();
             this.export_tab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -196,6 +193,9 @@
             this.olvcSavedIni = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.fillPanel = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ColumnModName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnInternalClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnModClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.main_statusstrip.SuspendLayout();
             this.main_menustrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.error_provider)).BeginInit();
@@ -241,35 +241,37 @@
             // 
             // main_statusstrip
             // 
+            this.main_statusstrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.main_statusstrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.status_toolstrip_label,
             this.progress_toolstrip_progressbar,
             this.labelFillsFreeSpace,
             this.appRestartPendingLabel});
-            this.main_statusstrip.Location = new System.Drawing.Point(0, 719);
+            this.main_statusstrip.Location = new System.Drawing.Point(0, 829);
             this.main_statusstrip.Name = "main_statusstrip";
+            this.main_statusstrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
             this.main_statusstrip.ShowItemToolTips = true;
-            this.main_statusstrip.Size = new System.Drawing.Size(984, 22);
+            this.main_statusstrip.Size = new System.Drawing.Size(1312, 26);
             this.main_statusstrip.TabIndex = 5;
             this.main_statusstrip.Text = "statusStrip1";
             // 
             // status_toolstrip_label
             // 
             this.status_toolstrip_label.Name = "status_toolstrip_label";
-            this.status_toolstrip_label.Size = new System.Drawing.Size(42, 17);
-            this.status_toolstrip_label.Text = "Ready.";
+            this.status_toolstrip_label.Size = new System.Drawing.Size(39, 20);
+            this.status_toolstrip_label.Text = "就绪";
             // 
             // progress_toolstrip_progressbar
             // 
             this.progress_toolstrip_progressbar.AutoSize = false;
             this.progress_toolstrip_progressbar.Name = "progress_toolstrip_progressbar";
-            this.progress_toolstrip_progressbar.Size = new System.Drawing.Size(120, 16);
+            this.progress_toolstrip_progressbar.Size = new System.Drawing.Size(160, 18);
             this.progress_toolstrip_progressbar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // labelFillsFreeSpace
             // 
             this.labelFillsFreeSpace.Name = "labelFillsFreeSpace";
-            this.labelFillsFreeSpace.Size = new System.Drawing.Size(647, 17);
+            this.labelFillsFreeSpace.Size = new System.Drawing.Size(963, 20);
             this.labelFillsFreeSpace.Spring = true;
             // 
             // appRestartPendingLabel
@@ -277,13 +279,14 @@
             this.appRestartPendingLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.appRestartPendingLabel.ForeColor = System.Drawing.Color.Red;
             this.appRestartPendingLabel.Name = "appRestartPendingLabel";
-            this.appRestartPendingLabel.Size = new System.Drawing.Size(158, 17);
-            this.appRestartPendingLabel.Text = "Application restart pending";
+            this.appRestartPendingLabel.Size = new System.Drawing.Size(128, 20);
+            this.appRestartPendingLabel.Text = "应用重启等待中";
             this.appRestartPendingLabel.ToolTipText = "Some changes to the settings won\'t take effect,\r\nuntil after the application has " +
     "been restarted.";
             // 
             // main_menustrip
             // 
+            this.main_menustrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.main_menustrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
             this.settingsToolStripMenuItem,
@@ -296,7 +299,7 @@
             this.main_menustrip.Location = new System.Drawing.Point(0, 0);
             this.main_menustrip.Name = "main_menustrip";
             this.main_menustrip.ShowItemToolTips = true;
-            this.main_menustrip.Size = new System.Drawing.Size(984, 24);
+            this.main_menustrip.Size = new System.Drawing.Size(1312, 28);
             this.main_menustrip.TabIndex = 6;
             this.main_menustrip.Text = "menuStrip1";
             // 
@@ -311,42 +314,42 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.runToolStripMenuItem.Text = "&File";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.runToolStripMenuItem.Text = "文件(F)";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.saveToolStripMenuItem.Text = "Save settings";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.saveToolStripMenuItem.Text = "保存设置";
             this.saveToolStripMenuItem.ToolTipText = "Saves the current settings and updates XCOM configuration \r\nfiles with respect to" +
     " currently active mods and mod folders.";
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.reloadToolStripMenuItem.Text = "Reset settings";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.reloadToolStripMenuItem.Text = "重置设置";
             this.reloadToolStripMenuItem.ToolTipText = "Restores the settings from last manual save or\r\nsince last game launch.";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(203, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(187, 6);
             // 
             // searchForModsToolStripMenuItem
             // 
             this.searchForModsToolStripMenuItem.Name = "searchForModsToolStripMenuItem";
-            this.searchForModsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.searchForModsToolStripMenuItem.Text = "Search for new mods";
+            this.searchForModsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.searchForModsToolStripMenuItem.Text = "搜索新MOD";
             this.searchForModsToolStripMenuItem.ToolTipText = "Scans all known mod directories for new mods and adds them to the mod list.\r\nThis" +
     " is useful for adding new mods without re-starting AML.";
             // 
             // updateEntriesToolStripMenuItem
             // 
             this.updateEntriesToolStripMenuItem.Name = "updateEntriesToolStripMenuItem";
-            this.updateEntriesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.updateEntriesToolStripMenuItem.Text = "Update mod information";
+            this.updateEntriesToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.updateEntriesToolStripMenuItem.Text = "更新MOD信息";
             this.updateEntriesToolStripMenuItem.ToolTipText = "Updates the current state of all mods, by performing some validations \r\nand by re" +
     "questing the latest mod information from the Steam workshop.\r\nThis task is also " +
     "performed when you start AML.";
@@ -354,13 +357,13 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(187, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.exitToolStripMenuItem.Text = "退出";
             // 
             // settingsToolStripMenuItem
             // 
@@ -370,34 +373,34 @@
             this.editOptionsToolStripMenuItem,
             this.manageCategoriesToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Options";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.settingsToolStripMenuItem.Text = "选项";
             // 
             // showHiddenModsToolStripMenuItem
             // 
             this.showHiddenModsToolStripMenuItem.CheckOnClick = true;
             this.showHiddenModsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.showHiddenModsToolStripMenuItem.Name = "showHiddenModsToolStripMenuItem";
-            this.showHiddenModsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.showHiddenModsToolStripMenuItem.Text = "Show hidden mods";
+            this.showHiddenModsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.showHiddenModsToolStripMenuItem.Text = "显示隐藏MOD";
             this.showHiddenModsToolStripMenuItem.ToolTipText = "Show/hide all mods, that are currently set to \"hidden\".";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(173, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(187, 6);
             // 
             // editOptionsToolStripMenuItem
             // 
             this.editOptionsToolStripMenuItem.Name = "editOptionsToolStripMenuItem";
-            this.editOptionsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.editOptionsToolStripMenuItem.Text = "Settings...";
+            this.editOptionsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.editOptionsToolStripMenuItem.Text = "设置";
             // 
             // manageCategoriesToolStripMenuItem
             // 
             this.manageCategoriesToolStripMenuItem.Name = "manageCategoriesToolStripMenuItem";
-            this.manageCategoriesToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.manageCategoriesToolStripMenuItem.Text = "Categories...";
+            this.manageCategoriesToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.manageCategoriesToolStripMenuItem.Text = "分类编辑";
             // 
             // toolsToolStripMenuItem
             // 
@@ -406,8 +409,8 @@
             this.cleanModsToolStripMenuItem,
             this.resubscribeToModsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.toolsToolStripMenuItem.Text = "工具";
             // 
             // importActiveModsToolStripMenuItem
             // 
@@ -416,72 +419,72 @@
             this.importFromWotCToolStripMenuItem,
             this.importFromChimeraSquadToolStripMenuItem});
             this.importActiveModsToolStripMenuItem.Name = "importActiveModsToolStripMenuItem";
-            this.importActiveModsToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.importActiveModsToolStripMenuItem.Text = "Import active mods";
+            this.importActiveModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.importActiveModsToolStripMenuItem.Text = "导入已激活MOD";
             // 
             // importFromXCOM2ToolStripMenuItem
             // 
             this.importFromXCOM2ToolStripMenuItem.Name = "importFromXCOM2ToolStripMenuItem";
-            this.importFromXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.importFromXCOM2ToolStripMenuItem.Text = "From XCOM 2 config";
+            this.importFromXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromXCOM2ToolStripMenuItem.Text = "从XCOM2原版配置";
             this.importFromXCOM2ToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the X" +
     "COM 2 basegame config file.";
             // 
             // importFromWotCToolStripMenuItem
             // 
             this.importFromWotCToolStripMenuItem.Name = "importFromWotCToolStripMenuItem";
-            this.importFromWotCToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.importFromWotCToolStripMenuItem.Text = "From WotC config";
+            this.importFromWotCToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromWotCToolStripMenuItem.Text = "从天选者配置";
             this.importFromWotCToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the W" +
     "otC config file.";
             // 
             // importFromChimeraSquadToolStripMenuItem
             // 
             this.importFromChimeraSquadToolStripMenuItem.Name = "importFromChimeraSquadToolStripMenuItem";
-            this.importFromChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.importFromChimeraSquadToolStripMenuItem.Text = "From Chimera Squad config";
+            this.importFromChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromChimeraSquadToolStripMenuItem.Text = "从奇美拉小队配置";
             this.importFromChimeraSquadToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the C" +
     "himera Squad config file.";
             // 
             // cleanModsToolStripMenuItem
             // 
             this.cleanModsToolStripMenuItem.Name = "cleanModsToolStripMenuItem";
-            this.cleanModsToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.cleanModsToolStripMenuItem.Text = "Clean mods...";
+            this.cleanModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.cleanModsToolStripMenuItem.Text = "清除MOD...";
+            this.cleanModsToolStripMenuItem.ToolTipText = "内有菜单";
             // 
             // resubscribeToModsToolStripMenuItem
             // 
             this.resubscribeToModsToolStripMenuItem.Name = "resubscribeToModsToolStripMenuItem";
-            this.resubscribeToModsToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.resubscribeToModsToolStripMenuItem.Text = "Resubscribe to uninstalled mods";
-            this.resubscribeToModsToolStripMenuItem.ToolTipText = "Subscribe to and download all workshop mods, \r\nthat are currently listed in AML, " +
-    "but no longer installed.";
+            this.resubscribeToModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.resubscribeToModsToolStripMenuItem.Text = "重订阅未安装MOD";
+            this.resubscribeToModsToolStripMenuItem.ToolTipText = "部分MOD在AML显示,但是实际未安装\r\nAML会重新订阅,以便正确下载";
             // 
             // runXCOM2ToolStripMenuItem
             // 
             this.runXCOM2ToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.runXCOM2ToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runXCOM2ToolStripMenuItem.Image")));
             this.runXCOM2ToolStripMenuItem.Name = "runXCOM2ToolStripMenuItem";
-            this.runXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
-            this.runXCOM2ToolStripMenuItem.Text = "Run &XCOM 2";
-            this.runXCOM2ToolStripMenuItem.ToolTipText = "Start XCOM 2 with selected mods";
+            this.runXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(133, 24);
+            this.runXCOM2ToolStripMenuItem.Text = "启动&XCOM 2";
+            this.runXCOM2ToolStripMenuItem.ToolTipText = "加载已激活MOD并启动XCOM2原版游戏\r\n";
             // 
             // runWarOfTheChosenToolStripMenuItem
             // 
             this.runWarOfTheChosenToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.runWarOfTheChosenToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runWarOfTheChosenToolStripMenuItem.Image")));
             this.runWarOfTheChosenToolStripMenuItem.Name = "runWarOfTheChosenToolStripMenuItem";
-            this.runWarOfTheChosenToolStripMenuItem.Size = new System.Drawing.Size(157, 20);
-            this.runWarOfTheChosenToolStripMenuItem.Text = "Run War of the Chosen";
-            this.runWarOfTheChosenToolStripMenuItem.ToolTipText = "Start WotC with selected mods";
+            this.runWarOfTheChosenToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.runWarOfTheChosenToolStripMenuItem.Text = "启动WOTC(天选者之战)";
+            this.runWarOfTheChosenToolStripMenuItem.ToolTipText = "加载已激活MOD并启动XCOM2天选者游戏";
             // 
             // runChallengeModeToolStripMenuItem
             // 
             this.runChallengeModeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runChallengeModeToolStripMenuItem.Image")));
             this.runChallengeModeToolStripMenuItem.Name = "runChallengeModeToolStripMenuItem";
-            this.runChallengeModeToolStripMenuItem.Size = new System.Drawing.Size(146, 20);
-            this.runChallengeModeToolStripMenuItem.Text = "Run Challenge Mode";
-            this.runChallengeModeToolStripMenuItem.ToolTipText = "Start WotC with no mods enabled";
+            this.runChallengeModeToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.runChallengeModeToolStripMenuItem.Text = "启动WOTC挑战模式";
+            this.runChallengeModeToolStripMenuItem.ToolTipText = "不加载MOD,启动WOTC(天选者之战)";
             // 
             // aboutToolStripMenuItem
             // 
@@ -494,52 +497,53 @@
             this.amlWikiToolStripMenuItem,
             this.openDiscordToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.aboutToolStripMenuItem.Text = "关于";
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.infoToolStripMenuItem.Text = "Info...";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.infoToolStripMenuItem.Text = "信息";
             // 
             // checkForUpdatesToolStripMenuItem
             // 
+            this.checkForUpdatesToolStripMenuItem.Enabled = false;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for updates...";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.checkForUpdatesToolStripMenuItem.Text = "检查更新";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(213, 6);
             // 
             // openHomepageToolStripMenuItem
             // 
             this.openHomepageToolStripMenuItem.Name = "openHomepageToolStripMenuItem";
-            this.openHomepageToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.openHomepageToolStripMenuItem.Text = "AML Project Page";
+            this.openHomepageToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.openHomepageToolStripMenuItem.Text = "AML 项目页面";
             // 
             // amlWikiToolStripMenuItem
             // 
             this.amlWikiToolStripMenuItem.Name = "amlWikiToolStripMenuItem";
-            this.amlWikiToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.amlWikiToolStripMenuItem.Text = "AML Wiki";
+            this.amlWikiToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.amlWikiToolStripMenuItem.Text = "AML Wiki(百科)";
             // 
             // openDiscordToolStripMenuItem
             // 
             this.openDiscordToolStripMenuItem.Name = "openDiscordToolStripMenuItem";
-            this.openDiscordToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.openDiscordToolStripMenuItem.Text = "AML Discord Channel";
+            this.openDiscordToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.openDiscordToolStripMenuItem.Text = "AML Discord频道";
             this.openDiscordToolStripMenuItem.ToolTipText = "Opens a Discord invite link to our channel \r\non the XCOM 2 Modding server.";
             // 
             // runChimeraSquadToolStripMenuItem
             // 
             this.runChimeraSquadToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runChimeraSquadToolStripMenuItem.Image")));
             this.runChimeraSquadToolStripMenuItem.Name = "runChimeraSquadToolStripMenuItem";
-            this.runChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(178, 20);
-            this.runChimeraSquadToolStripMenuItem.Text = "Run XCOM Chimera Squad";
-            this.runChimeraSquadToolStripMenuItem.ToolTipText = "Start XCOM Chimera Squad with selected mods";
+            this.runChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
+            this.runChimeraSquadToolStripMenuItem.Text = "启动XCOM奇美拉小队";
+            this.runChimeraSquadToolStripMenuItem.ToolTipText = "加载已激活MOD并启动XCOM奇美拉小队游戏\r\n";
             // 
             // error_provider
             // 
@@ -555,29 +559,32 @@
             this.main_tabcontrol.Controls.Add(this.conflicts_tab);
             this.main_tabcontrol.Controls.Add(this.export_tab);
             this.main_tabcontrol.ImageList = this.tabImageList;
-            this.main_tabcontrol.Location = new System.Drawing.Point(0, 27);
+            this.main_tabcontrol.Location = new System.Drawing.Point(0, 31);
+            this.main_tabcontrol.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.main_tabcontrol.Name = "main_tabcontrol";
             this.main_tabcontrol.SelectedIndex = 0;
-            this.main_tabcontrol.Size = new System.Drawing.Size(984, 689);
+            this.main_tabcontrol.Size = new System.Drawing.Size(1312, 795);
             this.main_tabcontrol.TabIndex = 6;
             this.main_tabcontrol.Selected += new System.Windows.Forms.TabControlEventHandler(this.MainTabSelected);
             // 
             // modlist_tab
             // 
             this.modlist_tab.Controls.Add(this.horizontal_splitcontainer);
-            this.modlist_tab.Location = new System.Drawing.Point(4, 23);
+            this.modlist_tab.Location = new System.Drawing.Point(4, 25);
+            this.modlist_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_tab.Name = "modlist_tab";
-            this.modlist_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modlist_tab.Size = new System.Drawing.Size(976, 662);
+            this.modlist_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modlist_tab.Size = new System.Drawing.Size(1304, 766);
             this.modlist_tab.TabIndex = 0;
-            this.modlist_tab.Text = "Mods";
+            this.modlist_tab.Text = "Mods(模组)";
             this.modlist_tab.UseVisualStyleBackColor = true;
             // 
             // horizontal_splitcontainer
             // 
             this.horizontal_splitcontainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.horizontal_splitcontainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.horizontal_splitcontainer.Location = new System.Drawing.Point(3, 3);
+            this.horizontal_splitcontainer.Location = new System.Drawing.Point(4, 3);
+            this.horizontal_splitcontainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.horizontal_splitcontainer.Name = "horizontal_splitcontainer";
             this.horizontal_splitcontainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -590,9 +597,9 @@
             // horizontal_splitcontainer.Panel2
             // 
             this.horizontal_splitcontainer.Panel2.Controls.Add(this.modinfo_groupbox);
-            this.horizontal_splitcontainer.Size = new System.Drawing.Size(970, 656);
-            this.horizontal_splitcontainer.SplitterDistance = 398;
-            this.horizontal_splitcontainer.SplitterWidth = 5;
+            this.horizontal_splitcontainer.Size = new System.Drawing.Size(1296, 760);
+            this.horizontal_splitcontainer.SplitterDistance = 488;
+            this.horizontal_splitcontainer.SplitterWidth = 6;
             this.horizontal_splitcontainer.TabIndex = 5;
             // 
             // modlist_ListObjectListView
@@ -642,10 +649,11 @@
             this.modlist_ListObjectListView.FullRowSelect = true;
             this.modlist_ListObjectListView.HideSelection = false;
             this.modlist_ListObjectListView.IsSearchOnSortColumn = false;
-            this.modlist_ListObjectListView.Location = new System.Drawing.Point(0, 33);
+            this.modlist_ListObjectListView.Location = new System.Drawing.Point(0, 38);
+            this.modlist_ListObjectListView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_ListObjectListView.Name = "modlist_ListObjectListView";
             this.modlist_ListObjectListView.ShowItemCountOnGroups = true;
-            this.modlist_ListObjectListView.Size = new System.Drawing.Size(970, 334);
+            this.modlist_ListObjectListView.Size = new System.Drawing.Size(1296, 414);
             this.modlist_ListObjectListView.SortGroupItemsByPrimaryColumn = false;
             this.modlist_ListObjectListView.SpaceBetweenGroups = 10;
             this.modlist_ListObjectListView.TabIndex = 0;
@@ -675,39 +683,39 @@
             // 
             this.olvcName.AspectName = "Name";
             this.olvcName.Hideable = false;
-            this.olvcName.Text = "Name";
+            this.olvcName.Text = "标题";
             this.olvcName.Width = 300;
             // 
             // olvAuthor
             // 
             this.olvAuthor.AspectName = "Author";
-            this.olvAuthor.Text = "Author";
+            this.olvAuthor.Text = "作者";
             this.olvAuthor.Width = 100;
             // 
             // olvcCategory
             // 
             this.olvcCategory.AspectName = "Category";
-            this.olvcCategory.Text = "Category";
+            this.olvcCategory.Text = "分类";
             this.olvcCategory.Width = 80;
             // 
             // olvcID
             // 
             this.olvcID.AspectName = "ID";
             this.olvcID.IsEditable = false;
-            this.olvcID.Text = "ID";
+            this.olvcID.Text = "编码";
             this.olvcID.Width = 120;
             // 
             // olvcState
             // 
             this.olvcState.IsEditable = false;
-            this.olvcState.Text = "State";
+            this.olvcState.Text = "状态";
             this.olvcState.Width = 80;
             // 
             // olvcSource
             // 
             this.olvcSource.DisplayIndex = 6;
             this.olvcSource.IsVisible = false;
-            this.olvcSource.Text = "Source";
+            this.olvcSource.Text = "来源";
             // 
             // olvcOrder
             // 
@@ -717,7 +725,7 @@
             this.olvcOrder.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.olvcOrder.IsVisible = false;
             this.olvcOrder.MinimumWidth = 40;
-            this.olvcOrder.Text = "Order";
+            this.olvcOrder.Text = "顺序";
             this.olvcOrder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // olvcSize
@@ -725,7 +733,7 @@
             this.olvcSize.AspectName = "Size";
             this.olvcSize.IsEditable = false;
             this.olvcSize.Searchable = false;
-            this.olvcSize.Text = "Size";
+            this.olvcSize.Text = "大小";
             this.olvcSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // olvcLastUpdated
@@ -733,7 +741,7 @@
             this.olvcLastUpdated.AspectName = "DateUpdated";
             this.olvcLastUpdated.IsEditable = false;
             this.olvcLastUpdated.Searchable = false;
-            this.olvcLastUpdated.Text = "Last Update";
+            this.olvcLastUpdated.Text = "最后更新时间";
             this.olvcLastUpdated.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvcLastUpdated.Width = 120;
             // 
@@ -742,7 +750,7 @@
             this.olvcDateAdded.AspectName = "DateAdded";
             this.olvcDateAdded.IsEditable = false;
             this.olvcDateAdded.Searchable = false;
-            this.olvcDateAdded.Text = "Date Added";
+            this.olvcDateAdded.Text = "安装时间";
             this.olvcDateAdded.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvcDateAdded.Width = 120;
             // 
@@ -752,7 +760,7 @@
             this.olvcDateCreated.IsEditable = false;
             this.olvcDateCreated.IsVisible = false;
             this.olvcDateCreated.Searchable = false;
-            this.olvcDateCreated.Text = "Date Created";
+            this.olvcDateCreated.Text = "创建时间";
             this.olvcDateCreated.Width = 120;
             // 
             // olvcPath
@@ -761,7 +769,7 @@
             this.olvcPath.IsEditable = false;
             this.olvcPath.IsVisible = false;
             this.olvcPath.Searchable = false;
-            this.olvcPath.Text = "Path";
+            this.olvcPath.Text = "路径";
             this.olvcPath.Width = 160;
             // 
             // olvcHasBackup
@@ -769,21 +777,21 @@
             this.olvcHasBackup.AspectName = "HasBackedUpSettings";
             this.olvcHasBackup.DisplayIndex = 9;
             this.olvcHasBackup.IsVisible = false;
-            this.olvcHasBackup.Text = "Has Backups";
+            this.olvcHasBackup.Text = "是否备份";
             // 
             // olvcWorkshopID
             // 
             this.olvcWorkshopID.AspectName = "WorkshopID";
             this.olvcWorkshopID.IsEditable = false;
             this.olvcWorkshopID.IsVisible = false;
-            this.olvcWorkshopID.Text = "Workshop ID";
+            this.olvcWorkshopID.Text = "工坊编码";
             // 
             // olvcHidden
             // 
             this.olvcHidden.AspectName = "isHidden";
             this.olvcHidden.DisplayIndex = 10;
             this.olvcHidden.IsVisible = false;
-            this.olvcHidden.Text = "Hidden";
+            this.olvcHidden.Text = "隐藏?";
             // 
             // olvcTags
             // 
@@ -791,7 +799,7 @@
             this.olvcTags.AutoCompleteEditor = false;
             this.olvcTags.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
             this.olvcTags.MinimumWidth = 250;
-            this.olvcTags.Text = "Tags";
+            this.olvcTags.Text = "标签";
             this.olvcTags.Width = 250;
             // 
             // olvSteamLink
@@ -802,7 +810,7 @@
             this.olvSteamLink.IsEditable = false;
             this.olvSteamLink.IsVisible = false;
             this.olvSteamLink.Searchable = false;
-            this.olvSteamLink.Text = "Steam Link";
+            this.olvSteamLink.Text = "工坊链接";
             this.olvSteamLink.Width = 225;
             // 
             // olvBrowserLink
@@ -813,14 +821,15 @@
             this.olvBrowserLink.IsEditable = false;
             this.olvBrowserLink.IsVisible = false;
             this.olvBrowserLink.Searchable = false;
-            this.olvBrowserLink.Text = "Browser Link";
+            this.olvBrowserLink.Text = "浏览地址";
             // 
             // olvForWOTC
             // 
             this.olvForWOTC.AspectName = "BuiltForWOTC";
             this.olvForWOTC.IsEditable = false;
             this.olvForWOTC.Searchable = false;
-            this.olvForWOTC.Text = "For WOTC";
+            this.olvForWOTC.Text = "是否兼容WOTC";
+            this.olvForWOTC.ToolTipText = "需要MOD信息中有,不一定准确";
             // 
             // pModsLegend
             // 
@@ -834,19 +843,21 @@
             this.pModsLegend.Controls.Add(this.cFilterNotLoaded);
             this.pModsLegend.Controls.Add(this.cFilterDuplicate);
             this.pModsLegend.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pModsLegend.Location = new System.Drawing.Point(0, 367);
+            this.pModsLegend.Location = new System.Drawing.Point(0, 452);
+            this.pModsLegend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pModsLegend.Name = "pModsLegend";
-            this.pModsLegend.Size = new System.Drawing.Size(970, 31);
+            this.pModsLegend.Size = new System.Drawing.Size(1296, 36);
             this.pModsLegend.TabIndex = 5;
             // 
             // bClearStateFilter
             // 
-            this.bClearStateFilter.Location = new System.Drawing.Point(906, 3);
+            this.bClearStateFilter.Location = new System.Drawing.Point(1208, 3);
+            this.bClearStateFilter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bClearStateFilter.Name = "bClearStateFilter";
-            this.bClearStateFilter.Size = new System.Drawing.Size(60, 25);
+            this.bClearStateFilter.Size = new System.Drawing.Size(80, 29);
             this.bClearStateFilter.TabIndex = 16;
-            this.bClearStateFilter.Text = "Clear";
-            this.toolTip.SetToolTip(this.bClearStateFilter, "Disables all active state filters.");
+            this.bClearStateFilter.Text = "清除";
+            this.toolTip.SetToolTip(this.bClearStateFilter, "清除所有已启用筛选条.");
             this.bClearStateFilter.UseVisualStyleBackColor = true;
             this.bClearStateFilter.Click += new System.EventHandler(this.bClearStateFilter_Click);
             // 
@@ -857,25 +868,26 @@
             this.cFilterMissingDependency.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterMissingDependency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterMissingDependency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterMissingDependency.Location = new System.Drawing.Point(239, 3);
+            this.cFilterMissingDependency.Location = new System.Drawing.Point(319, 3);
+            this.cFilterMissingDependency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterMissingDependency.Name = "cFilterMissingDependency";
-            this.cFilterMissingDependency.Size = new System.Drawing.Size(173, 24);
+            this.cFilterMissingDependency.Size = new System.Drawing.Size(231, 28);
             this.cFilterMissingDependency.TabIndex = 15;
-            this.cFilterMissingDependency.Text = "Missing dependency";
+            this.cFilterMissingDependency.Text = "缺少依赖";
             this.cFilterMissingDependency.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterMissingDependency, "A mod will indicate a \"Missing dependency\", when not all required mods\r\nare enabl" +
-        "ed or installed. Check \"Mod Info -> Dependency Tab\".");
+            this.toolTip.SetToolTip(this.cFilterMissingDependency, "当有1个mod的前置mod没有加载或者安装,将显示在\"缺少依赖\"筛选条下. \r\n检查下侧 \"Mod信息 -> 依赖关系 选项卡\"以获取更多信息.");
             this.cFilterMissingDependency.UseVisualStyleBackColor = false;
             this.cFilterMissingDependency.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
             // bRefreshStateFilter
             // 
-            this.bRefreshStateFilter.Location = new System.Drawing.Point(840, 3);
+            this.bRefreshStateFilter.Location = new System.Drawing.Point(1120, 3);
+            this.bRefreshStateFilter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bRefreshStateFilter.Name = "bRefreshStateFilter";
-            this.bRefreshStateFilter.Size = new System.Drawing.Size(60, 25);
+            this.bRefreshStateFilter.Size = new System.Drawing.Size(80, 29);
             this.bRefreshStateFilter.TabIndex = 14;
-            this.bRefreshStateFilter.Text = "Refresh";
-            this.toolTip.SetToolTip(this.bRefreshStateFilter, "Manually refresh the mod view, using the selected filters.");
+            this.bRefreshStateFilter.Text = "刷新";
+            this.toolTip.SetToolTip(this.bRefreshStateFilter, "使用选定的过滤器手动刷新Mod视图.");
             this.bRefreshStateFilter.UseVisualStyleBackColor = true;
             this.bRefreshStateFilter.Click += new System.EventHandler(this.bRefreshStateFilter_Click);
             // 
@@ -887,13 +899,15 @@
             this.cFilterHidden.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterHidden.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cFilterHidden.ForeColor = System.Drawing.Color.Gray;
-            this.cFilterHidden.Location = new System.Drawing.Point(641, 3);
+            this.cFilterHidden.Location = new System.Drawing.Point(855, 3);
+            this.cFilterHidden.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterHidden.Name = "cFilterHidden";
-            this.cFilterHidden.Size = new System.Drawing.Size(94, 24);
+            this.cFilterHidden.Size = new System.Drawing.Size(125, 28);
             this.cFilterHidden.TabIndex = 13;
-            this.cFilterHidden.Text = "Hidden (00)";
+            this.cFilterHidden.Text = "隐藏 (00)";
             this.cFilterHidden.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterHidden, resources.GetString("cFilterHidden.ToolTip"));
+            this.toolTip.SetToolTip(this.cFilterHidden, "如果某个Mod不再可用（“未安装”或“未加载”），它将被自动隐藏。\r\n可以使用“ mod列表”上下文菜单手动（取消隐藏）mod。\r\n可以通过激活“选项->显示隐藏" +
+        "MOD”来显示隐藏的模组。");
             this.cFilterHidden.UseVisualStyleBackColor = false;
             this.cFilterHidden.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -904,13 +918,14 @@
             this.cFilterNew.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterNew.Location = new System.Drawing.Point(741, 3);
+            this.cFilterNew.Location = new System.Drawing.Point(988, 3);
+            this.cFilterNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterNew.Name = "cFilterNew";
-            this.cFilterNew.Size = new System.Drawing.Size(86, 24);
+            this.cFilterNew.Size = new System.Drawing.Size(115, 28);
             this.cFilterNew.TabIndex = 12;
-            this.cFilterNew.Text = "New (000)";
+            this.cFilterNew.Text = "新 (000)";
             this.cFilterNew.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterNew, resources.GetString("cFilterNew.ToolTip"));
+            this.toolTip.SetToolTip(this.cFilterNew, "在上次Mod导入/更新过程中添加Mod时，将其标记为“新”。\r\n重新启动AML后，将删除所有mod的“新”标志。\r\n选择单个mod的“新”标志将被删除。");
             this.cFilterNew.UseVisualStyleBackColor = false;
             this.cFilterNew.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -921,14 +936,14 @@
             this.cFilterConflicted.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterConflicted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterConflicted.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterConflicted.Location = new System.Drawing.Point(418, 3);
+            this.cFilterConflicted.Location = new System.Drawing.Point(557, 3);
+            this.cFilterConflicted.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterConflicted.Name = "cFilterConflicted";
-            this.cFilterConflicted.Size = new System.Drawing.Size(106, 24);
+            this.cFilterConflicted.Size = new System.Drawing.Size(141, 28);
             this.cFilterConflicted.TabIndex = 11;
-            this.cFilterConflicted.Text = "Conflicted (00)";
+            this.cFilterConflicted.Text = "冲突 (00)";
             this.cFilterConflicted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterConflicted, "A pair of mods are flagged as \"Conflicted\", when the \r\nclass overrides are likely" +
-        " to cause issues.");
+            this.toolTip.SetToolTip(this.cFilterConflicted, "一对mod被标记为 \"冲突\", 说明它们的class 互相覆盖,可能会导致运行错误");
             this.cFilterConflicted.UseVisualStyleBackColor = false;
             this.cFilterConflicted.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -939,11 +954,12 @@
             this.cFilterNotInstalled.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterNotInstalled.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterNotInstalled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterNotInstalled.Location = new System.Drawing.Point(5, 3);
+            this.cFilterNotInstalled.Location = new System.Drawing.Point(7, 3);
+            this.cFilterNotInstalled.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterNotInstalled.Name = "cFilterNotInstalled";
-            this.cFilterNotInstalled.Size = new System.Drawing.Size(115, 24);
+            this.cFilterNotInstalled.Size = new System.Drawing.Size(153, 28);
             this.cFilterNotInstalled.TabIndex = 10;
-            this.cFilterNotInstalled.Text = "Not installed (00)";
+            this.cFilterNotInstalled.Text = "未安装 (00)";
             this.cFilterNotInstalled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip.SetToolTip(this.cFilterNotInstalled, "A mod is flagged as \"Not installed\" when the mod folder \r\nno longer exists, or wh" +
         "en the XComMod file is missing.");
@@ -957,14 +973,14 @@
             this.cFilterNotLoaded.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterNotLoaded.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterNotLoaded.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterNotLoaded.Location = new System.Drawing.Point(126, 3);
+            this.cFilterNotLoaded.Location = new System.Drawing.Point(168, 3);
+            this.cFilterNotLoaded.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterNotLoaded.Name = "cFilterNotLoaded";
-            this.cFilterNotLoaded.Size = new System.Drawing.Size(107, 24);
+            this.cFilterNotLoaded.Size = new System.Drawing.Size(143, 28);
             this.cFilterNotLoaded.TabIndex = 9;
-            this.cFilterNotLoaded.Text = "Not loaded (00)";
+            this.cFilterNotLoaded.Text = "未加载 (00)";
             this.cFilterNotLoaded.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterNotLoaded, "A mod is flagged as \"Not loaded\" when the mods installation folder is no longer \r" +
-        "\nlocated in one of the configured mod directories (Option->Settings).");
+            this.toolTip.SetToolTip(this.cFilterNotLoaded, "当mods安装文件夹不再存在于已配置的mod\r\n目录(选项-> 设置)中,mod将标记为“未加载”");
             this.cFilterNotLoaded.UseVisualStyleBackColor = false;
             this.cFilterNotLoaded.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -975,14 +991,14 @@
             this.cFilterDuplicate.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
             this.cFilterDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cFilterDuplicate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cFilterDuplicate.Location = new System.Drawing.Point(530, 3);
+            this.cFilterDuplicate.Location = new System.Drawing.Point(707, 3);
+            this.cFilterDuplicate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cFilterDuplicate.Name = "cFilterDuplicate";
-            this.cFilterDuplicate.Size = new System.Drawing.Size(105, 24);
+            this.cFilterDuplicate.Size = new System.Drawing.Size(140, 28);
             this.cFilterDuplicate.TabIndex = 8;
-            this.cFilterDuplicate.Text = "Duplicate (00)";
+            this.cFilterDuplicate.Text = "重复 (00)";
             this.cFilterDuplicate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterDuplicate, "A pair of mods are flagged as \"Duplicate\", when the IDs of those mods \r\nare ident" +
-        "ical, because those are supposed to be unique.");
+            this.toolTip.SetToolTip(this.cFilterDuplicate, "当mod的ID是相同的,mod将被标记为“重复”，因为它们应该是唯一的 ");
             this.cFilterDuplicate.UseVisualStyleBackColor = false;
             this.cFilterDuplicate.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -993,17 +1009,19 @@
             this.pModsTop.Controls.Add(this.panel3);
             this.pModsTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pModsTop.Location = new System.Drawing.Point(0, 0);
+            this.pModsTop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pModsTop.Name = "pModsTop";
-            this.pModsTop.Size = new System.Drawing.Size(970, 33);
+            this.pModsTop.Size = new System.Drawing.Size(1296, 38);
             this.pModsTop.TabIndex = 4;
             // 
             // LauchOptionsPanel
             // 
             this.LauchOptionsPanel.Controls.Add(this.modTabToolStrip);
             this.LauchOptionsPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.LauchOptionsPanel.Location = new System.Drawing.Point(800, 0);
+            this.LauchOptionsPanel.Location = new System.Drawing.Point(1069, 0);
+            this.LauchOptionsPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.LauchOptionsPanel.Name = "LauchOptionsPanel";
-            this.LauchOptionsPanel.Size = new System.Drawing.Size(170, 33);
+            this.LauchOptionsPanel.Size = new System.Drawing.Size(227, 38);
             this.LauchOptionsPanel.TabIndex = 5;
             // 
             // modTabToolStrip
@@ -1011,11 +1029,12 @@
             this.modTabToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.modTabToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.modTabToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.modTabToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.modTabToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.quickLaunchToolstripButton});
-            this.modTabToolStrip.Location = new System.Drawing.Point(13, 4);
+            this.modTabToolStrip.Location = new System.Drawing.Point(102, 5);
             this.modTabToolStrip.Name = "modTabToolStrip";
-            this.modTabToolStrip.Size = new System.Drawing.Size(151, 25);
+            this.modTabToolStrip.Size = new System.Drawing.Size(116, 27);
             this.modTabToolStrip.TabIndex = 4;
             this.modTabToolStrip.Text = "toolStrip1";
             // 
@@ -1031,15 +1050,15 @@
             this.quickLaunchToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("quickLaunchToolstripButton.Image")));
             this.quickLaunchToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.quickLaunchToolstripButton.Name = "quickLaunchToolstripButton";
-            this.quickLaunchToolstripButton.Size = new System.Drawing.Size(148, 22);
-            this.quickLaunchToolstripButton.Text = "Quick toggle arguments";
-            this.quickLaunchToolstripButton.ToolTipText = "You can configure the available arguments in the settings dialog.";
+            this.quickLaunchToolstripButton.Size = new System.Drawing.Size(113, 24);
+            this.quickLaunchToolstripButton.Text = "快速启动参数";
+            this.quickLaunchToolstripButton.ToolTipText = "你可以在设置页面自定义启动参数\r\n";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.CheckOnClick = true;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(182, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(243, 26);
             this.toolStripMenuItem2.Text = "-log";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.QuickArgumentItemClick);
             // 
@@ -1047,7 +1066,7 @@
             // 
             this.toolStripMenuItem3.CheckOnClick = true;
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(243, 26);
             this.toolStripMenuItem3.Text = "-noRedScreens";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.QuickArgumentItemClick);
             // 
@@ -1055,7 +1074,7 @@
             // 
             this.noSeekFreeLoadingToolStripMenuItem.CheckOnClick = true;
             this.noSeekFreeLoadingToolStripMenuItem.Name = "noSeekFreeLoadingToolStripMenuItem";
-            this.noSeekFreeLoadingToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.noSeekFreeLoadingToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.noSeekFreeLoadingToolStripMenuItem.Text = "-noSeekFreeLoading";
             this.noSeekFreeLoadingToolStripMenuItem.Click += new System.EventHandler(this.QuickArgumentItemClick);
             // 
@@ -1063,7 +1082,7 @@
             // 
             this.autoDebugToolStripMenuItem.CheckOnClick = true;
             this.autoDebugToolStripMenuItem.Name = "autoDebugToolStripMenuItem";
-            this.autoDebugToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.autoDebugToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.autoDebugToolStripMenuItem.Text = "-autoDebug";
             this.autoDebugToolStripMenuItem.Click += new System.EventHandler(this.QuickArgumentItemClick);
             // 
@@ -1071,7 +1090,7 @@
             // 
             this.reviewToolStripMenuItem.CheckOnClick = true;
             this.reviewToolStripMenuItem.Name = "reviewToolStripMenuItem";
-            this.reviewToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.reviewToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.reviewToolStripMenuItem.Text = "-review";
             this.reviewToolStripMenuItem.Click += new System.EventHandler(this.QuickArgumentItemClick);
             // 
@@ -1080,10 +1099,10 @@
             this.panel2.Controls.Add(this.cShowStateFilter);
             this.panel2.Controls.Add(this.cEnableGrouping);
             this.panel2.Controls.Add(this.modlist_toggleGroupsButton);
-            this.panel2.Location = new System.Drawing.Point(210, 1);
+            this.panel2.Location = new System.Drawing.Point(280, 1);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(381, 30);
+            this.panel2.Size = new System.Drawing.Size(508, 35);
             this.panel2.TabIndex = 2;
             // 
             // cShowStateFilter
@@ -1091,12 +1110,13 @@
             this.cShowStateFilter.AutoSize = true;
             this.cShowStateFilter.Checked = true;
             this.cShowStateFilter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cShowStateFilter.Location = new System.Drawing.Point(253, 7);
+            this.cShowStateFilter.Location = new System.Drawing.Point(337, 8);
+            this.cShowStateFilter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cShowStateFilter.Name = "cShowStateFilter";
-            this.cShowStateFilter.Size = new System.Drawing.Size(106, 17);
+            this.cShowStateFilter.Size = new System.Drawing.Size(134, 19);
             this.cShowStateFilter.TabIndex = 2;
-            this.cShowStateFilter.Text = "Show state filters";
-            this.toolTip.SetToolTip(this.cShowStateFilter, "Enable/disable the state filter bar below the mod list.");
+            this.cShowStateFilter.Text = "显示状态筛选条";
+            this.toolTip.SetToolTip(this.cShowStateFilter, "显示/隐藏 MOD列表下侧的快速状态筛选条");
             this.cShowStateFilter.UseVisualStyleBackColor = true;
             this.cShowStateFilter.CheckedChanged += new System.EventHandler(this.cShowLegend_CheckedChanged);
             // 
@@ -1105,21 +1125,23 @@
             this.cEnableGrouping.AutoSize = true;
             this.cEnableGrouping.Checked = true;
             this.cEnableGrouping.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cEnableGrouping.Location = new System.Drawing.Point(144, 7);
+            this.cEnableGrouping.Location = new System.Drawing.Point(192, 8);
+            this.cEnableGrouping.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cEnableGrouping.Name = "cEnableGrouping";
-            this.cEnableGrouping.Size = new System.Drawing.Size(103, 17);
+            this.cEnableGrouping.Size = new System.Drawing.Size(89, 19);
             this.cEnableGrouping.TabIndex = 1;
-            this.cEnableGrouping.Text = "Enable grouping";
+            this.cEnableGrouping.Text = "启用分类";
             this.cEnableGrouping.UseVisualStyleBackColor = true;
             this.cEnableGrouping.CheckedChanged += new System.EventHandler(this.cEnableGrouping_CheckedChanged);
             // 
             // modlist_toggleGroupsButton
             // 
-            this.modlist_toggleGroupsButton.Location = new System.Drawing.Point(3, 3);
+            this.modlist_toggleGroupsButton.Location = new System.Drawing.Point(4, 3);
+            this.modlist_toggleGroupsButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_toggleGroupsButton.Name = "modlist_toggleGroupsButton";
-            this.modlist_toggleGroupsButton.Size = new System.Drawing.Size(132, 23);
+            this.modlist_toggleGroupsButton.Size = new System.Drawing.Size(176, 27);
             this.modlist_toggleGroupsButton.TabIndex = 0;
-            this.modlist_toggleGroupsButton.Text = "Expand/collapse groups";
+            this.modlist_toggleGroupsButton.Text = "展开/收缩 分类";
             this.modlist_toggleGroupsButton.UseVisualStyleBackColor = true;
             this.modlist_toggleGroupsButton.Click += new System.EventHandler(this.modlist_toggleGroupsButton_Click);
             // 
@@ -1127,10 +1149,10 @@
             // 
             this.panel3.Controls.Add(this.modlist_filterClearButton);
             this.panel3.Controls.Add(this.modlist_FilterCueTextBox);
-            this.panel3.Location = new System.Drawing.Point(-3, 1);
+            this.panel3.Location = new System.Drawing.Point(-4, 1);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(210, 30);
+            this.panel3.Size = new System.Drawing.Size(280, 35);
             this.panel3.TabIndex = 3;
             // 
             // modlist_filterClearButton
@@ -1143,21 +1165,23 @@
             this.modlist_filterClearButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.modlist_filterClearButton.ForeColor = System.Drawing.Color.Black;
             this.modlist_filterClearButton.Image = ((System.Drawing.Image)(resources.GetObject("modlist_filterClearButton.Image")));
-            this.modlist_filterClearButton.Location = new System.Drawing.Point(180, 3);
+            this.modlist_filterClearButton.Location = new System.Drawing.Point(247, 3);
+            this.modlist_filterClearButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_filterClearButton.Name = "modlist_filterClearButton";
             this.modlist_filterClearButton.Size = new System.Drawing.Size(22, 22);
             this.modlist_filterClearButton.TabIndex = 1;
-            this.toolTip.SetToolTip(this.modlist_filterClearButton, "Clear text filter");
+            this.toolTip.SetToolTip(this.modlist_filterClearButton, "清除筛选");
             this.modlist_filterClearButton.UseVisualStyleBackColor = true;
             this.modlist_filterClearButton.Click += new System.EventHandler(this.modlist_filterClearButton_Click);
             // 
             // modlist_FilterCueTextBox
             // 
             this.modlist_FilterCueTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.modlist_FilterCueTextBox.CueText = "Filter Mods";
-            this.modlist_FilterCueTextBox.Location = new System.Drawing.Point(3, 5);
+            this.modlist_FilterCueTextBox.CueText = "筛选MOD";
+            this.modlist_FilterCueTextBox.Location = new System.Drawing.Point(4, 6);
+            this.modlist_FilterCueTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_FilterCueTextBox.Name = "modlist_FilterCueTextBox";
-            this.modlist_FilterCueTextBox.Size = new System.Drawing.Size(175, 20);
+            this.modlist_FilterCueTextBox.Size = new System.Drawing.Size(232, 25);
             this.modlist_FilterCueTextBox.TabIndex = 1;
             this.modlist_FilterCueTextBox.TextChanged += new System.EventHandler(this.filterMods_TextChanged);
             // 
@@ -1169,25 +1193,25 @@
             this.modinfo_groupbox.Margin = new System.Windows.Forms.Padding(0);
             this.modinfo_groupbox.Name = "modinfo_groupbox";
             this.modinfo_groupbox.Padding = new System.Windows.Forms.Padding(0);
-            this.modinfo_groupbox.Size = new System.Drawing.Size(970, 253);
+            this.modinfo_groupbox.Size = new System.Drawing.Size(1296, 266);
             this.modinfo_groupbox.TabIndex = 3;
             this.modinfo_groupbox.TabStop = false;
-            this.modinfo_groupbox.Text = "Mod Info";
+            this.modinfo_groupbox.Text = "Mod信息";
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 267F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.modinfo_tabcontrol, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.modinfo_image_picturebox, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 13);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 18);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(970, 240);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1296, 248);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
             // modinfo_tabcontrol
@@ -1201,11 +1225,11 @@
             this.modinfo_tabcontrol.Controls.Add(this.modinfo_config_tab);
             this.modinfo_tabcontrol.Controls.Add(this.modinfo_changelog_tab);
             this.modinfo_tabcontrol.Controls.Add(this.modinfo_dependencies_tab);
-            this.modinfo_tabcontrol.Location = new System.Drawing.Point(200, 0);
-            this.modinfo_tabcontrol.Margin = new System.Windows.Forms.Padding(0, 0, 2, 2);
+            this.modinfo_tabcontrol.Location = new System.Drawing.Point(267, 0);
+            this.modinfo_tabcontrol.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             this.modinfo_tabcontrol.Name = "modinfo_tabcontrol";
             this.modinfo_tabcontrol.SelectedIndex = 0;
-            this.modinfo_tabcontrol.Size = new System.Drawing.Size(768, 238);
+            this.modinfo_tabcontrol.Size = new System.Drawing.Size(1026, 246);
             this.modinfo_tabcontrol.TabIndex = 9;
             this.modinfo_tabcontrol.Selected += new System.Windows.Forms.TabControlEventHandler(this.ModInfoTabSelected);
             // 
@@ -1223,121 +1247,134 @@
             this.modinfo_details_tab.Controls.Add(this.modinfo_info_TitleLabel);
             this.modinfo_details_tab.Controls.Add(this.modinfo_info_AuthorLabel);
             this.modinfo_details_tab.Controls.Add(this.modinfo_info_DescriptionRichTextBox);
-            this.modinfo_details_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_details_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_details_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_details_tab.Name = "modinfo_details_tab";
-            this.modinfo_details_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_details_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_details_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_details_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_details_tab.TabIndex = 0;
-            this.modinfo_details_tab.Text = "Info";
+            this.modinfo_details_tab.Text = "信息";
             this.modinfo_details_tab.UseVisualStyleBackColor = true;
             // 
             // btnDescUndo
             // 
             this.btnDescUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDescUndo.Location = new System.Drawing.Point(6, 115);
+            this.btnDescUndo.Location = new System.Drawing.Point(8, 133);
+            this.btnDescUndo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDescUndo.Name = "btnDescUndo";
-            this.btnDescUndo.Size = new System.Drawing.Size(84, 23);
+            this.btnDescUndo.Size = new System.Drawing.Size(112, 27);
             this.btnDescUndo.TabIndex = 12;
-            this.btnDescUndo.Text = "Undo";
+            this.btnDescUndo.Text = "撤销";
             this.btnDescUndo.UseVisualStyleBackColor = true;
             this.btnDescUndo.Click += new System.EventHandler(this.btnDescUndo_Click);
             // 
             // btnDescSave
             // 
             this.btnDescSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDescSave.Location = new System.Drawing.Point(6, 86);
+            this.btnDescSave.Location = new System.Drawing.Point(8, 99);
+            this.btnDescSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDescSave.Name = "btnDescSave";
-            this.btnDescSave.Size = new System.Drawing.Size(84, 23);
+            this.btnDescSave.Size = new System.Drawing.Size(112, 27);
             this.btnDescSave.TabIndex = 11;
-            this.btnDescSave.Text = "Save";
+            this.btnDescSave.Text = "保存";
             this.btnDescSave.UseVisualStyleBackColor = true;
             this.btnDescSave.Click += new System.EventHandler(this.btnDescSave_Click);
             // 
             // modinfo_info_CreatedLabel
             // 
             this.modinfo_info_CreatedLabel.AutoSize = true;
-            this.modinfo_info_CreatedLabel.Location = new System.Drawing.Point(6, 35);
+            this.modinfo_info_CreatedLabel.Location = new System.Drawing.Point(8, 40);
+            this.modinfo_info_CreatedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modinfo_info_CreatedLabel.Name = "modinfo_info_CreatedLabel";
-            this.modinfo_info_CreatedLabel.Size = new System.Drawing.Size(44, 13);
+            this.modinfo_info_CreatedLabel.Size = new System.Drawing.Size(67, 15);
             this.modinfo_info_CreatedLabel.TabIndex = 10;
-            this.modinfo_info_CreatedLabel.Text = "Created";
+            this.modinfo_info_CreatedLabel.Text = "创建时间";
             // 
             // modinfo_info_DescriptionLabel
             // 
             this.modinfo_info_DescriptionLabel.AutoSize = true;
-            this.modinfo_info_DescriptionLabel.Location = new System.Drawing.Point(6, 59);
+            this.modinfo_info_DescriptionLabel.Location = new System.Drawing.Point(8, 68);
+            this.modinfo_info_DescriptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modinfo_info_DescriptionLabel.Name = "modinfo_info_DescriptionLabel";
-            this.modinfo_info_DescriptionLabel.Size = new System.Drawing.Size(60, 13);
+            this.modinfo_info_DescriptionLabel.Size = new System.Drawing.Size(37, 15);
             this.modinfo_info_DescriptionLabel.TabIndex = 9;
-            this.modinfo_info_DescriptionLabel.Text = "Description";
+            this.modinfo_info_DescriptionLabel.Text = "描述";
             // 
             // modinfo_info_InstalledTextBox
             // 
-            this.modinfo_info_InstalledTextBox.Location = new System.Drawing.Point(431, 32);
+            this.modinfo_info_InstalledTextBox.Location = new System.Drawing.Point(575, 37);
+            this.modinfo_info_InstalledTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_InstalledTextBox.Name = "modinfo_info_InstalledTextBox";
             this.modinfo_info_InstalledTextBox.ReadOnly = true;
-            this.modinfo_info_InstalledTextBox.Size = new System.Drawing.Size(224, 20);
+            this.modinfo_info_InstalledTextBox.Size = new System.Drawing.Size(297, 25);
             this.modinfo_info_InstalledTextBox.TabIndex = 7;
             // 
             // modinfo_info_DateCreatedTextBox
             // 
-            this.modinfo_info_DateCreatedTextBox.Location = new System.Drawing.Point(96, 32);
+            this.modinfo_info_DateCreatedTextBox.Location = new System.Drawing.Point(128, 37);
+            this.modinfo_info_DateCreatedTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_DateCreatedTextBox.Name = "modinfo_info_DateCreatedTextBox";
             this.modinfo_info_DateCreatedTextBox.ReadOnly = true;
-            this.modinfo_info_DateCreatedTextBox.Size = new System.Drawing.Size(224, 20);
+            this.modinfo_info_DateCreatedTextBox.Size = new System.Drawing.Size(297, 25);
             this.modinfo_info_DateCreatedTextBox.TabIndex = 5;
             // 
             // modinfo_info_InstalledLabel
             // 
             this.modinfo_info_InstalledLabel.AutoSize = true;
-            this.modinfo_info_InstalledLabel.Location = new System.Drawing.Point(341, 35);
+            this.modinfo_info_InstalledLabel.Location = new System.Drawing.Point(455, 40);
+            this.modinfo_info_InstalledLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modinfo_info_InstalledLabel.Name = "modinfo_info_InstalledLabel";
-            this.modinfo_info_InstalledLabel.Size = new System.Drawing.Size(46, 13);
+            this.modinfo_info_InstalledLabel.Size = new System.Drawing.Size(67, 15);
             this.modinfo_info_InstalledLabel.TabIndex = 4;
-            this.modinfo_info_InstalledLabel.Text = "Installed";
+            this.modinfo_info_InstalledLabel.Text = "安装时间";
             // 
             // modinfo_info_TitleTextBox
             // 
-            this.modinfo_info_TitleTextBox.Location = new System.Drawing.Point(96, 6);
+            this.modinfo_info_TitleTextBox.Location = new System.Drawing.Point(128, 7);
+            this.modinfo_info_TitleTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_TitleTextBox.Name = "modinfo_info_TitleTextBox";
             this.modinfo_info_TitleTextBox.ReadOnly = true;
-            this.modinfo_info_TitleTextBox.Size = new System.Drawing.Size(224, 20);
+            this.modinfo_info_TitleTextBox.Size = new System.Drawing.Size(297, 25);
             this.modinfo_info_TitleTextBox.TabIndex = 3;
             // 
             // modinfo_info_AuthorTextBox
             // 
-            this.modinfo_info_AuthorTextBox.Location = new System.Drawing.Point(431, 9);
+            this.modinfo_info_AuthorTextBox.Location = new System.Drawing.Point(575, 10);
+            this.modinfo_info_AuthorTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_AuthorTextBox.Name = "modinfo_info_AuthorTextBox";
             this.modinfo_info_AuthorTextBox.ReadOnly = true;
-            this.modinfo_info_AuthorTextBox.Size = new System.Drawing.Size(224, 20);
+            this.modinfo_info_AuthorTextBox.Size = new System.Drawing.Size(297, 25);
             this.modinfo_info_AuthorTextBox.TabIndex = 2;
             // 
             // modinfo_info_TitleLabel
             // 
             this.modinfo_info_TitleLabel.AutoSize = true;
-            this.modinfo_info_TitleLabel.Location = new System.Drawing.Point(6, 9);
+            this.modinfo_info_TitleLabel.Location = new System.Drawing.Point(8, 10);
+            this.modinfo_info_TitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modinfo_info_TitleLabel.Name = "modinfo_info_TitleLabel";
-            this.modinfo_info_TitleLabel.Size = new System.Drawing.Size(27, 13);
+            this.modinfo_info_TitleLabel.Size = new System.Drawing.Size(37, 15);
             this.modinfo_info_TitleLabel.TabIndex = 1;
-            this.modinfo_info_TitleLabel.Text = "Title";
+            this.modinfo_info_TitleLabel.Text = "标题";
             // 
             // modinfo_info_AuthorLabel
             // 
             this.modinfo_info_AuthorLabel.AutoSize = true;
-            this.modinfo_info_AuthorLabel.Location = new System.Drawing.Point(341, 12);
+            this.modinfo_info_AuthorLabel.Location = new System.Drawing.Point(455, 14);
+            this.modinfo_info_AuthorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.modinfo_info_AuthorLabel.Name = "modinfo_info_AuthorLabel";
-            this.modinfo_info_AuthorLabel.Size = new System.Drawing.Size(38, 13);
+            this.modinfo_info_AuthorLabel.Size = new System.Drawing.Size(37, 15);
             this.modinfo_info_AuthorLabel.TabIndex = 0;
-            this.modinfo_info_AuthorLabel.Text = "Author";
+            this.modinfo_info_AuthorLabel.Text = "作者";
             // 
             // modinfo_info_DescriptionRichTextBox
             // 
             this.modinfo_info_DescriptionRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.modinfo_info_DescriptionRichTextBox.Location = new System.Drawing.Point(96, 58);
+            this.modinfo_info_DescriptionRichTextBox.Location = new System.Drawing.Point(128, 67);
+            this.modinfo_info_DescriptionRichTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_DescriptionRichTextBox.Name = "modinfo_info_DescriptionRichTextBox";
-            this.modinfo_info_DescriptionRichTextBox.Size = new System.Drawing.Size(661, 151);
+            this.modinfo_info_DescriptionRichTextBox.Size = new System.Drawing.Size(882, 142);
             this.modinfo_info_DescriptionRichTextBox.TabIndex = 8;
             this.modinfo_info_DescriptionRichTextBox.Text = "";
             this.modinfo_info_DescriptionRichTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1346,12 +1383,13 @@
             // modinfo_readme_tab
             // 
             this.modinfo_readme_tab.Controls.Add(this.modinfo_readme_RichTextBox);
-            this.modinfo_readme_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_readme_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_readme_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_readme_tab.Name = "modinfo_readme_tab";
-            this.modinfo_readme_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_readme_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_readme_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_readme_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_readme_tab.TabIndex = 1;
-            this.modinfo_readme_tab.Text = "ReadMe";
+            this.modinfo_readme_tab.Text = "须知";
             this.modinfo_readme_tab.UseVisualStyleBackColor = true;
             // 
             // modinfo_readme_RichTextBox
@@ -1360,10 +1398,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.modinfo_readme_RichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.modinfo_readme_RichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_readme_RichTextBox.Location = new System.Drawing.Point(4, 3);
+            this.modinfo_readme_RichTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_readme_RichTextBox.Name = "modinfo_readme_RichTextBox";
             this.modinfo_readme_RichTextBox.ReadOnly = true;
-            this.modinfo_readme_RichTextBox.Size = new System.Drawing.Size(758, 195);
+            this.modinfo_readme_RichTextBox.Size = new System.Drawing.Size(1013, 186);
             this.modinfo_readme_RichTextBox.TabIndex = 0;
             this.modinfo_readme_RichTextBox.Text = "";
             this.modinfo_readme_RichTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1371,12 +1410,13 @@
             // modinfo_inspect_tab
             // 
             this.modinfo_inspect_tab.Controls.Add(this.modinfo_inspect_propertygrid);
-            this.modinfo_inspect_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_inspect_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_inspect_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_inspect_tab.Name = "modinfo_inspect_tab";
-            this.modinfo_inspect_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_inspect_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_inspect_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_inspect_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_inspect_tab.TabIndex = 2;
-            this.modinfo_inspect_tab.Text = "Inspect";
+            this.modinfo_inspect_tab.Text = "检查";
             this.modinfo_inspect_tab.UseVisualStyleBackColor = true;
             // 
             // modinfo_inspect_propertygrid
@@ -1384,42 +1424,44 @@
             this.modinfo_inspect_propertygrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.modinfo_inspect_propertygrid.HelpVisible = false;
             this.modinfo_inspect_propertygrid.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.modinfo_inspect_propertygrid.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_inspect_propertygrid.Location = new System.Drawing.Point(4, 3);
+            this.modinfo_inspect_propertygrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_inspect_propertygrid.Name = "modinfo_inspect_propertygrid";
-            this.modinfo_inspect_propertygrid.Size = new System.Drawing.Size(754, 206);
+            this.modinfo_inspect_propertygrid.Size = new System.Drawing.Size(1010, 211);
             this.modinfo_inspect_propertygrid.TabIndex = 9;
             this.modinfo_inspect_propertygrid.Layout += new System.Windows.Forms.LayoutEventHandler(this.modinfo_inspect_propertygrid_Layout);
             // 
             // modinfo_config_tab
             // 
             this.modinfo_config_tab.Controls.Add(this.modinfo_config_TableLayoutPanel);
-            this.modinfo_config_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_config_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_config_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_tab.Name = "modinfo_config_tab";
-            this.modinfo_config_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_config_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_config_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_config_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_config_tab.TabIndex = 3;
-            this.modinfo_config_tab.Text = "Config";
+            this.modinfo_config_tab.Text = "配置(Config)";
             this.modinfo_config_tab.UseVisualStyleBackColor = true;
             // 
             // modinfo_config_TableLayoutPanel
             // 
             this.modinfo_config_TableLayoutPanel.ColumnCount = 2;
-            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 267F));
             this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.modinfo_config_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.modinfo_config_TableLayoutPanel.Controls.Add(this.modinfo_ConfigFCTB, 0, 1);
             this.modinfo_config_TableLayoutPanel.Controls.Add(this.modinfo_config_FileSelectCueComboBox, 0, 0);
             this.modinfo_config_TableLayoutPanel.Controls.Add(this.modinfo_config_buttonsTableLayoutPanel, 1, 0);
             this.modinfo_config_TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modinfo_config_TableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_config_TableLayoutPanel.Location = new System.Drawing.Point(4, 3);
             this.modinfo_config_TableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.modinfo_config_TableLayoutPanel.Name = "modinfo_config_TableLayoutPanel";
             this.modinfo_config_TableLayoutPanel.RowCount = 2;
-            this.modinfo_config_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.modinfo_config_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.modinfo_config_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.modinfo_config_TableLayoutPanel.Size = new System.Drawing.Size(754, 206);
+            this.modinfo_config_TableLayoutPanel.Size = new System.Drawing.Size(1010, 211);
             this.modinfo_config_TableLayoutPanel.TabIndex = 13;
             // 
             // modinfo_ConfigFCTB
@@ -1436,26 +1478,25 @@
         '\"',
         '\'',
         '\''};
-            this.modinfo_ConfigFCTB.AutoScrollMinSize = new System.Drawing.Size(0, 14);
+            this.modinfo_ConfigFCTB.AutoScrollMinSize = new System.Drawing.Size(0, 18);
             this.modinfo_ConfigFCTB.BackBrush = null;
             this.modinfo_ConfigFCTB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.modinfo_ConfigFCTB.ChangedLineColor = System.Drawing.SystemColors.Info;
-            this.modinfo_ConfigFCTB.CharHeight = 14;
-            this.modinfo_ConfigFCTB.CharWidth = 8;
+            this.modinfo_ConfigFCTB.CharHeight = 18;
+            this.modinfo_ConfigFCTB.CharWidth = 10;
             this.modinfo_config_TableLayoutPanel.SetColumnSpan(this.modinfo_ConfigFCTB, 2);
             this.modinfo_ConfigFCTB.CommentPrefix = ";";
             this.modinfo_ConfigFCTB.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.modinfo_ConfigFCTB.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.modinfo_ConfigFCTB.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modinfo_ConfigFCTB.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.modinfo_ConfigFCTB.IsReplaceMode = false;
-            this.modinfo_ConfigFCTB.Location = new System.Drawing.Point(2, 30);
-            this.modinfo_ConfigFCTB.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
+            this.modinfo_ConfigFCTB.Location = new System.Drawing.Point(3, 35);
+            this.modinfo_ConfigFCTB.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             this.modinfo_ConfigFCTB.Name = "modinfo_ConfigFCTB";
             this.modinfo_ConfigFCTB.Paddings = new System.Windows.Forms.Padding(0);
             this.modinfo_ConfigFCTB.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.modinfo_ConfigFCTB.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("modinfo_ConfigFCTB.ServiceColors")));
-            this.modinfo_ConfigFCTB.Size = new System.Drawing.Size(750, 174);
+            this.modinfo_ConfigFCTB.Size = new System.Drawing.Size(1004, 174);
             this.modinfo_ConfigFCTB.TabIndex = 11;
             this.modinfo_ConfigFCTB.WordWrap = true;
             this.modinfo_ConfigFCTB.Zoom = 100;
@@ -1463,14 +1504,15 @@
             // 
             // modinfo_config_FileSelectCueComboBox
             // 
-            this.modinfo_config_FileSelectCueComboBox.CueText = "Select INI to edit";
+            this.modinfo_config_FileSelectCueComboBox.CueText = "选择 要编辑的 INI";
             this.modinfo_config_FileSelectCueComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.modinfo_config_FileSelectCueComboBox.FormattingEnabled = true;
-            this.modinfo_config_FileSelectCueComboBox.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_config_FileSelectCueComboBox.Location = new System.Drawing.Point(4, 3);
+            this.modinfo_config_FileSelectCueComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_FileSelectCueComboBox.Name = "modinfo_config_FileSelectCueComboBox";
-            this.modinfo_config_FileSelectCueComboBox.Size = new System.Drawing.Size(194, 21);
+            this.modinfo_config_FileSelectCueComboBox.Size = new System.Drawing.Size(257, 23);
             this.modinfo_config_FileSelectCueComboBox.TabIndex = 12;
-            this.toolTip.SetToolTip(this.modinfo_config_FileSelectCueComboBox, "Select an INI file to view or edit");
+            this.toolTip.SetToolTip(this.modinfo_config_FileSelectCueComboBox, "选择一个INI文件进行查看或编辑");
             this.modinfo_config_FileSelectCueComboBox.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.modinfo_config_FileSelectCueComboBox.SelectedIndexChanged += new System.EventHandler(this.modinfo_config_FileSelectCueComboBox_SelectedIndexChanged);
             // 
@@ -1488,23 +1530,24 @@
             this.modinfo_config_buttonsTableLayoutPanel.Controls.Add(this.modinfo_config_LoadButton, 2, 0);
             this.modinfo_config_buttonsTableLayoutPanel.Controls.Add(this.modinfo_config_RemoveButton, 3, 0);
             this.modinfo_config_buttonsTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.modinfo_config_buttonsTableLayoutPanel.Location = new System.Drawing.Point(353, 0);
+            this.modinfo_config_buttonsTableLayoutPanel.Location = new System.Drawing.Point(475, 0);
             this.modinfo_config_buttonsTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.modinfo_config_buttonsTableLayoutPanel.Name = "modinfo_config_buttonsTableLayoutPanel";
             this.modinfo_config_buttonsTableLayoutPanel.RowCount = 1;
             this.modinfo_config_buttonsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.modinfo_config_buttonsTableLayoutPanel.Size = new System.Drawing.Size(401, 30);
+            this.modinfo_config_buttonsTableLayoutPanel.Size = new System.Drawing.Size(535, 35);
             this.modinfo_config_buttonsTableLayoutPanel.TabIndex = 13;
             // 
             // modinfo_config_ExpandButton
             // 
             this.modinfo_config_ExpandButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.modinfo_config_ExpandButton.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_config_ExpandButton.Location = new System.Drawing.Point(4, 4);
+            this.modinfo_config_ExpandButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_ExpandButton.Name = "modinfo_config_ExpandButton";
-            this.modinfo_config_ExpandButton.Size = new System.Drawing.Size(74, 23);
+            this.modinfo_config_ExpandButton.Size = new System.Drawing.Size(99, 27);
             this.modinfo_config_ExpandButton.TabIndex = 13;
-            this.modinfo_config_ExpandButton.Text = "Expand";
-            this.toolTip.SetToolTip(this.modinfo_config_ExpandButton, "Expand the INI editor to fill the window");
+            this.modinfo_config_ExpandButton.Text = "展开";
+            this.toolTip.SetToolTip(this.modinfo_config_ExpandButton, "展开INI编辑器以填充窗口");
             this.modinfo_config_ExpandButton.UseVisualStyleBackColor = true;
             this.modinfo_config_ExpandButton.Click += new System.EventHandler(this.modinfo_config_ExpandButton_Click);
             // 
@@ -1512,24 +1555,26 @@
             // 
             this.modinfo_config_CompareButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.modinfo_config_CompareButton.Enabled = false;
-            this.modinfo_config_CompareButton.Location = new System.Drawing.Point(323, 4);
+            this.modinfo_config_CompareButton.Location = new System.Drawing.Point(432, 5);
+            this.modinfo_config_CompareButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_CompareButton.Name = "modinfo_config_CompareButton";
-            this.modinfo_config_CompareButton.Size = new System.Drawing.Size(74, 21);
+            this.modinfo_config_CompareButton.Size = new System.Drawing.Size(99, 24);
             this.modinfo_config_CompareButton.TabIndex = 14;
-            this.modinfo_config_CompareButton.Text = "Compare";
-            this.toolTip.SetToolTip(this.modinfo_config_CompareButton, "Compare the current file on disk to the backup file");
+            this.modinfo_config_CompareButton.Text = "比较";
+            this.toolTip.SetToolTip(this.modinfo_config_CompareButton, "将当前文件与备份文件进行比较");
             this.modinfo_config_CompareButton.UseVisualStyleBackColor = true;
             this.modinfo_config_CompareButton.Click += new System.EventHandler(this.modinfo_config_CompareButton_Click);
             // 
             // modinfo_config_SaveButton
             // 
             this.modinfo_config_SaveButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.modinfo_config_SaveButton.Location = new System.Drawing.Point(83, 4);
+            this.modinfo_config_SaveButton.Location = new System.Drawing.Point(111, 5);
+            this.modinfo_config_SaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_SaveButton.Name = "modinfo_config_SaveButton";
-            this.modinfo_config_SaveButton.Size = new System.Drawing.Size(74, 21);
+            this.modinfo_config_SaveButton.Size = new System.Drawing.Size(99, 24);
             this.modinfo_config_SaveButton.TabIndex = 3;
-            this.modinfo_config_SaveButton.Text = "Save";
-            this.toolTip.SetToolTip(this.modinfo_config_SaveButton, "Save current settings to the file on disk and the backup file");
+            this.modinfo_config_SaveButton.Text = "保存";
+            this.toolTip.SetToolTip(this.modinfo_config_SaveButton, "将当前设置保存到文件和备份文件中");
             this.modinfo_config_SaveButton.UseVisualStyleBackColor = true;
             this.modinfo_config_SaveButton.Click += new System.EventHandler(this.modinfo_config_SaveButton_Click);
             // 
@@ -1537,12 +1582,13 @@
             // 
             this.modinfo_config_LoadButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.modinfo_config_LoadButton.Enabled = false;
-            this.modinfo_config_LoadButton.Location = new System.Drawing.Point(163, 4);
+            this.modinfo_config_LoadButton.Location = new System.Drawing.Point(218, 5);
+            this.modinfo_config_LoadButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_LoadButton.Name = "modinfo_config_LoadButton";
-            this.modinfo_config_LoadButton.Size = new System.Drawing.Size(74, 21);
+            this.modinfo_config_LoadButton.Size = new System.Drawing.Size(99, 24);
             this.modinfo_config_LoadButton.TabIndex = 10;
-            this.modinfo_config_LoadButton.Text = "Load";
-            this.toolTip.SetToolTip(this.modinfo_config_LoadButton, "Load settings from the backup file");
+            this.modinfo_config_LoadButton.Text = "加载";
+            this.toolTip.SetToolTip(this.modinfo_config_LoadButton, "从备份文件加载设置");
             this.modinfo_config_LoadButton.UseVisualStyleBackColor = true;
             this.modinfo_config_LoadButton.Click += new System.EventHandler(this.modinfo_config_LoadButton_Click);
             // 
@@ -1550,34 +1596,37 @@
             // 
             this.modinfo_config_RemoveButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.modinfo_config_RemoveButton.Enabled = false;
-            this.modinfo_config_RemoveButton.Location = new System.Drawing.Point(243, 4);
+            this.modinfo_config_RemoveButton.Location = new System.Drawing.Point(325, 5);
+            this.modinfo_config_RemoveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_RemoveButton.Name = "modinfo_config_RemoveButton";
-            this.modinfo_config_RemoveButton.Size = new System.Drawing.Size(74, 21);
+            this.modinfo_config_RemoveButton.Size = new System.Drawing.Size(99, 24);
             this.modinfo_config_RemoveButton.TabIndex = 15;
-            this.modinfo_config_RemoveButton.Text = "Remove";
-            this.toolTip.SetToolTip(this.modinfo_config_RemoveButton, "Remove settings from the backup file");
+            this.modinfo_config_RemoveButton.Text = "去掉";
+            this.toolTip.SetToolTip(this.modinfo_config_RemoveButton, "从备份文件中删除设置");
             this.modinfo_config_RemoveButton.UseVisualStyleBackColor = true;
             this.modinfo_config_RemoveButton.Click += new System.EventHandler(this.modinfo_config_RemoveButton_Click);
             // 
             // modinfo_changelog_tab
             // 
             this.modinfo_changelog_tab.Controls.Add(this.modinfo_changelog_richtextbox);
-            this.modinfo_changelog_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_changelog_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_changelog_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_changelog_tab.Name = "modinfo_changelog_tab";
-            this.modinfo_changelog_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_changelog_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_changelog_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_changelog_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_changelog_tab.TabIndex = 4;
-            this.modinfo_changelog_tab.Text = "Changelog";
+            this.modinfo_changelog_tab.Text = "更改日志";
             this.modinfo_changelog_tab.UseVisualStyleBackColor = true;
             // 
             // modinfo_changelog_richtextbox
             // 
             this.modinfo_changelog_richtextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.modinfo_changelog_richtextbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modinfo_changelog_richtextbox.Location = new System.Drawing.Point(3, 3);
+            this.modinfo_changelog_richtextbox.Location = new System.Drawing.Point(4, 3);
+            this.modinfo_changelog_richtextbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_changelog_richtextbox.Name = "modinfo_changelog_richtextbox";
             this.modinfo_changelog_richtextbox.ReadOnly = true;
-            this.modinfo_changelog_richtextbox.Size = new System.Drawing.Size(754, 206);
+            this.modinfo_changelog_richtextbox.Size = new System.Drawing.Size(1010, 211);
             this.modinfo_changelog_richtextbox.TabIndex = 0;
             this.modinfo_changelog_richtextbox.Text = "";
             this.modinfo_changelog_richtextbox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1585,12 +1634,13 @@
             // modinfo_dependencies_tab
             // 
             this.modinfo_dependencies_tab.Controls.Add(this.tableLayoutPanel1);
-            this.modinfo_dependencies_tab.Location = new System.Drawing.Point(4, 22);
+            this.modinfo_dependencies_tab.Location = new System.Drawing.Point(4, 25);
+            this.modinfo_dependencies_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_dependencies_tab.Name = "modinfo_dependencies_tab";
-            this.modinfo_dependencies_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.modinfo_dependencies_tab.Size = new System.Drawing.Size(760, 212);
+            this.modinfo_dependencies_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_dependencies_tab.Size = new System.Drawing.Size(1018, 217);
             this.modinfo_dependencies_tab.TabIndex = 5;
-            this.modinfo_dependencies_tab.Text = "Dependencies";
+            this.modinfo_dependencies_tab.Text = "依赖关系";
             this.modinfo_dependencies_tab.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
@@ -1600,12 +1650,13 @@
             this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel5, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 3);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(754, 206);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1010, 211);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // panel4
@@ -1613,9 +1664,10 @@
             this.panel4.Controls.Add(this.olvRequiredMods);
             this.panel4.Controls.Add(this.panel6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Location = new System.Drawing.Point(4, 3);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(748, 97);
+            this.panel4.Size = new System.Drawing.Size(1002, 99);
             this.panel4.TabIndex = 1;
             // 
             // olvRequiredMods
@@ -1644,11 +1696,12 @@
             this.olvRequiredMods.FullRowSelect = true;
             this.olvRequiredMods.HideSelection = false;
             this.olvRequiredMods.IsSearchOnSortColumn = false;
-            this.olvRequiredMods.Location = new System.Drawing.Point(0, 22);
+            this.olvRequiredMods.Location = new System.Drawing.Point(0, 25);
+            this.olvRequiredMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvRequiredMods.Name = "olvRequiredMods";
             this.olvRequiredMods.ShowGroups = false;
             this.olvRequiredMods.ShowItemCountOnGroups = true;
-            this.olvRequiredMods.Size = new System.Drawing.Size(748, 75);
+            this.olvRequiredMods.Size = new System.Drawing.Size(1002, 74);
             this.olvRequiredMods.SortGroupItemsByPrimaryColumn = false;
             this.olvRequiredMods.TabIndex = 1;
             this.olvRequiredMods.TintSortColumn = true;
@@ -1672,19 +1725,19 @@
             // 
             this.olvColReqModsName.AspectName = "Name";
             this.olvColReqModsName.Hideable = false;
-            this.olvColReqModsName.Text = "Name";
+            this.olvColReqModsName.Text = "标题";
             this.olvColReqModsName.Width = 229;
             // 
             // olvColReqModsState
             // 
             this.olvColReqModsState.IsEditable = false;
-            this.olvColReqModsState.Text = "State";
+            this.olvColReqModsState.Text = "状态";
             this.olvColReqModsState.Width = 84;
             // 
             // olvColReqModsHidden
             // 
             this.olvColReqModsHidden.AspectName = "isHidden";
-            this.olvColReqModsHidden.Text = "Hidden";
+            this.olvColReqModsHidden.Text = "隐藏";
             // 
             // olvColReqModsSteamUrl
             // 
@@ -1692,7 +1745,7 @@
             this.olvColReqModsSteamUrl.Hyperlink = true;
             this.olvColReqModsSteamUrl.IsEditable = false;
             this.olvColReqModsSteamUrl.Searchable = false;
-            this.olvColReqModsSteamUrl.Text = "Steam Link";
+            this.olvColReqModsSteamUrl.Text = "Steam链接";
             this.olvColReqModsSteamUrl.Width = 225;
             // 
             // olvColReqModsWotc
@@ -1700,13 +1753,13 @@
             this.olvColReqModsWotc.AspectName = "BuiltForWOTC";
             this.olvColReqModsWotc.IsEditable = false;
             this.olvColReqModsWotc.Searchable = false;
-            this.olvColReqModsWotc.Text = "For WOTC";
-            this.olvColReqModsWotc.Width = 63;
+            this.olvColReqModsWotc.Text = "兼容WOTC";
+            this.olvColReqModsWotc.Width = 79;
             // 
             // olvColReqModsIgnore
             // 
             this.olvColReqModsIgnore.CheckBoxes = true;
-            this.olvColReqModsIgnore.Text = "Ignored";
+            this.olvColReqModsIgnore.Text = "忽略";
             this.olvColReqModsIgnore.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panel6
@@ -1715,29 +1768,32 @@
             this.panel6.Controls.Add(this.label5);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(748, 22);
+            this.panel6.Size = new System.Drawing.Size(1002, 25);
             this.panel6.TabIndex = 3;
             // 
             // cShowPrimaryDuplicates
             // 
             this.cShowPrimaryDuplicates.AutoSize = true;
-            this.cShowPrimaryDuplicates.Location = new System.Drawing.Point(101, 3);
+            this.cShowPrimaryDuplicates.Location = new System.Drawing.Point(135, 3);
+            this.cShowPrimaryDuplicates.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cShowPrimaryDuplicates.Name = "cShowPrimaryDuplicates";
-            this.cShowPrimaryDuplicates.Size = new System.Drawing.Size(135, 17);
+            this.cShowPrimaryDuplicates.Size = new System.Drawing.Size(119, 19);
             this.cShowPrimaryDuplicates.TabIndex = 3;
-            this.cShowPrimaryDuplicates.Text = "Show primary duplicate";
-            this.toolTip.SetToolTip(this.cShowPrimaryDuplicates, "Show the primary duplicate instead of the real dependency if available.");
+            this.cShowPrimaryDuplicates.Text = "显示主要副本";
+            this.toolTip.SetToolTip(this.cShowPrimaryDuplicates, "显示主要副本，而不显示实际依赖项（如果有）。");
             this.cShowPrimaryDuplicates.UseVisualStyleBackColor = true;
             this.cShowPrimaryDuplicates.CheckedChanged += new System.EventHandler(this.cShowPrimaryDuplicates_CheckedChanged);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(3, 1);
+            this.label5.Location = new System.Drawing.Point(4, 1);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 18);
+            this.label5.Size = new System.Drawing.Size(123, 21);
             this.label5.TabIndex = 2;
-            this.label5.Text = "Required mods:";
+            this.label5.Text = "必须MOD:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel5
@@ -1745,9 +1801,10 @@
             this.panel5.Controls.Add(this.olvDependentMods);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(3, 106);
+            this.panel5.Location = new System.Drawing.Point(4, 108);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(748, 97);
+            this.panel5.Size = new System.Drawing.Size(1002, 100);
             this.panel5.TabIndex = 3;
             // 
             // olvDependentMods
@@ -1774,11 +1831,12 @@
             this.olvDependentMods.FullRowSelect = true;
             this.olvDependentMods.HideSelection = false;
             this.olvDependentMods.IsSearchOnSortColumn = false;
-            this.olvDependentMods.Location = new System.Drawing.Point(0, 18);
+            this.olvDependentMods.Location = new System.Drawing.Point(0, 21);
+            this.olvDependentMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvDependentMods.Name = "olvDependentMods";
             this.olvDependentMods.ShowGroups = false;
             this.olvDependentMods.ShowItemCountOnGroups = true;
-            this.olvDependentMods.Size = new System.Drawing.Size(748, 79);
+            this.olvDependentMods.Size = new System.Drawing.Size(1002, 79);
             this.olvDependentMods.SortGroupItemsByPrimaryColumn = false;
             this.olvDependentMods.TabIndex = 2;
             this.olvDependentMods.TintSortColumn = true;
@@ -1802,19 +1860,19 @@
             // 
             this.olvColDepModsName.AspectName = "Name";
             this.olvColDepModsName.Hideable = false;
-            this.olvColDepModsName.Text = "Name";
+            this.olvColDepModsName.Text = "标题";
             this.olvColDepModsName.Width = 229;
             // 
             // olvColDepModsState
             // 
             this.olvColDepModsState.IsEditable = false;
-            this.olvColDepModsState.Text = "State";
+            this.olvColDepModsState.Text = "状态";
             this.olvColDepModsState.Width = 86;
             // 
             // olvColDepModsHidden
             // 
             this.olvColDepModsHidden.AspectName = "isHidden";
-            this.olvColDepModsHidden.Text = "Hidden";
+            this.olvColDepModsHidden.Text = "隐藏";
             // 
             // olvColDepModsSteamUrl
             // 
@@ -1822,7 +1880,7 @@
             this.olvColDepModsSteamUrl.Hyperlink = true;
             this.olvColDepModsSteamUrl.IsEditable = false;
             this.olvColDepModsSteamUrl.Searchable = false;
-            this.olvColDepModsSteamUrl.Text = "Steam Link";
+            this.olvColDepModsSteamUrl.Text = "Steam链接";
             this.olvColDepModsSteamUrl.Width = 224;
             // 
             // olvColDepModsUrl
@@ -1833,24 +1891,25 @@
             this.olvColDepModsUrl.IsEditable = false;
             this.olvColDepModsUrl.IsVisible = false;
             this.olvColDepModsUrl.Searchable = false;
-            this.olvColDepModsUrl.Text = "Browser Link";
+            this.olvColDepModsUrl.Text = "网址";
             // 
             // olvColDepModsWotc
             // 
             this.olvColDepModsWotc.AspectName = "BuiltForWOTC";
             this.olvColDepModsWotc.IsEditable = false;
             this.olvColDepModsWotc.Searchable = false;
-            this.olvColDepModsWotc.Text = "For WOTC";
-            this.olvColDepModsWotc.Width = 63;
+            this.olvColDepModsWotc.Text = "兼容WOTC";
+            this.olvColDepModsWotc.Width = 81;
             // 
             // label6
             // 
             this.label6.Dock = System.Windows.Forms.DockStyle.Top;
             this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(748, 18);
+            this.label6.Size = new System.Drawing.Size(1002, 21);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Dependent mods:";
+            this.label6.Text = "相关MOD:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // modinfo_image_picturebox
@@ -1859,9 +1918,10 @@
             this.modinfo_image_picturebox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.modinfo_image_picturebox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.modinfo_image_picturebox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modinfo_image_picturebox.Location = new System.Drawing.Point(4, 24);
+            this.modinfo_image_picturebox.Location = new System.Drawing.Point(6, 13);
+            this.modinfo_image_picturebox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_image_picturebox.Name = "modinfo_image_picturebox";
-            this.modinfo_image_picturebox.Size = new System.Drawing.Size(192, 192);
+            this.modinfo_image_picturebox.Size = new System.Drawing.Size(255, 221);
             this.modinfo_image_picturebox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.modinfo_image_picturebox.TabIndex = 8;
             this.modinfo_image_picturebox.TabStop = false;
@@ -1869,39 +1929,42 @@
             // conflicts_tab
             // 
             this.conflicts_tab.Controls.Add(this.conflicts_tab_tableLayoutPanel);
-            this.conflicts_tab.Location = new System.Drawing.Point(4, 23);
+            this.conflicts_tab.Location = new System.Drawing.Point(4, 25);
+            this.conflicts_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.conflicts_tab.Name = "conflicts_tab";
-            this.conflicts_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.conflicts_tab.Size = new System.Drawing.Size(976, 662);
+            this.conflicts_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.conflicts_tab.Size = new System.Drawing.Size(1304, 766);
             this.conflicts_tab.TabIndex = 1;
-            this.conflicts_tab.Text = "Class Overrides";
+            this.conflicts_tab.Text = "类别冲突";
             this.conflicts_tab.UseVisualStyleBackColor = true;
             // 
             // conflicts_tab_tableLayoutPanel
             // 
             this.conflicts_tab_tableLayoutPanel.ColumnCount = 2;
-            this.conflicts_tab_tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.conflicts_tab_tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 400F));
             this.conflicts_tab_tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.conflicts_tab_tableLayoutPanel.Controls.Add(this.conflicts_log_label, 0, 0);
             this.conflicts_tab_tableLayoutPanel.Controls.Add(this.conflicts_datagrid, 1, 0);
             this.conflicts_tab_tableLayoutPanel.Controls.Add(this.conflicts_textbox, 0, 1);
             this.conflicts_tab_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.conflicts_tab_tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.conflicts_tab_tableLayoutPanel.Location = new System.Drawing.Point(4, 3);
+            this.conflicts_tab_tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.conflicts_tab_tableLayoutPanel.Name = "conflicts_tab_tableLayoutPanel";
             this.conflicts_tab_tableLayoutPanel.RowCount = 2;
-            this.conflicts_tab_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.conflicts_tab_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.conflicts_tab_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.conflicts_tab_tableLayoutPanel.Size = new System.Drawing.Size(970, 656);
+            this.conflicts_tab_tableLayoutPanel.Size = new System.Drawing.Size(1296, 760);
             this.conflicts_tab_tableLayoutPanel.TabIndex = 9;
             // 
             // conflicts_log_label
             // 
             this.conflicts_log_label.AutoSize = true;
-            this.conflicts_log_label.Location = new System.Drawing.Point(3, 0);
+            this.conflicts_log_label.Location = new System.Drawing.Point(4, 0);
+            this.conflicts_log_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.conflicts_log_label.Name = "conflicts_log_label";
-            this.conflicts_log_label.Size = new System.Drawing.Size(28, 13);
+            this.conflicts_log_label.Size = new System.Drawing.Size(45, 15);
             this.conflicts_log_label.TabIndex = 8;
-            this.conflicts_log_label.Text = "Log:";
+            this.conflicts_log_label.Text = "日志:";
             // 
             // conflicts_datagrid
             // 
@@ -1914,76 +1977,57 @@
             this.ColumnInternalClass,
             this.ColumnModClass});
             this.conflicts_datagrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.conflicts_datagrid.Location = new System.Drawing.Point(303, 3);
+            this.conflicts_datagrid.Location = new System.Drawing.Point(404, 3);
+            this.conflicts_datagrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.conflicts_datagrid.Name = "conflicts_datagrid";
             this.conflicts_datagrid.ReadOnly = true;
+            this.conflicts_datagrid.RowHeadersWidth = 51;
             this.conflicts_tab_tableLayoutPanel.SetRowSpan(this.conflicts_datagrid, 2);
-            this.conflicts_datagrid.Size = new System.Drawing.Size(664, 650);
+            this.conflicts_datagrid.Size = new System.Drawing.Size(888, 754);
             this.conflicts_datagrid.TabIndex = 6;
-            // 
-            // ColumnModName
-            // 
-            this.ColumnModName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnModName.FillWeight = 30F;
-            this.ColumnModName.HeaderText = "Mod";
-            this.ColumnModName.Name = "ColumnModName";
-            this.ColumnModName.ReadOnly = true;
-            // 
-            // ColumnInternalClass
-            // 
-            this.ColumnInternalClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnInternalClass.FillWeight = 30F;
-            this.ColumnInternalClass.HeaderText = "Internal Class";
-            this.ColumnInternalClass.Name = "ColumnInternalClass";
-            this.ColumnInternalClass.ReadOnly = true;
-            // 
-            // ColumnModClass
-            // 
-            this.ColumnModClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnModClass.FillWeight = 40F;
-            this.ColumnModClass.HeaderText = "Mod Class";
-            this.ColumnModClass.Name = "ColumnModClass";
-            this.ColumnModClass.ReadOnly = true;
             // 
             // conflicts_textbox
             // 
             this.conflicts_textbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.conflicts_textbox.Location = new System.Drawing.Point(3, 23);
+            this.conflicts_textbox.Location = new System.Drawing.Point(4, 26);
+            this.conflicts_textbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.conflicts_textbox.Multiline = true;
             this.conflicts_textbox.Name = "conflicts_textbox";
             this.conflicts_textbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.conflicts_textbox.Size = new System.Drawing.Size(294, 630);
+            this.conflicts_textbox.Size = new System.Drawing.Size(392, 731);
             this.conflicts_textbox.TabIndex = 7;
             // 
             // export_tab
             // 
             this.export_tab.Controls.Add(this.tableLayoutPanel2);
-            this.export_tab.Location = new System.Drawing.Point(4, 23);
+            this.export_tab.Location = new System.Drawing.Point(4, 25);
+            this.export_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_tab.Name = "export_tab";
-            this.export_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.export_tab.Size = new System.Drawing.Size(976, 662);
+            this.export_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.export_tab.Size = new System.Drawing.Size(1304, 766);
             this.export_tab.TabIndex = 2;
-            this.export_tab.Text = "Profiles";
+            this.export_tab.Text = "个性配置";
             this.export_tab.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
             this.tableLayoutPanel2.Controls.Add(this.export_richtextbox, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.export_load_button, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.export_save_button, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 3);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(970, 656);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1296, 760);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // export_richtextbox
@@ -1995,10 +2039,11 @@
             this.export_richtextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.export_richtextbox, 3);
             this.export_richtextbox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.export_richtextbox.Location = new System.Drawing.Point(3, 38);
+            this.export_richtextbox.Location = new System.Drawing.Point(4, 43);
+            this.export_richtextbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_richtextbox.Name = "export_richtextbox";
             this.export_richtextbox.ReadOnly = true;
-            this.export_richtextbox.Size = new System.Drawing.Size(964, 615);
+            this.export_richtextbox.Size = new System.Drawing.Size(1288, 714);
             this.export_richtextbox.TabIndex = 2;
             this.export_richtextbox.Text = "";
             this.export_richtextbox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -2008,19 +2053,21 @@
             this.panel1.Controls.Add(this.export_all_mods_checkbox);
             this.panel1.Controls.Add(this.export_workshop_link_checkbox);
             this.panel1.Controls.Add(this.export_group_checkbox);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(4, 3);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(513, 29);
+            this.panel1.Size = new System.Drawing.Size(684, 33);
             this.panel1.TabIndex = 5;
             // 
             // export_all_mods_checkbox
             // 
             this.export_all_mods_checkbox.AutoSize = true;
-            this.export_all_mods_checkbox.Location = new System.Drawing.Point(262, 6);
+            this.export_all_mods_checkbox.Location = new System.Drawing.Point(436, 7);
+            this.export_all_mods_checkbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_all_mods_checkbox.Name = "export_all_mods_checkbox";
-            this.export_all_mods_checkbox.Size = new System.Drawing.Size(104, 17);
+            this.export_all_mods_checkbox.Size = new System.Drawing.Size(113, 19);
             this.export_all_mods_checkbox.TabIndex = 3;
-            this.export_all_mods_checkbox.Text = "Include All Mods";
+            this.export_all_mods_checkbox.Text = "包括所有Mod";
             this.export_all_mods_checkbox.UseVisualStyleBackColor = true;
             this.export_all_mods_checkbox.Visible = false;
             this.export_all_mods_checkbox.CheckedChanged += new System.EventHandler(this.ExportCheckboxCheckedChanged);
@@ -2028,11 +2075,12 @@
             // export_workshop_link_checkbox
             // 
             this.export_workshop_link_checkbox.AutoSize = true;
-            this.export_workshop_link_checkbox.Location = new System.Drawing.Point(7, 6);
+            this.export_workshop_link_checkbox.Location = new System.Drawing.Point(9, 7);
+            this.export_workshop_link_checkbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_workshop_link_checkbox.Name = "export_workshop_link_checkbox";
-            this.export_workshop_link_checkbox.Size = new System.Drawing.Size(136, 17);
+            this.export_workshop_link_checkbox.Size = new System.Drawing.Size(119, 19);
             this.export_workshop_link_checkbox.TabIndex = 0;
-            this.export_workshop_link_checkbox.Text = "Include Workshop Link";
+            this.export_workshop_link_checkbox.Text = "包含工坊链接";
             this.export_workshop_link_checkbox.UseVisualStyleBackColor = true;
             // 
             // export_group_checkbox
@@ -2040,19 +2088,21 @@
             this.export_group_checkbox.AutoSize = true;
             this.export_group_checkbox.Checked = true;
             this.export_group_checkbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.export_group_checkbox.Location = new System.Drawing.Point(149, 6);
+            this.export_group_checkbox.Location = new System.Drawing.Point(237, 7);
+            this.export_group_checkbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_group_checkbox.Name = "export_group_checkbox";
-            this.export_group_checkbox.Size = new System.Drawing.Size(107, 17);
+            this.export_group_checkbox.Size = new System.Drawing.Size(89, 19);
             this.export_group_checkbox.TabIndex = 2;
-            this.export_group_checkbox.Text = "Include Grouping";
+            this.export_group_checkbox.Text = "包括分类";
             this.export_group_checkbox.UseVisualStyleBackColor = true;
             // 
             // export_load_button
             // 
             this.export_load_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.export_load_button.Location = new System.Drawing.Point(813, 9);
+            this.export_load_button.Location = new System.Drawing.Point(1086, 10);
+            this.export_load_button.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_load_button.Name = "export_load_button";
-            this.export_load_button.Size = new System.Drawing.Size(74, 23);
+            this.export_load_button.Size = new System.Drawing.Size(99, 27);
             this.export_load_button.TabIndex = 4;
             this.export_load_button.Text = "Load";
             this.export_load_button.UseVisualStyleBackColor = true;
@@ -2060,9 +2110,10 @@
             // export_save_button
             // 
             this.export_save_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.export_save_button.Location = new System.Drawing.Point(893, 9);
+            this.export_save_button.Location = new System.Drawing.Point(1193, 10);
+            this.export_save_button.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_save_button.Name = "export_save_button";
-            this.export_save_button.Size = new System.Drawing.Size(74, 23);
+            this.export_save_button.Size = new System.Drawing.Size(99, 27);
             this.export_save_button.TabIndex = 3;
             this.export_save_button.Text = "Save";
             this.export_save_button.UseVisualStyleBackColor = true;
@@ -2083,26 +2134,55 @@
             this.fillPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fillPanel.Location = new System.Drawing.Point(0, 27);
+            this.fillPanel.Location = new System.Drawing.Point(0, 31);
+            this.fillPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.fillPanel.Name = "fillPanel";
-            this.fillPanel.Size = new System.Drawing.Size(984, 689);
+            this.fillPanel.Size = new System.Drawing.Size(1312, 795);
             this.fillPanel.TabIndex = 6;
             this.fillPanel.Visible = false;
             // 
+            // ColumnModName
+            // 
+            this.ColumnModName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnModName.FillWeight = 30F;
+            this.ColumnModName.HeaderText = "Mod";
+            this.ColumnModName.MinimumWidth = 6;
+            this.ColumnModName.Name = "ColumnModName";
+            this.ColumnModName.ReadOnly = true;
+            // 
+            // ColumnInternalClass
+            // 
+            this.ColumnInternalClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnInternalClass.FillWeight = 30F;
+            this.ColumnInternalClass.HeaderText = "内部类别";
+            this.ColumnInternalClass.MinimumWidth = 6;
+            this.ColumnInternalClass.Name = "ColumnInternalClass";
+            this.ColumnInternalClass.ReadOnly = true;
+            // 
+            // ColumnModClass
+            // 
+            this.ColumnModClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnModClass.FillWeight = 40F;
+            this.ColumnModClass.HeaderText = "Mod类别";
+            this.ColumnModClass.MinimumWidth = 6;
+            this.ColumnModClass.Name = "ColumnModClass";
+            this.ColumnModClass.ReadOnly = true;
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 741);
+            this.ClientSize = new System.Drawing.Size(1312, 855);
             this.Controls.Add(this.main_statusstrip);
             this.Controls.Add(this.main_menustrip);
             this.Controls.Add(this.main_tabcontrol);
             this.Controls.Add(this.fillPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.main_menustrip;
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MinimumSize = new System.Drawing.Size(1061, 685);
             this.Name = "MainForm";
-            this.Text = "XCOM Alternative Mod Launcher";
+            this.Text = "XCOM Alternative Mod Launcher(AML启动器)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
@@ -2176,9 +2256,6 @@
         private System.Windows.Forms.Label conflicts_log_label;
         private System.Windows.Forms.TextBox conflicts_textbox;
         private System.Windows.Forms.DataGridView conflicts_datagrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInternalClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModClass;
         private System.Windows.Forms.ToolStripMenuItem importActiveModsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cleanModsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
@@ -2330,5 +2407,8 @@
         private System.Windows.Forms.Button bClearStateFilter;
         private System.Windows.Forms.ToolStripMenuItem runChimeraSquadToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem importFromChimeraSquadToolStripMenuItem;
-	}
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInternalClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModClass;
+    }
 }
