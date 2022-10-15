@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,17 +22,17 @@ namespace XCOM2Launcher.Forms
 {
     public partial class MainForm : Form
     {
-        public ModEntry CurrentMod;
         public ModList Mods => Settings.Mods;
         public Dictionary<string, ModTag> AvailableTags => Settings.Tags;
-
         public TypedObjectListView<ModEntry> ModList { get; private set; }
+        public ModEntry CurrentMod;
 
+        private bool _CheckTriggeredFromContextMenu;
         public void InitModListView()
         {
             var categoryGroupingDelegate = new GroupKeyGetterDelegate(o => Mods.GetCategory(o as ModEntry));
 
-            var categoryFormatterDelegate = new GroupFormatterDelegate((group, parameters) =>
+            var categoryFormatterDelegate = new GroupFormatterDelegate((@group, parameters) =>
             {
                 var groupName = group.Key as string;
                 if (groupName == null)
@@ -116,8 +118,8 @@ namespace XCOM2Launcher.Forms
 
             // size groupies
             var columns = modlist_ListObjectListView.AllColumns.ToArray();
-            columns.Single(c => c.AspectName == "Size").MakeGroupies(new[]
-            {
+            columns.Single(c => c.AspectName == "Size").MakeGroupies(
+			new[]            {
                 1024,
                 1024 * 1024,
                 (long) 50 * 1024 * 1024,
@@ -152,10 +154,7 @@ namespace XCOM2Launcher.Forms
             });
 
             olvcActive.AspectToStringConverter = active => "";
-            olvcActive.GroupFormatter = (g, param) =>
-            {
-                param.GroupComparer = Comparer<OLVGroup>.Create((a, b) => (param.GroupByOrder == SortOrder.Descending ? 1 : -1) * a.Header.CompareTo(b.Header));
-            };
+            olvcActive.GroupFormatter = (g, param) => { param.GroupComparer = Comparer<OLVGroup>.Create((a, b) => (param.GroupByOrder == SortOrder.Descending ? 1 : -1) * a.Header.CompareTo(b.Header)); };
 
             olvcName.AutoCompleteEditor = false;
 
@@ -189,10 +188,7 @@ namespace XCOM2Launcher.Forms
                 });
 
                 // Sord Desc
-                column.GroupFormatter = (g, param) =>
-                {
-                    param.GroupComparer = Comparer<OLVGroup>.Create((a, b) => (param.GroupByOrder == SortOrder.Descending ? -1 : 1) * a.Header.CompareTo(b.Header));
-                };
+                column.GroupFormatter = (g, param) => { param.GroupComparer = Comparer<OLVGroup>.Create((a, b) => (param.GroupByOrder == SortOrder.Descending ? -1 : 1)*a.Header.CompareTo(b.Header)); };
             }
 
             // Wrapper
@@ -212,11 +208,14 @@ namespace XCOM2Launcher.Forms
         {
             var mod = (ModEntry)rowobject;
 
-            if (mod.State.HasFlag(ModState.NotLoaded))
-                return "未加载";
+            if (mod.State.HasFlag(ModState.Downloading))
+                return "下载中";
 
             if (mod.State.HasFlag(ModState.NotInstalled))
                 return "未安装";
+
+            if (mod.State.HasFlag(ModState.NotLoaded))
+                return "未加载";
 
             if (mod.State.HasFlag(ModState.MissingDependencies) && mod.isActive)
                 return "缺少前置";
@@ -441,10 +440,13 @@ namespace XCOM2Launcher.Forms
 
                         PostProcessModUpdateTask();
 
-                        MessageBox.Show("1个或以上Mod更新失败: " + Environment.NewLine + Environment.NewLine + aggregateException?.InnerException?.Message + Environment.NewLine + Environment.NewLine + "有关详细信息，请参见AML.log.", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("1个或以上Mod更新失败: " +
+						 Environment.NewLine + Environment.NewLine +
+						  aggregateException?.InnerException?.Message +
+						  Environment.NewLine + Environment.NewLine +
+						   "有关详细信息，请参见AML.log.", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         break;
-
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -464,22 +466,12 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-        private void DeleteMods()
+        void DeleteMods(List<ModEntry> mods, bool keepEntries)
         {
-            // Confirmation dialog
-            var text = modlist_ListObjectListView.SelectedObjects.Count == 1 ? $"你确定你要删除 '{ModList.SelectedObjects[0]?.Name}'?" : $"你确定你要删除 {modlist_ListObjectListView.SelectedObjects.Count} mod?";
-
-            text += "\r\n此操作不可撤消.";
-
-            var r = MessageBox.Show(text, "确认删除", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if (r != DialogResult.OK)
-                return;
-
-            // Delete
-            var mods = ModList.SelectedObjects.ToList();
+            // Delete / unsubscribe
             foreach (var mod in mods)
             {
-                Log.Info("Deleting/unsubscribing mod " + mod.ID);
+                Log.Info("Deleting mod " + mod.ID);
 
                 // Set State for all mods that depend on this one to MissingDependencies
                 var dependentMods = Mods.GetDependentMods(mod);
@@ -493,9 +485,17 @@ namespace XCOM2Launcher.Forms
                 if (mod.Source == ModSource.SteamWorkshop)
                     Workshop.Unsubscribe((ulong)mod.WorkshopID);
 
+                if (!keepEntries)
+                { 
                 // delete model
                 modlist_ListObjectListView.RemoveObject(mod);
                 Mods.RemoveMod(mod);
+                }
+                else
+                {
+                    mod.AddState(ModState.NotInstalled);
+                    modlist_ListObjectListView.RefreshObject(mod);
+                }
 
                 // delete files
                 try
@@ -516,8 +516,88 @@ namespace XCOM2Launcher.Forms
                 }
             }
 
-            RefreshModList();
+            //RefreshModList();
             UpdateConflictInfo();
+        }
+
+        private void ResubscribeToMods(List<ModEntry> mods)
+        {
+            if (mods == null || !mods.Any())
+            {
+                return;
+            }
+
+            // Confirmation dialog
+            var text = mods.Count == 1
+                ? $"你确定要重新订阅并下载工坊Mod '{mods[0]?.Name}'?"
+                : $"你确定要重新订阅并下载这{mods.Count}个工坊Mod?";
+
+            var result = MessageBox.Show(text, "确认下载", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            
+            if (result != DialogResult.OK)
+                return;
+
+            foreach (var mod in mods)
+            {
+                if (mod.Source == ModSource.SteamWorkshop && mod.State.HasFlag(ModState.NotInstalled)) {
+                    Log.Info("Resubscribing to mod " + mod.ID);
+                    mod.AddState(ModState.Downloading);
+                    modlist_ListObjectListView.RefreshObject(mod);
+                    Workshop.Subscribe((ulong) mod.WorkshopID);
+                    Workshop.DownloadItem((ulong) mod.WorkshopID);
+                }
+            }
+
+            string plural = (mods.Count == 1 ? "" : "s");
+            MessageBox.Show($"You will have to wait for the download{plural} to finish in order to use the mod{plural}.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ConfirmDeleteMods(List<ModEntry> mods)
+        {
+            if (mods == null || !mods.Any())
+            {
+                return;
+            }
+
+            // Confirmation dialog
+            var text = mods.Count == 1
+                ? $"Are you sure you want to delete '{mods[0]?.Name}'?"
+                : $"Are you sure you want to delete {mods.Count} mods?";
+
+            var result = MessageBox.Show(text, "Confirm deletion", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            
+            if (result != DialogResult.OK)
+                return;
+
+            DeleteMods(mods, false);
+        }
+
+        private void ConfirmUnsubscribeMods(List<ModEntry> mods)
+        {
+            if (mods == null || !mods.Any())
+            {
+                return;
+            }
+
+            mods = mods.Where(mod => mod.Source == ModSource.SteamWorkshop && !mod.State.HasFlag(ModState.NotInstalled)).ToList();
+            
+            if (!mods.Any())
+            {
+                MessageBox.Show("No subscribed Workshop mods selected.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Confirmation dialog
+            var text = mods.Count == 1
+                ? $"Are you sure you want to unsubscribe from the Workshop mod '{mods[0]?.Name}'?"
+                : $"Are you sure you want to unsubscribe from {mods.Count} Workshop mods?";
+
+            var result = MessageBox.Show(text, "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            
+            if (result != DialogResult.OK)
+                return;
+
+            DeleteMods(mods, true);
         }
 
         private void MoveSelectedModsToCategory(string category)
@@ -616,14 +696,16 @@ namespace XCOM2Launcher.Forms
 
         private void RenameTagPrompt(ModEntry m, ModTag tag, bool renameAll)
         {
-            var prompt = renameAll ? $"将标签'{tag.Label}'重命名为?" : $"输入标签 '{tag.Label}' 的新名称 \n这将会影响带有此标签的Mod-'{m.Name}'.";
+            var prompt = renameAll ? $"将标签'{tag.Label}'重命名为?" 
+			: $"输入标签 '{tag.Label}' 的新名称 \n这将会影响带有此标签的Mod-'{m.Name}'.";
 
             var newTag = Interaction.InputBox(prompt, "重命名标签", tag.Label);
 
             if (newTag == tag.Label)
                 return;
 
-            if (string.IsNullOrEmpty(newTag) || renameAll && MessageBox.Show($@"您确定要重命名标签(tag)吗？这将会影响所有带有此标签的Mod'{tag.Label}' 将改为 '{newTag}'?", @"确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            if (string.IsNullOrEmpty(newTag) || (renameAll && MessageBox.Show($@"您确定要重命名标签(tag)吗？这将会影响所有带有此标签的Mod'{tag.Label}' 将改为 '{newTag}'?",
+			 																	@"确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes))
             {
                 return;
             }
@@ -643,16 +725,16 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-        private ContextMenu CreateModListContextMenu(ModEntry m, ModTag tag)
+        private ContextMenuStrip CreateModListContextMenu(ModEntry m, ModTag tag)
         {
-            var menu = new ContextMenu();
+            var menu = new ContextMenuStrip();
             if (m?.ID == null || tag == null)
                 return menu;
 
             // change color
-            var changeColorItem = new MenuItem("更改颜色");
+            var changeColorItem = new ToolStripMenuItem("更改颜色");
 
-            var editColor = new MenuItem("编辑");
+            var editColor = new ToolStripMenuItem("编辑");
 
             editColor.Click += (sender, e) =>
             {
@@ -668,54 +750,55 @@ namespace XCOM2Launcher.Forms
                     tag.Color = colorPicker.Color;
             };
 
-            changeColorItem.MenuItems.Add(editColor);
+            changeColorItem.DropDownItems.Add(editColor);
 
-            var makePastelItem = new MenuItem("颜色变淡");
+            var makePastelItem = new ToolStripMenuItem("颜色变淡");
 
             makePastelItem.Click += (sender, e) => tag.Color = tag.Color.GetPastelShade();
 
-            changeColorItem.MenuItems.Add(makePastelItem);
+            changeColorItem.DropDownItems.Add(makePastelItem);
 
-            var changeShadeItem = new MenuItem("随机阴影");
+            var changeShadeItem = new ToolStripMenuItem("随机阴影");
 
             changeShadeItem.Click += (sender, e) => tag.Color = tag.Color.GetRandomShade(0.33, 1.0);
 
-            changeColorItem.MenuItems.Add(changeShadeItem);
+            changeColorItem.DropDownItems.Add(changeShadeItem);
 
-            var randomColorItem = new MenuItem("随机颜色");
+            var randomColorItem = new ToolStripMenuItem("随机颜色");
 
             randomColorItem.Click += (sender, e) => tag.Color = ModTag.RandomColor();
 
-            changeColorItem.MenuItems.Add(randomColorItem);
-            menu.MenuItems.Add(changeColorItem);
+            changeColorItem.DropDownItems.Add(randomColorItem);
+            menu.Items.Add(changeColorItem);
 
-            menu.MenuItems.Add("-");
+            menu.Items.Add("-");
 
             // renaming tags
-            var renameTagItem = new MenuItem($"重命名 '{tag.Label}'");
+            var renameTagItem = new ToolStripMenuItem($"重命名 '{tag.Label}'");
 
             renameTagItem.Click += (sender, e) => RenameTagPrompt(m, tag, false);
 
-            menu.MenuItems.Add(renameTagItem);
+            menu.Items.Add(renameTagItem);
 
-            var renameAllTagItem = new MenuItem($"重命名全部 '{tag.Label}'");
+            var renameAllTagItem = new ToolStripMenuItem($"重命名全部 '{tag.Label}'");
 
             renameAllTagItem.Click += (sender, e) => RenameTagPrompt(m, tag, true);
-            menu.MenuItems.Add(renameAllTagItem);
+            menu.Items.Add(renameAllTagItem);
 
-            menu.MenuItems.Add("-");
+            menu.Items.Add("-");
 
             // removing tags
-            var removeTagItem = new MenuItem($"删除 '{tag.Label}'");
+            var removeTagItem = new ToolStripMenuItem($"删除 '{tag.Label}'");
 
             removeTagItem.Click += (sender, args) => m.Tags.Remove(tag.Label);
-            menu.MenuItems.Add(removeTagItem);
+            menu.Items.Add(removeTagItem);
 
-            var removeAllTagItem = new MenuItem($"删除全部 '{tag.Label}'");
+            var removeAllTagItem = new ToolStripMenuItem($"删除全部 '{tag.Label}'");
 
             removeAllTagItem.Click += (sender, args) =>
             {
-                if (MessageBox.Show($@"您确定要删除所有Mod的 '{tag.Label}'标签?", @"确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show($@"您确定要删除所有Mod的 '{tag.Label}'标签?", 
+				@"确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
                 foreach (var mod in Mods.All)
@@ -729,58 +812,84 @@ namespace XCOM2Launcher.Forms
                     }
                 }
             };
-            menu.MenuItems.Add(removeAllTagItem);
+            menu.Items.Add(removeAllTagItem);
 
             return menu;
         }
 
-        private ContextMenu CreateModListContextMenu(ModEntry m, OLVListItem currentItem)
+        private ContextMenuStrip CreateModListContextMenu(ModEntry m, OLVListItem currentItem)
         {
-            var menu = new ContextMenu();
+            var menu = new ContextMenuStrip();
 
             if (m?.ID == null)
                 return menu;
 
             var selectedMods = ModList.SelectedObjects.ToList();
 
-            MenuItem renameItem = null;
-            MenuItem showInExplorerItem = null;
-            MenuItem showOnSteamItem = null;
-            MenuItem showInBrowser = null;
-            MenuItem fetchWorkshopTagsItem = null;
-            MenuItem enableAllItem = null;
-            MenuItem disableAllItem = null;
-            MenuItem disableDuplicates = null;
-            MenuItem restoreDuplicates = null;
+            ToolStripMenuItem renameItem = null;
+            ToolStripMenuItem showInExplorerItem = null;
+            ToolStripMenuItem showOnSteamItem = null;
+            ToolStripMenuItem showInBrowser = null;
+            ToolStripMenuItem fetchWorkshopTagsItem = null;
+            ToolStripMenuItem enableAllItem = null;
+            ToolStripMenuItem disableAllItem = null;
+            ToolStripMenuItem disableDuplicates = null;
+            ToolStripMenuItem restoreDuplicates = null;
+            ToolStripMenuItem resubscribeItem = null;
+            ToolStripMenuItem unsubscribeItem = null;
+            ToolStripMenuItem copyToClipboard = new ToolStripMenuItem("复制到剪贴板");
+
+            copyToClipboard.DropDownItems.Add("名称", null, delegate
+            {
+                StringBuilder sb = new StringBuilder();
+                selectedMods.Aggregate(sb, (result, item) => sb.Append(item.Name + Environment.NewLine));
+                Clipboard.SetText(sb.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+            });
+
+            copyToClipboard.DropDownItems.Add("路径", null, delegate
+                {
+                StringBuilder sb = new StringBuilder();
+                selectedMods.Aggregate(sb, (result, item) => sb.Append(item.Path + Environment.NewLine));
+                Clipboard.SetText(sb.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+            });
+
+            copyToClipboard.DropDownItems.Add("Steam链接", null, delegate
+            {
+                StringBuilder sb = new StringBuilder();
+                selectedMods.ForEach(mod =>
+                {
+                    sb.Append(mod.WorkshopID > 0 ? mod.GetSteamLink() : "N/A");
+                    sb.Append(Environment.NewLine);
+                });
+                Clipboard.SetText(sb.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+            });
+        
+            copyToClipboard.DropDownItems.Add("网页地址", null, delegate
+                {
+                StringBuilder sb = new StringBuilder();
+                selectedMods.ForEach(mod =>
+                    {
+                    sb.Append(mod.WorkshopID > 0 ? mod.GetWorkshopLink() : "N/A");
+                    sb.Append(Environment.NewLine);
+                    });
+                Clipboard.SetText(sb.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+            });
 
             // create items that appear only when a single mod is selected
             if (selectedMods.Count == 1)
             {
-                renameItem = new MenuItem("重命名");
-                renameItem.Click += (a, b) =>
-                {
-                    modlist_ListObjectListView.EditSubItem(currentItem, olvcName.Index);
-                };
+                renameItem = new ToolStripMenuItem("重命名");
+                renameItem.Click += (a, b) => { modlist_ListObjectListView.EditSubItem(currentItem, olvcName.Index); };
 
-                showInExplorerItem = new MenuItem("在资源管理器里显示", delegate
-                {
-                    m.ShowInExplorer();
-                });
-                menu.MenuItems.Add(showInExplorerItem);
+                if (!m.State.HasFlag(ModState.NotInstalled))
+                    {
+                    showInExplorerItem = new ToolStripMenuItem("在资源管理器中显示", null, delegate { m.ShowInExplorer(); });
+                }
 
                 if (m.WorkshopID > 0)
                 {
-                    showOnSteamItem = new MenuItem("在Steam上显示", delegate
-                    {
-                        m.ShowOnSteam();
-                    });
-                    menu.MenuItems.Add(showOnSteamItem);
-
-                    showInBrowser = new MenuItem("在浏览器中显示", delegate
-                    {
-                        m.ShowInBrowser();
-                    });
-                    menu.MenuItems.Add(showInBrowser);
+                    showOnSteamItem = new ToolStripMenuItem("在Steam中显示", null, delegate { m.ShowOnSteam(); });
+                    showInBrowser = new ToolStripMenuItem("在浏览器中显示", null, delegate { m.ShowInBrowser(); });
                 }
 
                 var duplicateMods = Mods.All.Where(mod => mod.ID == m.ID && mod != m).ToList();
@@ -788,7 +897,7 @@ namespace XCOM2Launcher.Forms
                 {
                     if (!m.State.HasFlag(ModState.DuplicatePrimary))
                     {
-                        disableDuplicates = new MenuItem("主选此副本");
+                        disableDuplicates = new ToolStripMenuItem("主选此副本");
                         disableDuplicates.Click += delegate
                         {
                             // disable all other duplicates
@@ -815,7 +924,7 @@ namespace XCOM2Launcher.Forms
 
                     if (m.State.HasFlag(ModState.DuplicatePrimary) || m.State.HasFlag(ModState.DuplicateDisabled))
                     {
-                        restoreDuplicates = new MenuItem("恢复重复Mod");
+                        restoreDuplicates = new ToolStripMenuItem("恢复重复Mod");
                         restoreDuplicates.Click += delegate
                         {
                             // restore normal duplicate state
@@ -842,7 +951,7 @@ namespace XCOM2Launcher.Forms
                 }
             }
 
-            MenuItem addTagItem = new MenuItem("添加标签...");
+            var addTagItem = new ToolStripMenuItem("添加标签...");
             addTagItem.Click += (sender, args) =>
             {
                 var newTag = Interaction.InputBox($"请指定应添加到 {selectedMods.Count} 个选中mod的一个或多个标签（以分号分隔）.", "添加标签");
@@ -862,9 +971,9 @@ namespace XCOM2Launcher.Forms
             };
 
             // Move to ...
-            var moveToCategoryItem = new MenuItem("移至类别...");
+            var moveToCategoryItem = new ToolStripMenuItem("移至类别...");
             // ... new category
-            moveToCategoryItem.MenuItems.Add("新类别", delegate
+            moveToCategoryItem.DropDownItems.Add("新类别", null, delegate
             {
                 var category = Interaction.InputBox("请输入新类别的名称", "建立类别", "新类别");
 
@@ -874,7 +983,7 @@ namespace XCOM2Launcher.Forms
                 MoveSelectedModsToCategory(category);
             });
 
-            moveToCategoryItem.MenuItems.Add("-");
+            moveToCategoryItem.DropDownItems.Add("-");
 
             // ... existing category
             foreach (var category in Settings.Mods.CategoryNames.OrderBy(c => c))
@@ -882,14 +991,11 @@ namespace XCOM2Launcher.Forms
                 if (category == Mods.GetCategory(m))
                     continue;
 
-                moveToCategoryItem.MenuItems.Add(category, delegate
-                {
-                    MoveSelectedModsToCategory(category);
-                });
+                moveToCategoryItem.DropDownItems.Add(category, null, delegate { MoveSelectedModsToCategory(category); });
             }
 
             // Hide/unhide
-            var toggleVisibility = new MenuItem
+            var toggleVisibility = new ToolStripMenuItem
             {
                 Text = m.isHidden ? "显示" : "隐藏"
             };
@@ -908,7 +1014,7 @@ namespace XCOM2Launcher.Forms
             };
 
             // Update mods
-            var updateItem = new MenuItem("更新", delegate
+            var updateItem = new ToolStripMenuItem("更新", null,delegate
             {
                 if (IsModUpdateTaskRunning)
                 {
@@ -923,12 +1029,14 @@ namespace XCOM2Launcher.Forms
             {
                 List<ModEntry> modsToUpdate = new List<ModEntry>(selectedMods.Where(mod => mod.WorkshopID > 0));
 
-                fetchWorkshopTagsItem = new MenuItem("使用创意工坊链接");
+                fetchWorkshopTagsItem = new ToolStripMenuItem("使用创意工坊链接");
                 fetchWorkshopTagsItem.Click += delegate
                 {
                     if (modsToUpdate.Count > 1)
                     {
-                        var result = MessageBox.Show($"工坊中的标签将会将当前 {modsToUpdate.Count} mod的标签覆盖." + Environment.NewLine + "你要继续吗?", "使用创意工坊标签", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var result = MessageBox.Show($"工坊中的标签将会将当前 {modsToUpdate.Count} mod的标签覆盖." +
+						 Environment.NewLine + "你要继续吗?",
+						  "使用创意工坊标签", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (result != DialogResult.Yes)
                             return;
@@ -949,32 +1057,82 @@ namespace XCOM2Launcher.Forms
                             }
                         }
                     }
+
                 };
             }
 
-            if (selectedMods.Any(mod => !mod.isActive))
+            var workShopMods = selectedMods.Where(mod => mod.Source == ModSource.SteamWorkshop).ToList();
+            if (workShopMods.Any())
             {
-                enableAllItem = new MenuItem("启用");
+                var nonInstalledWorkShopMods = workShopMods.Where(mod => mod.State.HasFlag(ModState.NotInstalled)).ToList();
+                if (nonInstalledWorkShopMods.Any())
+                {
+                    resubscribeItem = new ToolStripMenuItem("重新订阅", null, delegate { ResubscribeToMods(nonInstalledWorkShopMods); });
+                    resubscribeItem.ToolTipText = "在创意工坊重新订阅选定的MOD并下载。";
+                }
+
+                var installedWorkShopMods = workShopMods.Where(mod => !mod.State.HasFlag(ModState.NotInstalled)).ToList();
+                if (installedWorkShopMods.Any())
+                {
+                    unsubscribeItem = new ToolStripMenuItem("取消订阅", null, delegate { ConfirmUnsubscribeMods(installedWorkShopMods); });
+                    unsubscribeItem.ToolTipText = "在创意工坊退订所选的Mod，但保留在AML列表中，以便你以后可以重新订阅并下载。";
+                }
+            }
+
+            var modsNotActive = selectedMods.Where(mod => !mod.isActive).ToList();
+            if (modsNotActive.Any())
+            {
+                enableAllItem = new ToolStripMenuItem("启用");
                 enableAllItem.Click += delegate
                 {
-                    Cursor.Current = Cursors.WaitCursor;
-                    foreach (var mod in selectedMods)
+                    // If mods get enabled with OnlyUpdateEnabledOrNewModsOnStartup active, we perform an update because mod data could be outdated.
+                    if (Settings.OnlyUpdateEnabledOrNewModsOnStartup)
                     {
-                        modlist_ListObjectListView.CheckObject(mod);
+                        if (IsModUpdateTaskRunning)
+                        {
+                            ShowModUpdateRunningMessageBox();
+                            return;
+                        }
+
+                        Log.Info($"Updating selected mods before enabling because {nameof(Settings.OnlyUpdateEnabledOrNewModsOnStartup)} is enabled");
+                    Cursor.Current = Cursors.WaitCursor;
+                        UpdateMods(modsNotActive, () =>
+                        {
+                            Invoke(new Action(() => 
+                            {
+                                EnabledModsInModList(modsNotActive);
+                                Cursor.Current = Cursors.Default;
+                            }));
+                        });
+                    }
+                    else
+                    {
+                        EnabledModsInModList(modsNotActive);
                     }
 
-                    Cursor.Current = Cursors.Default;
+                    void EnabledModsInModList(List<ModEntry> mods)
+                    {
+                        Cursor.Current = Cursors.WaitCursor;
+                        foreach (var mod in mods)
+                    {
+                            _CheckTriggeredFromContextMenu = true;
+                            modlist_ListObjectListView.CheckObject(mod);
+                        }
+                        Cursor.Current = Cursors.Default;
+                    }
                 };
             }
 
-            if (selectedMods.Any(mod => mod.isActive))
+            var modsActive = selectedMods.Where(mod => mod.isActive).ToList();
+            if (modsActive.Any())
             {
-                disableAllItem = new MenuItem("禁用");
+                disableAllItem = new ToolStripMenuItem("禁用");
                 disableAllItem.Click += delegate
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    foreach (var mod in selectedMods)
+                    foreach (var mod in modsActive)
                     {
+                        _CheckTriggeredFromContextMenu = true;
                         modlist_ListObjectListView.UncheckObject(mod);
                     }
 
@@ -982,78 +1140,100 @@ namespace XCOM2Launcher.Forms
                 };
             }
 
-            var deleteItem = new MenuItem("删除 / 退订", delegate
-            {
-                DeleteMods();
-            });
+            var deleteItem = new ToolStripMenuItem("删除", null, delegate { ConfirmDeleteMods(selectedMods); });
+            deleteItem.ToolTipText = "从创意工坊中退订所选的MOD，删除MOD文件夹，并从AML中删除该MOD。";
 
             // create menu structure
             if (enableAllItem != null)
-                menu.MenuItems.Add(enableAllItem);
+                menu.Items.Add(enableAllItem);
 
             if (disableAllItem != null)
-                menu.MenuItems.Add(disableAllItem);
+                menu.Items.Add(disableAllItem);
 
             if (renameItem != null)
-                menu.MenuItems.Add(renameItem);
+                menu.Items.Add(renameItem);
 
-            menu.MenuItems.Add(updateItem);
-            menu.MenuItems.Add("-");
-            menu.MenuItems.Add(addTagItem);
+            menu.Items.Add(updateItem);
+            menu.Items.Add("-");
+            menu.Items.Add(addTagItem);
 
             if (fetchWorkshopTagsItem != null)
-                menu.MenuItems.Add(fetchWorkshopTagsItem);
+                menu.Items.Add(fetchWorkshopTagsItem);
 
-            menu.MenuItems.Add(moveToCategoryItem);
-            menu.MenuItems.Add("-");
+            menu.Items.Add(moveToCategoryItem);
+            menu.Items.Add("-");
 
             if (showInExplorerItem != null)
-                menu.MenuItems.Add(showInExplorerItem);
+                menu.Items.Add(showInExplorerItem);
 
             if (showOnSteamItem != null)
-                menu.MenuItems.Add(showOnSteamItem);
+                menu.Items.Add(showOnSteamItem);
 
             if (showInBrowser != null)
-                menu.MenuItems.Add(showInBrowser);
+                menu.Items.Add(showInBrowser);
 
             // prevent double separator
-            if (menu.MenuItems[menu.MenuItems.Count - 1].Text != @"-")
-                menu.MenuItems.Add("-");
+            if (menu.Items[menu.Items.Count - 1].Text != @"-")
+                menu.Items.Add("-");
 
-            menu.MenuItems.Add(toggleVisibility);
-            menu.MenuItems.Add(deleteItem);
+            menu.Items.Add(toggleVisibility);
+
+            if (resubscribeItem != null)
+                menu.Items.Add(resubscribeItem);
+
+            if (unsubscribeItem != null)
+                menu.Items.Add(unsubscribeItem);
+
+            menu.Items.Add(deleteItem);
 
             if (Settings.EnableDuplicateModIdWorkaround)
             {
                 if (disableDuplicates != null)
                 {
-                    menu.MenuItems.Add("-");
-                    menu.MenuItems.Add(disableDuplicates);
+                    menu.Items.Add("-");
+                    menu.Items.Add(disableDuplicates);
                 }
 
                 if (restoreDuplicates != null)
                 {
                     // prevent double separator
-                    if (menu.MenuItems[menu.MenuItems.Count - 1] != disableDuplicates)
-                        menu.MenuItems.Add("-");
+                    if (menu.Items[menu.Items.Count - 1] != disableDuplicates)
+                        menu.Items.Add("-");
 
-                    menu.MenuItems.Add(restoreDuplicates);
+                    menu.Items.Add(restoreDuplicates);
                 }
+            }
+
+            if (copyToClipboard.DropDownItems.Count > 0)
+            {
+                // prevent double separator
+                if (menu.Items[menu.Items.Count - 1].Text != @"-")
+                    menu.Items.Add("-");
+
+                menu.Items.Add(copyToClipboard);
             }
 
             return menu;
         }
 
-        private bool ProcessNewModState(ModEntry mod, bool newState)
+        /// <summary>
+        /// Check if the specified <param name="mod"></param> is eligible to switch its "enabled" state to <param name="newState"></param>.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <param name="newState"></param>
+        /// <returns></returns>
+        bool ProcessNewModState(ModEntry mod, bool newState)
         {
             if (newState)
             {
+                // Mod can not be enabled if it is a disabled duplicate
                 if (mod.State.HasFlag(ModState.DuplicateDisabled))
                 {
                     MessageBox.Show("禁用的重复项无法使用。将其设为主要副本或删除所有其他副本以使用此mod.", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
 
+                // Mod can not be enabled if it is not installed
                 if (mod.State.HasFlag(ModState.NotInstalled))
                 {
                     return false;
@@ -1063,9 +1243,18 @@ namespace XCOM2Launcher.Forms
             return newState;
         }
 
-        private void ProcessModListItemCheckChanged(ModEntry modChecked)
+        void ProcessModListItemCheckChanged(ModEntry modChecked)
         {
-            Debug.WriteLine("ProcessModListItemCheckChanged " + modChecked.Name);
+            //Debug.WriteLine("ProcessModListItemCheckChanged " + modChecked.Name);
+
+            // If a mod gets enabled with OnlyUpdateEnabledOrNewModsOnStartup active, we perform an update because mod data could be outdated.
+            if (modChecked.isActive && Settings.OnlyUpdateEnabledOrNewModsOnStartup && !_CheckTriggeredFromContextMenu)
+            {
+                Log.Info($"Updating mod before enabling because {nameof(Settings.OnlyUpdateEnabledOrNewModsOnStartup)} is enabled");
+                Task.Run(() => Mods.UpdateModAsync(modChecked, Settings)).Wait();
+            }
+
+            _CheckTriggeredFromContextMenu = false;
 
             List<ModEntry> checkedMods = new List<ModEntry>();
 
@@ -1073,7 +1262,7 @@ namespace XCOM2Launcher.Forms
             // at the same time and mark them as updated
             if (modChecked.State.HasFlag(ModState.DuplicateID))
             {
-                foreach (var mod in Mods.All.Where(mod => mod.ID == modChecked.ID && modChecked.State.HasFlag(ModState.DuplicateID)))
+                foreach (var mod in Mods.All.Where(@mod => mod.ID == modChecked.ID && modChecked.State.HasFlag(ModState.DuplicateID)))
                 {
                     mod.isActive = modChecked.isActive;
                     checkedMods.Add(mod);
@@ -1104,38 +1293,6 @@ namespace XCOM2Launcher.Forms
             UpdateLabels();
         }
 
-        /// <summary>
-        /// Reorders mod indexes if a mod has its index changed.
-        /// </summary>
-        /// <param name="mod">The mod object that was updated</param>
-        /// <param name="oldIndex">The old index the mod had</param>
-        private void ReorderIndexes(ModEntry mod, int oldIndex)
-        {
-            var currentIndex = mod.Index;
-            var modList = Mods.All.ToList();
-            int startPos = currentIndex > oldIndex ? oldIndex : currentIndex;
-            int endPos = currentIndex < oldIndex ? oldIndex : currentIndex;
-            int i = 0;
-
-            // Make sure the old indexes go from 0 to Length - 1
-            mod.Index = oldIndex;
-            foreach (var modEntry in modList.OrderBy(m => m.Index))
-                modEntry.Index = i++;
-
-            // Fix new indexes outside of the valid range
-            if (currentIndex < 0)
-                currentIndex = 0;
-            else if (currentIndex >= Mods.All.ToArray().Length)
-                currentIndex = Mods.All.ToArray().Length - 1;
-
-            // Set the new indexes
-            mod.Index = currentIndex;
-            foreach (var modEntry in modList.Where(m => m.Index >= startPos && m.Index <= endPos && m != mod))
-                modEntry.Index += currentIndex - oldIndex > 0 ? -1 : 1;
-
-            RefreshModList();
-        }
-
         #region Events
 
         private ModTag HitTest(IEnumerable<string> tags, Graphics g, CellEventArgs e)
@@ -1144,7 +1301,8 @@ namespace XCOM2Launcher.Forms
                 return null;
 
             var bounds = e.SubItem.Bounds;
-            var offset = new Point(bounds.X + TagRenderInfo.rX, bounds.Y + TagRenderInfo.rY);
+            var offset = new Point(bounds.X + TagRenderInfo.rX,
+                                   bounds.Y + TagRenderInfo.rY);
             var tagList = AvailableTags.Where(t => tags.Select(s => s.ToLower()).Contains(t.Key)).Select(kvp => kvp.Value);
 
             foreach (var tag in tagList)
@@ -1170,8 +1328,11 @@ namespace XCOM2Launcher.Forms
         {
             var mod = e.Model as ModEntry;
             var graphics = e.ListView.CreateGraphics();
-            var selectedTag = e.SubItem != null && e.Column == olvcTags ? HitTest(mod?.Tags, graphics, e) : null;
-            var menu = selectedTag == null ? CreateModListContextMenu(mod, e.Item) : CreateModListContextMenu(mod, selectedTag);
+            var selectedTag = e.SubItem != null && e.Column == olvcTags 
+                            ? HitTest(mod?.Tags, graphics, e) : null;
+            var menu = selectedTag == null 
+                ? CreateModListContextMenu(mod, e.Item)
+                : CreateModListContextMenu(mod, selectedTag);
 
             menu.Show(e.ListView, e.Location);
         }
@@ -1188,7 +1349,6 @@ namespace XCOM2Launcher.Forms
             // will not fire and we have to process the new state manually
             if (!ModList.Objects.Contains(mod))
             {
-                Debug.WriteLine("Manual check processing: " + mod.isActive);
                 ProcessModListItemCheckChanged(mod);
             }
 
@@ -1198,8 +1358,27 @@ namespace XCOM2Launcher.Forms
         private void ModListItemChecked(object sender, ItemCheckedEventArgs e)
         {
             var mod = ModList.GetModelObject(e.Item.Index);
-
             ProcessModListItemCheckChanged(mod);
+        }
+
+        private void ModListItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (Settings.OnlyUpdateEnabledOrNewModsOnStartup)
+            {
+                // With OnlyUpdateEnabledOrNewModsOnStartup enabled, we prevent multiple mods from getting enabled
+                // by multiselecting and clicking on the check box. This would cause every checked mod to get updated individually,
+                // which is really slow in comparison to batch requests.
+                if (e.NewValue == CheckState.Checked && modlist_ListObjectListView.SelectedObjects.Count > 1 && !_CheckTriggeredFromContextMenu)
+                {
+                    MessageBox.Show("使用右键菜单中的 \"启用\"，可以一次启用多个mod。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Deselect all mods except this one to prevent multiple check changes
+                    modlist_ListObjectListView.SelectedIndex = e.Index;
+
+                    // Do not change the check state
+                    e.NewValue = e.CurrentValue;
+                }
+            }
         }
 
         private void ModListSelectionChanged(object sender, EventArgs e)
@@ -1230,7 +1409,7 @@ namespace XCOM2Launcher.Forms
 
                     if (!mod.ManualName)
                         // Restore name
-                        Mods.UpdateModAsync(mod, Settings);
+                        _ = Mods.UpdateModAsync(mod, Settings);
 
                     break;
 
@@ -1242,13 +1421,41 @@ namespace XCOM2Launcher.Forms
                     modlist_ListObjectListView.Sort();
                     modlist_ListObjectListView.EndUpdate();
                     break;
-
                 case "Category":
                     MoveSelectedModsToCategory((string)e.NewValue);
                     break;
+                    
             }
         }
 
-        #endregion Events
+        #endregion
+
+        /// <summary>
+        /// Reorders mod indexes if a mod has its index changed.
+        /// </summary>
+        /// <param name="mod">The mod object that was updated</param>
+        /// <param name="oldIndex">The old index the mod had</param>
+        private void ReorderIndexes(ModEntry mod, int oldIndex)
+        {
+            var currentIndex = mod.Index;
+            var modList = Mods.All.ToList();
+            int startPos = (currentIndex > oldIndex) ? oldIndex : currentIndex;
+            int endPos = (currentIndex < oldIndex) ? oldIndex : currentIndex;
+            int i = 0;
+            mod.Index = oldIndex;
+            foreach (var modEntry in modList.OrderBy(m => m.Index))
+                modEntry.Index = i++;
+            if (currentIndex < 0)
+                currentIndex = 0;
+            else if (currentIndex >= Mods.All.ToArray().Length)
+                currentIndex = Mods.All.ToArray().Length - 1;
+            
+            // Set the new indexes
+            mod.Index = currentIndex;
+            foreach (var modEntry in modList.Where(m => m.Index >= startPos && m.Index <= endPos && m != mod))
+                modEntry.Index += (currentIndex - oldIndex > 0) ? -1 : 1;
+            
+            RefreshModList();
+        }
     }
 }

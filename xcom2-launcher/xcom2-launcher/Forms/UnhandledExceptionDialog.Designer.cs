@@ -42,13 +42,12 @@
             this.tException.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tException.Location = new System.Drawing.Point(16, 81);
-            this.tException.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tException.Location = new System.Drawing.Point(12, 70);
             this.tException.Multiline = true;
             this.tException.Name = "tException";
             this.tException.ReadOnly = true;
             this.tException.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tException.Size = new System.Drawing.Size(721, 254);
+            this.tException.Size = new System.Drawing.Size(542, 221);
             this.tException.TabIndex = 0;
             // 
             // label1
@@ -56,10 +55,9 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 35);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(12, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(723, 39);
+            this.label1.Size = new System.Drawing.Size(542, 34);
             this.label1.TabIndex = 1;
             this.label1.Text = "意外问题导致AML停止正常工作。";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,9 +67,8 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(755, 28);
+            this.pictureBox1.Size = new System.Drawing.Size(566, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -79,10 +76,9 @@
             // bClose
             // 
             this.bClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bClose.Location = new System.Drawing.Point(587, 3);
-            this.bClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.bClose.Location = new System.Drawing.Point(440, 3);
             this.bClose.Name = "bClose";
-            this.bClose.Size = new System.Drawing.Size(152, 27);
+            this.bClose.Size = new System.Drawing.Size(114, 23);
             this.bClose.TabIndex = 4;
             this.bClose.Text = "关闭";
             this.bClose.UseVisualStyleBackColor = true;
@@ -92,10 +88,9 @@
             // 
             this.linkGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkGithub.AutoSize = true;
-            this.linkGithub.Location = new System.Drawing.Point(12, 339);
-            this.linkGithub.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkGithub.Location = new System.Drawing.Point(9, 294);
             this.linkGithub.Name = "linkGithub";
-            this.linkGithub.Size = new System.Drawing.Size(145, 15);
+            this.linkGithub.Size = new System.Drawing.Size(117, 13);
             this.linkGithub.TabIndex = 5;
             this.linkGithub.TabStop = true;
             this.linkGithub.Text = "在GitHub上报告问题";
@@ -105,10 +100,9 @@
             // 
             this.linkDiscord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.linkDiscord.AutoSize = true;
-            this.linkDiscord.Location = new System.Drawing.Point(583, 339);
-            this.linkDiscord.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkDiscord.Location = new System.Drawing.Point(437, 294);
             this.linkDiscord.Name = "linkDiscord";
-            this.linkDiscord.Size = new System.Drawing.Size(138, 15);
+            this.linkDiscord.Size = new System.Drawing.Size(117, 13);
             this.linkDiscord.TabIndex = 6;
             this.linkDiscord.TabStop = true;
             this.linkDiscord.Text = "在Discord寻求帮助";
@@ -118,10 +112,9 @@
             // 
             this.linkAppFolder.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.linkAppFolder.AutoSize = true;
-            this.linkAppFolder.Location = new System.Drawing.Point(165, 339);
-            this.linkAppFolder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkAppFolder.Location = new System.Drawing.Point(165, 294);
             this.linkAppFolder.Name = "linkAppFolder";
-            this.linkAppFolder.Size = new System.Drawing.Size(370, 15);
+            this.linkAppFolder.Size = new System.Drawing.Size(237, 13);
             this.linkAppFolder.TabIndex = 7;
             this.linkAppFolder.TabStop = true;
             this.linkAppFolder.Text = "有关其他详细信息，请参见\"AML.log\"和\" error.log\"";
@@ -132,18 +125,16 @@
             this.panel1.Controls.Add(this.bCopy);
             this.panel1.Controls.Add(this.bClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 364);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.panel1.Location = new System.Drawing.Point(0, 316);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(755, 36);
+            this.panel1.Size = new System.Drawing.Size(566, 31);
             this.panel1.TabIndex = 8;
             // 
             // bCopy
             // 
-            this.bCopy.Location = new System.Drawing.Point(16, 3);
-            this.bCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.bCopy.Location = new System.Drawing.Point(12, 3);
             this.bCopy.Name = "bCopy";
-            this.bCopy.Size = new System.Drawing.Size(152, 27);
+            this.bCopy.Size = new System.Drawing.Size(114, 23);
             this.bCopy.TabIndex = 5;
             this.bCopy.Text = "复制到剪贴板";
             this.bCopy.UseVisualStyleBackColor = true;
@@ -151,9 +142,9 @@
             // 
             // UnhandledExceptionDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 400);
+            this.ClientSize = new System.Drawing.Size(566, 347);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.linkAppFolder);
             this.Controls.Add(this.linkDiscord);
@@ -163,7 +154,6 @@
             this.Controls.Add(this.tException);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UnhandledExceptionDialog";

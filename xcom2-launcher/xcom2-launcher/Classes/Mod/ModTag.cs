@@ -5,36 +5,28 @@ namespace XCOM2Launcher.Mod
 {
     public class ModTag
     {
-        private Color _bgColor;
-
-        public ModTag()
-        {
-        }
-
-        public ModTag(string label, Color? color = null)
-        {
-            Color = color ?? RandomColor();
-            Label = label;
-        }
-
         public string Label { get; set; } = "新标签";
 
+        private Color _bgColor, _textColor;
         public Color Color
         {
-            get => _bgColor;
+            get
+            {
+                return _bgColor;
+            }
             set
             {
                 _bgColor = value;
                 double L = (0.299 * value.R + 0.587 * value.G + 0.114 * value.B) / 255;
 
                 if (L > 0.5)
-                    TextColor = Color.Black;
+                    _textColor = Color.Black;
                 else
-                    TextColor = Color.White;
+                    _textColor = Color.White;
             }
         }
 
-        public Color TextColor { get; private set; }
+        public Color TextColor => _textColor;
 
         public static Color RandomColor()
         {
@@ -42,6 +34,14 @@ namespace XCOM2Launcher.Mod
             var random = new Random(newColor.B);
 
             return random.NextDouble() <= 0.5 ? newColor.GetPastelShade() : newColor;
+        }
+
+        public ModTag() { }
+
+        public ModTag(string label, Color? color = null)
+        {
+            Color = color ?? RandomColor();
+            Label = label;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using XCOM2Launcher.Classes;
 using XCOM2Launcher.XCOM;
 
@@ -36,6 +37,9 @@ namespace XCOM2Launcher.Forms
             checkForPreReleaseUpdates.Enabled = searchForUpdatesCheckBox.Checked;
             useDuplicateModWorkaround.Checked = settings.EnableDuplicateModIdWorkaround;
             useTranslucentModListSelection.Checked = settings.UseTranslucentModListSelection;
+            hideChallengeModeButton.Checked = settings.HideChallengeModeButton;
+            hideRunX2Button.Checked = settings.HideXcom2Button;
+            onlyUpdateEnabledAndNew.Checked = settings.OnlyUpdateEnabledOrNewModsOnStartup;
 
             foreach (var modPath in settings.ModPaths)
                 modPathsListbox.Items.Add(modPath);
@@ -51,34 +55,46 @@ namespace XCOM2Launcher.Forms
 
         private void BrowseGamePathButtonOnClick(object sender, EventArgs eventArgs)
         {
-            var dialog = new OpenFileDialog
+            using var dialog = new OpenFileDialog
             {
                 RestoreDirectory = true,
-                InitialDirectory = gamePathTextBox.Text
+                InitialDirectory = gamePathTextBox.Text,
+                Title = "选择XCOM可执行文件所在的文件夹"
             };
 
             if (Program.XEnv.Game == GameId.X2)
             {
                 dialog.FileName = "XCom2.exe";
-                dialog.Filter = @"XCOM 2 Executable|XCom2.exe";
+                dialog.Filter = @"XCOM 2 程序|XCom2.exe";
             }
             else
             {
                 dialog.FileName = "XCom.exe";
-                dialog.Filter = @"XCOM CS Executable|XCom.exe";
+                dialog.Filter = @"XCOM CS 程序|XCom.exe";
             }
 
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            var path = Path.GetFullPath(Path.Combine(dialog.FileName, "../../.."));
+            var path = dialog.FileName;
+
+            // If the user selected the binary from the WotC subfolder we need to go back one additional subfolder.
+            if (dialog.FileName.Contains("XCom2-WarOfTheChosen"))
+            {
+                path = Path.GetFullPath(Path.Combine(path, "../"));
+            }
+
+            // Move path down to the actual installation folder.
+            path = Path.GetFullPath(Path.Combine(path, "../../.."));
             gamePathTextBox.Text = path;
         }
 
         private void RemoveModPathButtonOnClick(object sender, EventArgs e)
         {
             if (modPathsListbox.SelectedItem == null)
+            {
                 return;
+            }
 
             var path = (string) modPathsListbox.SelectedItem;
             modPathsListbox.Items.Remove(path);
@@ -86,18 +102,20 @@ namespace XCOM2Launcher.Forms
 
         private void AddModPathButtonOnClick(object sender, EventArgs eventArgs)
         {
-            var dialog = new FolderBrowserDialog
+            using var dialog = new CommonOpenFileDialog()
             {
-                ShowNewFolderButton = true,
-                RootFolder = Environment.SpecialFolder.MyComputer,
-                Description = "Add a new mod path. Note: This should be the directory that contains the mod directories."
+                IsFolderPicker = true,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Recent),
+                Title = "选择mod所在的文件夹",
             };
 
-            if (dialog.ShowDialog() != DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
+            {
                 return;
+            }
 
             // make sure the mod path ends with a trailing backslash as required for entry in XCOM ini file
-            var path = dialog.SelectedPath.EndsWith(@"\") ? dialog.SelectedPath : dialog.SelectedPath + @"\";
+            var path = dialog.FileName.EndsWith(@"\") ? dialog.FileName : dialog.FileName + @"\";
 
             modPathsListbox.Items.Add(path);
         }
@@ -120,7 +138,7 @@ namespace XCOM2Launcher.Forms
 
             // Verify settings
             if (!Directory.Exists(gamePathTextBox.Text)) {
-                MessageBox.Show("The specified base path does not exist.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("指定的路径不存在。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             
@@ -140,6 +158,9 @@ namespace XCOM2Launcher.Forms
             Settings.UseTranslucentModListSelection = useTranslucentModListSelection.Checked;
             Settings.GamePath = gamePathTextBox.Text;
             Settings.ModPaths = newModPaths;
+            Settings.HideChallengeModeButton = hideChallengeModeButton.Checked;
+            Settings.HideXcom2Button = hideRunX2Button.Checked;
+            Settings.OnlyUpdateEnabledOrNewModsOnStartup = onlyUpdateEnabledAndNew.Checked;
 
             var newArguments = argumentsTextBox.Text.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             Settings.ArgumentList = newArguments.AsReadOnly();

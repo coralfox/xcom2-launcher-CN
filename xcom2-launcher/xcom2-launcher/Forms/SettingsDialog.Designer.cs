@@ -46,11 +46,12 @@
             this.argumentsTextBox = new XCOM2Launcher.UserElements.AutoCompleteTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.useDuplicateModWorkaround = new System.Windows.Forms.CheckBox();
-            this.showHiddenEntriesCheckBox = new System.Windows.Forms.CheckBox();
+            this.useModSpecifiedCategoriesCheckBox = new System.Windows.Forms.CheckBox();
             this.autoNumberModIndexesCheckBox = new System.Windows.Forms.CheckBox();
             this.neverAdoptTagsAndCatFromprofile = new System.Windows.Forms.CheckBox();
-            this.useModSpecifiedCategoriesCheckBox = new System.Windows.Forms.CheckBox();
+            this.useDuplicateModWorkaround = new System.Windows.Forms.CheckBox();
+            this.onlyUpdateEnabledAndNew = new System.Windows.Forms.CheckBox();
+            this.showHiddenEntriesCheckBox = new System.Windows.Forms.CheckBox();
             this.useTranslucentModListSelection = new System.Windows.Forms.CheckBox();
             this.useSentry = new System.Windows.Forms.CheckBox();
             this.closeAfterLaunchCheckBox = new System.Windows.Forms.CheckBox();
@@ -62,6 +63,10 @@
             this.bCancel = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.hideRunX2Button = new System.Windows.Forms.CheckBox();
+            this.hideChallengeModeButton = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -69,6 +74,8 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -81,7 +88,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Size = new System.Drawing.Size(873, 215);
+            this.groupBox1.Size = new System.Drawing.Size(873, 231);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "游戏设置";
@@ -114,23 +121,23 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(855, 181);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(855, 202);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
             // quickArgumentsTextBox
             // 
             this.quickArgumentsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.quickArgumentsTextBox.Location = new System.Drawing.Point(177, 155);
+            this.quickArgumentsTextBox.Location = new System.Drawing.Point(177, 176);
             this.quickArgumentsTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.quickArgumentsTextBox.Name = "quickArgumentsTextBox";
-            this.quickArgumentsTextBox.Size = new System.Drawing.Size(559, 25);
+            this.quickArgumentsTextBox.Size = new System.Drawing.Size(577, 25);
             this.quickArgumentsTextBox.TabIndex = 16;
             this.quickArgumentsTextBox.Values = new string[0];
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 159);
+            this.label2.Location = new System.Drawing.Point(5, 180);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 7, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(127, 15);
@@ -140,7 +147,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 130);
+            this.label1.Location = new System.Drawing.Point(5, 151);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 7, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 15);
@@ -155,13 +162,13 @@
             this.modPathsListbox.Location = new System.Drawing.Point(177, 38);
             this.modPathsListbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modPathsListbox.Name = "modPathsListbox";
-            this.modPathsListbox.Size = new System.Drawing.Size(559, 82);
+            this.modPathsListbox.Size = new System.Drawing.Size(577, 103);
             this.modPathsListbox.TabIndex = 4;
             // 
             // ShowQuickLaunchArgumentsToggle
             // 
             this.ShowQuickLaunchArgumentsToggle.AutoSize = true;
-            this.ShowQuickLaunchArgumentsToggle.Location = new System.Drawing.Point(744, 155);
+            this.ShowQuickLaunchArgumentsToggle.Location = new System.Drawing.Point(762, 176);
             this.ShowQuickLaunchArgumentsToggle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ShowQuickLaunchArgumentsToggle.Name = "ShowQuickLaunchArgumentsToggle";
             this.ShowQuickLaunchArgumentsToggle.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
@@ -197,7 +204,7 @@
             this.gamePathTextBox.Location = new System.Drawing.Point(177, 3);
             this.gamePathTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gamePathTextBox.Name = "gamePathTextBox";
-            this.gamePathTextBox.Size = new System.Drawing.Size(559, 25);
+            this.gamePathTextBox.Size = new System.Drawing.Size(577, 25);
             this.gamePathTextBox.TabIndex = 10;
             // 
             // flowLayoutPanel1
@@ -205,10 +212,10 @@
             this.flowLayoutPanel1.Controls.Add(this.addModPathButton);
             this.flowLayoutPanel1.Controls.Add(this.removeModPathButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(740, 35);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(758, 35);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(115, 88);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(97, 109);
             this.flowLayoutPanel1.TabIndex = 12;
             // 
             // addModPathButton
@@ -235,7 +242,7 @@
             // 
             // browseGamePathButton
             // 
-            this.browseGamePathButton.Location = new System.Drawing.Point(744, 3);
+            this.browseGamePathButton.Location = new System.Drawing.Point(762, 3);
             this.browseGamePathButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.browseGamePathButton.Name = "browseGamePathButton";
             this.browseGamePathButton.Size = new System.Drawing.Size(89, 28);
@@ -247,10 +254,10 @@
             // argumentsTextBox
             // 
             this.argumentsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.argumentsTextBox.Location = new System.Drawing.Point(177, 126);
+            this.argumentsTextBox.Location = new System.Drawing.Point(177, 147);
             this.argumentsTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.argumentsTextBox.Name = "argumentsTextBox";
-            this.argumentsTextBox.Size = new System.Drawing.Size(559, 25);
+            this.argumentsTextBox.Size = new System.Drawing.Size(577, 25);
             this.argumentsTextBox.TabIndex = 15;
             this.argumentsTextBox.Values = new string[0];
             // 
@@ -259,11 +266,11 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox2.Location = new System.Drawing.Point(16, 327);
+            this.groupBox2.Location = new System.Drawing.Point(16, 343);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox2.Size = new System.Drawing.Size(873, 91);
+            this.groupBox2.Size = new System.Drawing.Size(873, 95);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "使用";
@@ -277,12 +284,11 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel3.Controls.Add(this.useDuplicateModWorkaround, 2, 1);
-            this.tableLayoutPanel3.Controls.Add(this.showHiddenEntriesCheckBox, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.autoNumberModIndexesCheckBox, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.neverAdoptTagsAndCatFromprofile, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.useModSpecifiedCategoriesCheckBox, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.useTranslucentModListSelection, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.autoNumberModIndexesCheckBox, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.neverAdoptTagsAndCatFromprofile, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.useDuplicateModWorkaround, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.onlyUpdateEnabledAndNew, 1, 1);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 23);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -290,40 +296,26 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(855, 61);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(855, 65);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
-            // useDuplicateModWorkaround
+            // useModSpecifiedCategoriesCheckBox
             // 
-            this.useDuplicateModWorkaround.AutoSize = true;
-            this.useDuplicateModWorkaround.Location = new System.Drawing.Point(573, 31);
-            this.useDuplicateModWorkaround.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.useDuplicateModWorkaround.Name = "useDuplicateModWorkaround";
-            this.useDuplicateModWorkaround.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
-            this.useDuplicateModWorkaround.Size = new System.Drawing.Size(177, 22);
-            this.useDuplicateModWorkaround.TabIndex = 17;
-            this.useDuplicateModWorkaround.Text = "启用重复MOD解决方案";
-            this.toolTip.SetToolTip(this.useDuplicateModWorkaround, "这是一个实验性功能,它提供了一些方法来管理多个\r\n具有相同ID的MOD.\r\n它允许您选择重复项之一作为主要mod\r\n并禁用其他的,(通过重命名XComMod文件来" +
-        "实现)。");
-            this.useDuplicateModWorkaround.UseVisualStyleBackColor = true;
-            // 
-            // showHiddenEntriesCheckBox
-            // 
-            this.showHiddenEntriesCheckBox.AutoSize = true;
-            this.showHiddenEntriesCheckBox.Location = new System.Drawing.Point(4, 3);
-            this.showHiddenEntriesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.showHiddenEntriesCheckBox.Name = "showHiddenEntriesCheckBox";
-            this.showHiddenEntriesCheckBox.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
-            this.showHiddenEntriesCheckBox.Size = new System.Drawing.Size(117, 22);
-            this.showHiddenEntriesCheckBox.TabIndex = 9;
-            this.showHiddenEntriesCheckBox.Text = "显示隐藏MOD";
-            this.toolTip.SetToolTip(this.showHiddenEntriesCheckBox, "如果启用,Mod列表中会显示隐藏MOD");
-            this.showHiddenEntriesCheckBox.UseVisualStyleBackColor = true;
+            this.useModSpecifiedCategoriesCheckBox.AutoSize = true;
+            this.useModSpecifiedCategoriesCheckBox.Location = new System.Drawing.Point(4, 31);
+            this.useModSpecifiedCategoriesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.useModSpecifiedCategoriesCheckBox.Name = "useModSpecifiedCategoriesCheckBox";
+            this.useModSpecifiedCategoriesCheckBox.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.useModSpecifiedCategoriesCheckBox.Size = new System.Drawing.Size(168, 22);
+            this.useModSpecifiedCategoriesCheckBox.TabIndex = 15;
+            this.useModSpecifiedCategoriesCheckBox.Text = "使用模式指定的类别";
+            this.toolTip.SetToolTip(this.useModSpecifiedCategoriesCheckBox, "新Mod是否显示在默认分类中\r\n (关闭-新mod默认显示在未分组中)");
+            this.useModSpecifiedCategoriesCheckBox.UseVisualStyleBackColor = true;
             // 
             // autoNumberModIndexesCheckBox
             // 
             this.autoNumberModIndexesCheckBox.AutoSize = true;
-            this.autoNumberModIndexesCheckBox.Location = new System.Drawing.Point(288, 3);
+            this.autoNumberModIndexesCheckBox.Location = new System.Drawing.Point(4, 3);
             this.autoNumberModIndexesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.autoNumberModIndexesCheckBox.Name = "autoNumberModIndexesCheckBox";
             this.autoNumberModIndexesCheckBox.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
@@ -336,7 +328,7 @@
             // neverAdoptTagsAndCatFromprofile
             // 
             this.neverAdoptTagsAndCatFromprofile.AutoSize = true;
-            this.neverAdoptTagsAndCatFromprofile.Location = new System.Drawing.Point(573, 3);
+            this.neverAdoptTagsAndCatFromprofile.Location = new System.Drawing.Point(288, 3);
             this.neverAdoptTagsAndCatFromprofile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.neverAdoptTagsAndCatFromprofile.Name = "neverAdoptTagsAndCatFromprofile";
             this.neverAdoptTagsAndCatFromprofile.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
@@ -346,23 +338,52 @@
             this.toolTip.SetToolTip(this.neverAdoptTagsAndCatFromprofile, "如果启用,在导入各种个性配置时,\r\n标签和分类不会被覆盖");
             this.neverAdoptTagsAndCatFromprofile.UseVisualStyleBackColor = true;
             // 
-            // useModSpecifiedCategoriesCheckBox
+            // useDuplicateModWorkaround
             // 
-            this.useModSpecifiedCategoriesCheckBox.AutoSize = true;
-            this.useModSpecifiedCategoriesCheckBox.Location = new System.Drawing.Point(4, 31);
-            this.useModSpecifiedCategoriesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.useModSpecifiedCategoriesCheckBox.Name = "useModSpecifiedCategoriesCheckBox";
-            this.useModSpecifiedCategoriesCheckBox.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
-            this.useModSpecifiedCategoriesCheckBox.Size = new System.Drawing.Size(202, 22);
-            this.useModSpecifiedCategoriesCheckBox.TabIndex = 15;
-            this.useModSpecifiedCategoriesCheckBox.Text = "使用MOD特殊分类(新MOD)";
-            this.toolTip.SetToolTip(this.useModSpecifiedCategoriesCheckBox, "如果启用,新MOD将会放到默认特殊分类,而不是Unsorted分类\r\n(禁用的话,则新MOD会被放到Unsorted).");
-            this.useModSpecifiedCategoriesCheckBox.UseVisualStyleBackColor = true;
+            this.useDuplicateModWorkaround.AutoSize = true;
+            this.useDuplicateModWorkaround.Location = new System.Drawing.Point(573, 3);
+            this.useDuplicateModWorkaround.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.useDuplicateModWorkaround.Name = "useDuplicateModWorkaround";
+            this.useDuplicateModWorkaround.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.useDuplicateModWorkaround.Size = new System.Drawing.Size(177, 22);
+            this.useDuplicateModWorkaround.TabIndex = 17;
+            this.useDuplicateModWorkaround.Text = "启用重复MOD解决方案";
+            this.toolTip.SetToolTip(this.useDuplicateModWorkaround, "这是一个实验性功能,它提供了一些方法来管理多个具有相同ID的MOD.\n    它允许您选择重复项之一作为主要mod并禁用其他的,(通过重命名XComMod文件来实" +
+        "现)。\n    ");
+            this.useDuplicateModWorkaround.UseVisualStyleBackColor = true;
+            // 
+            // onlyUpdateEnabledAndNew
+            // 
+            this.onlyUpdateEnabledAndNew.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.onlyUpdateEnabledAndNew, 2);
+            this.onlyUpdateEnabledAndNew.Location = new System.Drawing.Point(288, 31);
+            this.onlyUpdateEnabledAndNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.onlyUpdateEnabledAndNew.Name = "onlyUpdateEnabledAndNew";
+            this.onlyUpdateEnabledAndNew.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.onlyUpdateEnabledAndNew.Size = new System.Drawing.Size(252, 22);
+            this.onlyUpdateEnabledAndNew.TabIndex = 18;
+            this.onlyUpdateEnabledAndNew.Text = "启动时只更新已启用的或新的mod";
+            this.toolTip.SetToolTip(this.onlyUpdateEnabledAndNew, "如果你启用这个选项，每次启动AML,只有那些启用的或新的mod才会自动更新.\n如果你有许多mod，但很多都没有启用(备用)，开启此选项,可以大大减少启动AML时间" +
+        "。");
+            this.onlyUpdateEnabledAndNew.UseVisualStyleBackColor = true;
+            // 
+            // showHiddenEntriesCheckBox
+            // 
+            this.showHiddenEntriesCheckBox.AutoSize = true;
+            this.showHiddenEntriesCheckBox.Location = new System.Drawing.Point(288, 3);
+            this.showHiddenEntriesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.showHiddenEntriesCheckBox.Name = "showHiddenEntriesCheckBox";
+            this.showHiddenEntriesCheckBox.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.showHiddenEntriesCheckBox.Size = new System.Drawing.Size(117, 22);
+            this.showHiddenEntriesCheckBox.TabIndex = 9;
+            this.showHiddenEntriesCheckBox.Text = "显示隐藏MOD";
+            this.toolTip.SetToolTip(this.showHiddenEntriesCheckBox, "如果启用,Mod列表中会显示隐藏MOD");
+            this.showHiddenEntriesCheckBox.UseVisualStyleBackColor = true;
             // 
             // useTranslucentModListSelection
             // 
             this.useTranslucentModListSelection.AutoSize = true;
-            this.useTranslucentModListSelection.Location = new System.Drawing.Point(288, 31);
+            this.useTranslucentModListSelection.Location = new System.Drawing.Point(4, 3);
             this.useTranslucentModListSelection.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.useTranslucentModListSelection.Name = "useTranslucentModListSelection";
             this.useTranslucentModListSelection.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
@@ -401,7 +422,6 @@
             // searchForUpdatesCheckBox
             // 
             this.searchForUpdatesCheckBox.AutoSize = true;
-            this.searchForUpdatesCheckBox.Enabled = false;
             this.searchForUpdatesCheckBox.Location = new System.Drawing.Point(4, 3);
             this.searchForUpdatesCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.searchForUpdatesCheckBox.Name = "searchForUpdatesCheckBox";
@@ -416,7 +436,6 @@
             // checkForPreReleaseUpdates
             // 
             this.checkForPreReleaseUpdates.AutoSize = true;
-            this.checkForPreReleaseUpdates.Enabled = false;
             this.checkForPreReleaseUpdates.Location = new System.Drawing.Point(288, 3);
             this.checkForPreReleaseUpdates.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkForPreReleaseUpdates.Name = "checkForPreReleaseUpdates";
@@ -424,7 +443,7 @@
             this.checkForPreReleaseUpdates.Size = new System.Drawing.Size(153, 22);
             this.checkForPreReleaseUpdates.TabIndex = 18;
             this.checkForPreReleaseUpdates.Text = "是否包含测试版本";
-            this.toolTip.SetToolTip(this.checkForPreReleaseUpdates, "Enabled this option, if you wold like to be notified about Pre-Release versions.");
+            this.toolTip.SetToolTip(this.checkForPreReleaseUpdates, "如果你想得到预发布版本的更新通知，请启用该选项。");
             this.checkForPreReleaseUpdates.UseVisualStyleBackColor = true;
             // 
             // toolTip
@@ -450,7 +469,7 @@
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(604, 425);
+            this.bOK.Location = new System.Drawing.Point(604, 579);
             this.bOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(139, 28);
@@ -463,7 +482,7 @@
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(751, 425);
+            this.bCancel.Location = new System.Drawing.Point(751, 579);
             this.bCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(139, 28);
@@ -476,7 +495,7 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox3.Location = new System.Drawing.Point(16, 231);
+            this.groupBox3.Location = new System.Drawing.Point(16, 247);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -509,11 +528,76 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(855, 60);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.tableLayoutPanel4);
+            this.groupBox4.Location = new System.Drawing.Point(16, 444);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox4.Size = new System.Drawing.Size(873, 128);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "UI界面";
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel4.Controls.Add(this.useTranslucentModListSelection, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.showHiddenEntriesCheckBox, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.hideRunX2Button, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.hideChallengeModeButton, 0, 2);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 23);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(855, 98);
+            this.tableLayoutPanel4.TabIndex = 6;
+            // 
+            // hideRunX2Button
+            // 
+            this.hideRunX2Button.AutoSize = true;
+            this.tableLayoutPanel4.SetColumnSpan(this.hideRunX2Button, 2);
+            this.hideRunX2Button.Location = new System.Drawing.Point(4, 31);
+            this.hideRunX2Button.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hideRunX2Button.Name = "hideRunX2Button";
+            this.hideRunX2Button.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.hideRunX2Button.Size = new System.Drawing.Size(287, 22);
+            this.hideRunX2Button.TabIndex = 15;
+            this.hideRunX2Button.Text = "隐藏\"启动XCOM2\"按钮(如果WOTC可用)";
+            this.hideRunX2Button.UseVisualStyleBackColor = true;
+            // 
+            // hideChallengeModeButton
+            // 
+            this.hideChallengeModeButton.AutoSize = true;
+            this.tableLayoutPanel4.SetColumnSpan(this.hideChallengeModeButton, 2);
+            this.hideChallengeModeButton.Location = new System.Drawing.Point(4, 59);
+            this.hideChallengeModeButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hideChallengeModeButton.Name = "hideChallengeModeButton";
+            this.hideChallengeModeButton.Padding = new System.Windows.Forms.Padding(4, 3, 0, 0);
+            this.hideChallengeModeButton.Size = new System.Drawing.Size(199, 22);
+            this.hideChallengeModeButton.TabIndex = 16;
+            this.hideChallengeModeButton.Text = "隐藏\"启动挑战模式\"按钮";
+            this.hideChallengeModeButton.UseVisualStyleBackColor = true;
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(905, 466);
+            this.ClientSize = new System.Drawing.Size(905, 621);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.bOK);
             this.Controls.Add(this.bCancel);
@@ -536,6 +620,9 @@
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -579,5 +666,10 @@
 		private System.Windows.Forms.CheckBox useDuplicateModWorkaround;
 		private System.Windows.Forms.CheckBox useModSpecifiedCategoriesCheckBox;
 		private System.Windows.Forms.CheckBox useTranslucentModListSelection;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.CheckBox hideRunX2Button;
+        private System.Windows.Forms.CheckBox hideChallengeModeButton;
+        private System.Windows.Forms.CheckBox onlyUpdateEnabledAndNew;
 	}
 }

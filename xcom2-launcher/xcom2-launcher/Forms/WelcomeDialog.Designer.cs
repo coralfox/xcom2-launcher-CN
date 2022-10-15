@@ -74,7 +74,7 @@
             this.bContinue.AutoSize = true;
             this.bContinue.Enabled = false;
             this.bContinue.Image = ((System.Drawing.Image)(resources.GetObject("bContinue.Image")));
-            this.bContinue.Location = new System.Drawing.Point(279, 523);
+            this.bContinue.Location = new System.Drawing.Point(293, 531);
             this.bContinue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bContinue.Name = "bContinue";
             this.bContinue.Size = new System.Drawing.Size(176, 38);
@@ -89,7 +89,7 @@
             this.label2.Location = new System.Drawing.Point(21, 44);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(726, 23);
+            this.label2.Size = new System.Drawing.Size(724, 23);
             this.label2.TabIndex = 3;
             this.label2.Text = "因为是第一次启动AML,您看到此对话框";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -102,7 +102,7 @@
             this.label3.Location = new System.Drawing.Point(21, 14);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(726, 23);
+            this.label3.Size = new System.Drawing.Size(724, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "欢迎使用Alternative Mod Launcher!";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -149,7 +149,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(700, 24);
             this.label5.TabIndex = 9;
-            this.label5.Text = "您可以随时在“设置”对话框中启用/禁用此功能。";
+            this.label5.Text = "你可以在设置中随时开启/关闭此功能";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
@@ -240,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 600);
+            this.ClientSize = new System.Drawing.Size(762, 592);
             this.ControlBox = false;
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

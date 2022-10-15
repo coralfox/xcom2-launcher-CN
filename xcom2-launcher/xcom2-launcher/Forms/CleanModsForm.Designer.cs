@@ -50,10 +50,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(395, 156);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 27);
+			this.button1.Location = new System.Drawing.Point(296, 135);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -64,11 +63,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.shader_groupbox);
             this.groupBox1.Controls.Add(this.source_groupbox);
-            this.groupBox1.Location = new System.Drawing.Point(16, 14);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Size = new System.Drawing.Size(479, 134);
+			this.groupBox1.Size = new System.Drawing.Size(359, 116);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "清理设定";
@@ -80,11 +77,9 @@
             this.shader_groupbox.Controls.Add(this.shadercache_all_radiobutton);
             this.shader_groupbox.Controls.Add(this.button3);
             this.shader_groupbox.Enabled = false;
-            this.shader_groupbox.Location = new System.Drawing.Point(243, 22);
-            this.shader_groupbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.shader_groupbox.Location = new System.Drawing.Point(182, 19);
             this.shader_groupbox.Name = "shader_groupbox";
-            this.shader_groupbox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.shader_groupbox.Size = new System.Drawing.Size(227, 105);
+			this.shader_groupbox.Size = new System.Drawing.Size(170, 91);
             this.shader_groupbox.TabIndex = 6;
             this.shader_groupbox.TabStop = false;
             this.shader_groupbox.Text = "ModShaderCache(MOD缓存)";
@@ -93,10 +88,9 @@
             // 
             this.shadercache_none_radiobutton.AutoSize = true;
             this.shadercache_none_radiobutton.Enabled = false;
-            this.shadercache_none_radiobutton.Location = new System.Drawing.Point(8, 22);
-            this.shadercache_none_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.shadercache_none_radiobutton.Location = new System.Drawing.Point(6, 19);
             this.shadercache_none_radiobutton.Name = "shadercache_none_radiobutton";
-            this.shadercache_none_radiobutton.Size = new System.Drawing.Size(43, 19);
+			this.shadercache_none_radiobutton.Size = new System.Drawing.Size(51, 17);
             this.shadercache_none_radiobutton.TabIndex = 4;
             this.shadercache_none_radiobutton.Text = "无";
             this.toolTip1.SetToolTip(this.shadercache_none_radiobutton, "不删除任何文件");
@@ -107,10 +101,9 @@
             this.shadercache_empty_radiobutton.AutoSize = true;
             this.shadercache_empty_radiobutton.Checked = true;
             this.shadercache_empty_radiobutton.Enabled = false;
-            this.shadercache_empty_radiobutton.Location = new System.Drawing.Point(8, 48);
-            this.shadercache_empty_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.shadercache_empty_radiobutton.Location = new System.Drawing.Point(6, 42);
             this.shadercache_empty_radiobutton.Name = "shadercache_empty_radiobutton";
-            this.shadercache_empty_radiobutton.Size = new System.Drawing.Size(73, 19);
+			this.shadercache_empty_radiobutton.Size = new System.Drawing.Size(54, 17);
             this.shadercache_empty_radiobutton.TabIndex = 5;
             this.shadercache_empty_radiobutton.TabStop = true;
             this.shadercache_empty_radiobutton.Text = "空文件";
@@ -121,10 +114,9 @@
             // 
             this.shadercache_all_radiobutton.AutoSize = true;
             this.shadercache_all_radiobutton.Enabled = false;
-            this.shadercache_all_radiobutton.Location = new System.Drawing.Point(8, 75);
-            this.shadercache_all_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.shadercache_all_radiobutton.Location = new System.Drawing.Point(6, 65);
             this.shadercache_all_radiobutton.Name = "shadercache_all_radiobutton";
-            this.shadercache_all_radiobutton.Size = new System.Drawing.Size(58, 19);
+			this.shadercache_all_radiobutton.Size = new System.Drawing.Size(36, 17);
             this.shadercache_all_radiobutton.TabIndex = 6;
             this.shadercache_all_radiobutton.Text = "全部";
             this.toolTip1.SetToolTip(this.shadercache_all_radiobutton, "不安全.可能会引起图形乱码");
@@ -132,12 +124,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(404, 87);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button3.Location = new System.Drawing.Point(303, 75);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 27);
+			this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 0;
-            this.button3.Text = "Start";
+            this.button3.Text = "开始";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // source_groupbox
@@ -146,11 +137,9 @@
             this.source_groupbox.Controls.Add(this.src_xcomgame_radiobutton);
             this.source_groupbox.Controls.Add(this.src_none_radiobutton);
             this.source_groupbox.Controls.Add(this.button2);
-            this.source_groupbox.Location = new System.Drawing.Point(8, 22);
-            this.source_groupbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.source_groupbox.Location = new System.Drawing.Point(6, 19);
             this.source_groupbox.Name = "source_groupbox";
-            this.source_groupbox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.source_groupbox.Size = new System.Drawing.Size(227, 105);
+			this.source_groupbox.Size = new System.Drawing.Size(170, 91);
             this.source_groupbox.TabIndex = 4;
             this.source_groupbox.TabStop = false;
             this.source_groupbox.Text = "源文件";
@@ -159,10 +148,9 @@
             // src_all_radiobutton
             // 
             this.src_all_radiobutton.AutoSize = true;
-            this.src_all_radiobutton.Location = new System.Drawing.Point(8, 22);
-            this.src_all_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.src_all_radiobutton.Location = new System.Drawing.Point(6, 19);
             this.src_all_radiobutton.Name = "src_all_radiobutton";
-            this.src_all_radiobutton.Size = new System.Drawing.Size(43, 19);
+			this.src_all_radiobutton.Size = new System.Drawing.Size(51, 17);
             this.src_all_radiobutton.TabIndex = 1;
             this.src_all_radiobutton.Text = "无";
             this.toolTip1.SetToolTip(this.src_all_radiobutton, "不删除任何文件");
@@ -172,10 +160,9 @@
             // 
             this.src_xcomgame_radiobutton.AutoSize = true;
             this.src_xcomgame_radiobutton.Checked = true;
-            this.src_xcomgame_radiobutton.Location = new System.Drawing.Point(8, 48);
-            this.src_xcomgame_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.src_xcomgame_radiobutton.Location = new System.Drawing.Point(6, 42);
             this.src_xcomgame_radiobutton.Name = "src_xcomgame_radiobutton";
-            this.src_xcomgame_radiobutton.Size = new System.Drawing.Size(92, 19);
+			this.src_xcomgame_radiobutton.Size = new System.Drawing.Size(81, 17);
             this.src_xcomgame_radiobutton.TabIndex = 2;
             this.src_xcomgame_radiobutton.TabStop = true;
             this.src_xcomgame_radiobutton.Text = "XComGame";
@@ -185,10 +172,9 @@
             // src_none_radiobutton
             // 
             this.src_none_radiobutton.AutoSize = true;
-            this.src_none_radiobutton.Location = new System.Drawing.Point(8, 75);
-            this.src_none_radiobutton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.src_none_radiobutton.Location = new System.Drawing.Point(6, 65);
             this.src_none_radiobutton.Name = "src_none_radiobutton";
-            this.src_none_radiobutton.Size = new System.Drawing.Size(58, 19);
+			this.src_none_radiobutton.Size = new System.Drawing.Size(36, 17);
             this.src_none_radiobutton.TabIndex = 3;
             this.src_none_radiobutton.Text = "全部";
             this.toolTip1.SetToolTip(this.src_none_radiobutton, "删除整个src文件夹");
@@ -196,24 +182,22 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(404, 87);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.button2.Location = new System.Drawing.Point(303, 75);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 27);
+			this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 0;
-            this.button2.Text = "Start";
+            this.button2.Text = "开始";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // CleanModsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 190);
+			this.ClientSize = new System.Drawing.Size(383, 165);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::XCOM2Launcher.Properties.Resources.xcom;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "CleanModsForm";
             this.Text = "清理MOD";
             this.groupBox1.ResumeLayout(false);

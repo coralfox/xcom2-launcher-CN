@@ -43,6 +43,19 @@
             this.searchForModsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateEntriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openSpecialFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToAmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToX2InstallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToX2DataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToWotcDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToChimeraInstallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToChimeraDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.amlLogFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.x2LogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wotcLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chimeraLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHiddenModsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,7 +130,6 @@
             this.modlist_toggleGroupsButton = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.modlist_filterClearButton = new System.Windows.Forms.Button();
-            this.modlist_FilterCueTextBox = new XCOM2Launcher.UserElements.CueTextBox();
             this.modinfo_groupbox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.modinfo_tabcontrol = new System.Windows.Forms.TabControl();
@@ -141,7 +153,6 @@
             this.modinfo_config_tab = new System.Windows.Forms.TabPage();
             this.modinfo_config_TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.modinfo_ConfigFCTB = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.modinfo_config_FileSelectCueComboBox = new XCOM2Launcher.UserElements.CueComboBox();
             this.modinfo_config_buttonsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.modinfo_config_ExpandButton = new System.Windows.Forms.Button();
             this.modinfo_config_CompareButton = new System.Windows.Forms.Button();
@@ -179,6 +190,9 @@
             this.conflicts_tab_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.conflicts_log_label = new System.Windows.Forms.Label();
             this.conflicts_datagrid = new System.Windows.Forms.DataGridView();
+            this.ColumnModName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnInternalClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnModClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.conflicts_textbox = new System.Windows.Forms.TextBox();
             this.export_tab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -193,9 +207,8 @@
             this.olvcSavedIni = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.fillPanel = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.ColumnModName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnInternalClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnModClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modlist_FilterCueTextBox = new XCOM2Launcher.UserElements.CueTextBox();
+            this.modinfo_config_FileSelectCueComboBox = new XCOM2Launcher.UserElements.CueComboBox();
             this.main_statusstrip.SuspendLayout();
             this.main_menustrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.error_provider)).BeginInit();
@@ -253,7 +266,7 @@
             this.main_statusstrip.ShowItemToolTips = true;
             this.main_statusstrip.Size = new System.Drawing.Size(1312, 26);
             this.main_statusstrip.TabIndex = 5;
-            this.main_statusstrip.Text = "statusStrip1";
+            this.main_statusstrip.Text = "状态条1";
             // 
             // status_toolstrip_label
             // 
@@ -281,8 +294,7 @@
             this.appRestartPendingLabel.Name = "appRestartPendingLabel";
             this.appRestartPendingLabel.Size = new System.Drawing.Size(128, 20);
             this.appRestartPendingLabel.Text = "应用重启等待中";
-            this.appRestartPendingLabel.ToolTipText = "Some changes to the settings won\'t take effect,\r\nuntil after the application has " +
-    "been restarted.";
+            this.appRestartPendingLabel.ToolTipText = "设置的一些改变不会立即生效,\r\n 需要应用重启";
             // 
             // main_menustrip
             // 
@@ -301,7 +313,7 @@
             this.main_menustrip.ShowItemToolTips = true;
             this.main_menustrip.Size = new System.Drawing.Size(1312, 28);
             this.main_menustrip.TabIndex = 6;
-            this.main_menustrip.Text = "menuStrip1";
+            this.main_menustrip.Text = "菜单条1";
             // 
             // runToolStripMenuItem
             // 
@@ -312,57 +324,145 @@
             this.searchForModsToolStripMenuItem,
             this.updateEntriesToolStripMenuItem,
             this.toolStripSeparator2,
+            this.openSpecialFoldersToolStripMenuItem,
+            this.openLogFileToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(71, 26);
             this.runToolStripMenuItem.Text = "文件(F)";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "保存设置";
-            this.saveToolStripMenuItem.ToolTipText = "Saves the current settings and updates XCOM configuration \r\nfiles with respect to" +
-    " currently active mods and mod folders.";
+            this.saveToolStripMenuItem.ToolTipText = "保存当前设置并更新XCOM配置文件 \r\n--与当前激活MODD和MOD文件夹相关";
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.reloadToolStripMenuItem.Text = "重置设置";
-            this.reloadToolStripMenuItem.ToolTipText = "Restores the settings from last manual save or\r\nsince last game launch.";
+            this.reloadToolStripMenuItem.ToolTipText = "恢复到上次手动保存设置或\r\n最近一次游戏启动成功的设置.";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // searchForModsToolStripMenuItem
             // 
             this.searchForModsToolStripMenuItem.Name = "searchForModsToolStripMenuItem";
-            this.searchForModsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.searchForModsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.searchForModsToolStripMenuItem.Text = "搜索新MOD";
-            this.searchForModsToolStripMenuItem.ToolTipText = "Scans all known mod directories for new mods and adds them to the mod list.\r\nThis" +
-    " is useful for adding new mods without re-starting AML.";
+            this.searchForModsToolStripMenuItem.ToolTipText = "扫描所有已知的MOD目录,寻找新的MOD,并将其添加到MOD列表。\r\n在添加新MOD后又不想重新启动AML时很有用。";
             // 
             // updateEntriesToolStripMenuItem
             // 
             this.updateEntriesToolStripMenuItem.Name = "updateEntriesToolStripMenuItem";
-            this.updateEntriesToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.updateEntriesToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.updateEntriesToolStripMenuItem.Text = "更新MOD信息";
-            this.updateEntriesToolStripMenuItem.ToolTipText = "Updates the current state of all mods, by performing some validations \r\nand by re" +
-    "questing the latest mod information from the Steam workshop.\r\nThis task is also " +
-    "performed when you start AML.";
+            this.updateEntriesToolStripMenuItem.ToolTipText = "通过执行一些验证,更新所有mods的当前状态并\r\n从Steam创意工坊获取最新的MOD信息。\r\n在你每次启动AML时也会执行此动作.";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
+            // 
+            // openSpecialFoldersToolStripMenuItem
+            // 
+            this.openSpecialFoldersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.folderToAmlToolStripMenuItem,
+            this.folderToX2InstallToolStripMenuItem,
+            this.folderToX2DataToolStripMenuItem,
+            this.folderToWotcDataToolStripMenuItem,
+            this.folderToChimeraInstallToolStripMenuItem,
+            this.folderToChimeraDataToolStripMenuItem});
+            this.openSpecialFoldersToolStripMenuItem.Name = "openSpecialFoldersToolStripMenuItem";
+            this.openSpecialFoldersToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openSpecialFoldersToolStripMenuItem.Text = "打开特定文件夹";
+            // 
+            // folderToAmlToolStripMenuItem
+            // 
+            this.folderToAmlToolStripMenuItem.Name = "folderToAmlToolStripMenuItem";
+            this.folderToAmlToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToAmlToolStripMenuItem.Text = "AML";
+            // 
+            // folderToX2InstallToolStripMenuItem
+            // 
+            this.folderToX2InstallToolStripMenuItem.Name = "folderToX2InstallToolStripMenuItem";
+            this.folderToX2InstallToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToX2InstallToolStripMenuItem.Text = "XCOM 2 - 安装目录";
+            // 
+            // folderToX2DataToolStripMenuItem
+            // 
+            this.folderToX2DataToolStripMenuItem.Name = "folderToX2DataToolStripMenuItem";
+            this.folderToX2DataToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToX2DataToolStripMenuItem.Text = "XCOM 2 - 数据目录(我的文档)";
+            // 
+            // folderToWotcDataToolStripMenuItem
+            // 
+            this.folderToWotcDataToolStripMenuItem.Name = "folderToWotcDataToolStripMenuItem";
+            this.folderToWotcDataToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToWotcDataToolStripMenuItem.Text = "XCOM 2 天选者之战 - 数据目录(我的文档)";
+            // 
+            // folderToChimeraInstallToolStripMenuItem
+            // 
+            this.folderToChimeraInstallToolStripMenuItem.Name = "folderToChimeraInstallToolStripMenuItem";
+            this.folderToChimeraInstallToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToChimeraInstallToolStripMenuItem.Text = "XCOM奇美拉小队 - 安装目录";
+            // 
+            // folderToChimeraDataToolStripMenuItem
+            // 
+            this.folderToChimeraDataToolStripMenuItem.Name = "folderToChimeraDataToolStripMenuItem";
+            this.folderToChimeraDataToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.folderToChimeraDataToolStripMenuItem.Text = "XCOM奇美拉小队 - 数据目录(我的文档)";
+            // 
+            // openLogFileToolStripMenuItem
+            // 
+            this.openLogFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.amlLogFileToolStripMenuItem1,
+            this.x2LogFileToolStripMenuItem,
+            this.wotcLogFileToolStripMenuItem,
+            this.chimeraLogFileToolStripMenuItem});
+            this.openLogFileToolStripMenuItem.Name = "openLogFileToolStripMenuItem";
+            this.openLogFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openLogFileToolStripMenuItem.Text = "打开日志";
+            // 
+            // amlLogFileToolStripMenuItem1
+            // 
+            this.amlLogFileToolStripMenuItem1.Name = "amlLogFileToolStripMenuItem1";
+            this.amlLogFileToolStripMenuItem1.Size = new System.Drawing.Size(231, 26);
+            this.amlLogFileToolStripMenuItem1.Text = "AML";
+            // 
+            // x2LogFileToolStripMenuItem
+            // 
+            this.x2LogFileToolStripMenuItem.Name = "x2LogFileToolStripMenuItem";
+            this.x2LogFileToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.x2LogFileToolStripMenuItem.Text = "XCOM 2";
+            // 
+            // wotcLogFileToolStripMenuItem
+            // 
+            this.wotcLogFileToolStripMenuItem.Name = "wotcLogFileToolStripMenuItem";
+            this.wotcLogFileToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.wotcLogFileToolStripMenuItem.Text = "XCOM 2 天选者之战";
+            // 
+            // chimeraLogFileToolStripMenuItem
+            // 
+            this.chimeraLogFileToolStripMenuItem.Name = "chimeraLogFileToolStripMenuItem";
+            this.chimeraLogFileToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.chimeraLogFileToolStripMenuItem.Text = "XCOM 奇美拉小队";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "退出";
             // 
             // settingsToolStripMenuItem
@@ -373,7 +473,7 @@
             this.editOptionsToolStripMenuItem,
             this.manageCategoriesToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.settingsToolStripMenuItem.Text = "选项";
             // 
             // showHiddenModsToolStripMenuItem
@@ -383,7 +483,7 @@
             this.showHiddenModsToolStripMenuItem.Name = "showHiddenModsToolStripMenuItem";
             this.showHiddenModsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
             this.showHiddenModsToolStripMenuItem.Text = "显示隐藏MOD";
-            this.showHiddenModsToolStripMenuItem.ToolTipText = "Show/hide all mods, that are currently set to \"hidden\".";
+            this.showHiddenModsToolStripMenuItem.ToolTipText = "显示/隐藏所有mods,这些mods目前被设置为\'隐藏\'。";
             // 
             // toolStripSeparator3
             // 
@@ -409,7 +509,7 @@
             this.cleanModsToolStripMenuItem,
             this.resubscribeToModsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.toolsToolStripMenuItem.Text = "工具";
             // 
             // importActiveModsToolStripMenuItem
@@ -419,44 +519,41 @@
             this.importFromWotCToolStripMenuItem,
             this.importFromChimeraSquadToolStripMenuItem});
             this.importActiveModsToolStripMenuItem.Name = "importActiveModsToolStripMenuItem";
-            this.importActiveModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.importActiveModsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importActiveModsToolStripMenuItem.Text = "导入已激活MOD";
             // 
             // importFromXCOM2ToolStripMenuItem
             // 
             this.importFromXCOM2ToolStripMenuItem.Name = "importFromXCOM2ToolStripMenuItem";
-            this.importFromXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromXCOM2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importFromXCOM2ToolStripMenuItem.Text = "从XCOM2原版配置";
-            this.importFromXCOM2ToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the X" +
-    "COM 2 basegame config file.";
+            this.importFromXCOM2ToolStripMenuItem.ToolTipText = "启用所有MOD列表中的MOD,\r\n这些都已在XCOM2原版游戏配置文件中激活";
             // 
             // importFromWotCToolStripMenuItem
             // 
             this.importFromWotCToolStripMenuItem.Name = "importFromWotCToolStripMenuItem";
-            this.importFromWotCToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromWotCToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importFromWotCToolStripMenuItem.Text = "从天选者配置";
-            this.importFromWotCToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the W" +
-    "otC config file.";
+            this.importFromWotCToolStripMenuItem.ToolTipText = "启用所有MOD列表中的MOD,\r\n这些都已在XCOM2天选者-游戏配置文件中激活";
             // 
             // importFromChimeraSquadToolStripMenuItem
             // 
             this.importFromChimeraSquadToolStripMenuItem.Name = "importFromChimeraSquadToolStripMenuItem";
-            this.importFromChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.importFromChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importFromChimeraSquadToolStripMenuItem.Text = "从奇美拉小队配置";
-            this.importFromChimeraSquadToolStripMenuItem.ToolTipText = "Enables all mods in the mods list, that are currently listed \r\nas active in the C" +
-    "himera Squad config file.";
+            this.importFromChimeraSquadToolStripMenuItem.ToolTipText = "启用所有MOD列表中的MOD,\r\n这些都已在XCOM-奇美拉游戏配置文件中激活";
             // 
             // cleanModsToolStripMenuItem
             // 
             this.cleanModsToolStripMenuItem.Name = "cleanModsToolStripMenuItem";
-            this.cleanModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.cleanModsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cleanModsToolStripMenuItem.Text = "清除MOD...";
             this.cleanModsToolStripMenuItem.ToolTipText = "内有菜单";
             // 
             // resubscribeToModsToolStripMenuItem
             // 
             this.resubscribeToModsToolStripMenuItem.Name = "resubscribeToModsToolStripMenuItem";
-            this.resubscribeToModsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.resubscribeToModsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.resubscribeToModsToolStripMenuItem.Text = "重订阅未安装MOD";
             this.resubscribeToModsToolStripMenuItem.ToolTipText = "部分MOD在AML显示,但是实际未安装\r\nAML会重新订阅,以便正确下载";
             // 
@@ -474,7 +571,7 @@
             this.runWarOfTheChosenToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.runWarOfTheChosenToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runWarOfTheChosenToolStripMenuItem.Image")));
             this.runWarOfTheChosenToolStripMenuItem.Name = "runWarOfTheChosenToolStripMenuItem";
-            this.runWarOfTheChosenToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.runWarOfTheChosenToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.runWarOfTheChosenToolStripMenuItem.Text = "启动WOTC(天选者之战)";
             this.runWarOfTheChosenToolStripMenuItem.ToolTipText = "加载已激活MOD并启动XCOM2天选者游戏";
             // 
@@ -482,7 +579,7 @@
             // 
             this.runChallengeModeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runChallengeModeToolStripMenuItem.Image")));
             this.runChallengeModeToolStripMenuItem.Name = "runChallengeModeToolStripMenuItem";
-            this.runChallengeModeToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.runChallengeModeToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
             this.runChallengeModeToolStripMenuItem.Text = "启动WOTC挑战模式";
             this.runChallengeModeToolStripMenuItem.ToolTipText = "不加载MOD,启动WOTC(天选者之战)";
             // 
@@ -497,7 +594,7 @@
             this.amlWikiToolStripMenuItem,
             this.openDiscordToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.aboutToolStripMenuItem.Text = "关于";
             // 
             // infoToolStripMenuItem
@@ -508,7 +605,6 @@
             // 
             // checkForUpdatesToolStripMenuItem
             // 
-            this.checkForUpdatesToolStripMenuItem.Enabled = false;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
             this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.checkForUpdatesToolStripMenuItem.Text = "检查更新";
@@ -535,13 +631,13 @@
             this.openDiscordToolStripMenuItem.Name = "openDiscordToolStripMenuItem";
             this.openDiscordToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.openDiscordToolStripMenuItem.Text = "AML Discord频道";
-            this.openDiscordToolStripMenuItem.ToolTipText = "Opens a Discord invite link to our channel \r\non the XCOM 2 Modding server.";
+            this.openDiscordToolStripMenuItem.ToolTipText = "打开一个通往我们频道的Discord邀请链接 \r\nXCOM2 Modding 服务器.";
             // 
             // runChimeraSquadToolStripMenuItem
             // 
             this.runChimeraSquadToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runChimeraSquadToolStripMenuItem.Image")));
             this.runChimeraSquadToolStripMenuItem.Name = "runChimeraSquadToolStripMenuItem";
-            this.runChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
+            this.runChimeraSquadToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.runChimeraSquadToolStripMenuItem.Text = "启动XCOM奇美拉小队";
             this.runChimeraSquadToolStripMenuItem.ToolTipText = "加载已激活MOD并启动XCOM奇美拉小队游戏\r\n";
             // 
@@ -598,7 +694,7 @@
             // 
             this.horizontal_splitcontainer.Panel2.Controls.Add(this.modinfo_groupbox);
             this.horizontal_splitcontainer.Size = new System.Drawing.Size(1296, 760);
-            this.horizontal_splitcontainer.SplitterDistance = 488;
+            this.horizontal_splitcontainer.SplitterDistance = 493;
             this.horizontal_splitcontainer.SplitterWidth = 6;
             this.horizontal_splitcontainer.TabIndex = 5;
             // 
@@ -643,8 +739,7 @@
             this.olvForWOTC});
             this.modlist_ListObjectListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.modlist_ListObjectListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modlist_ListObjectListView.EmptyListMsg = "No mods available, or no mod is matching the current filter.\nCheck the mod folder" +
-    " configuration if AML is not detecting any mods at all.";
+            this.modlist_ListObjectListView.EmptyListMsg = "没有可用的MOD,或者没有MOD与当前过滤器匹配。\n如果AML根本没有检测到任何MOD,则需要检查mod路径配置项。";
             this.modlist_ListObjectListView.EmptyListMsgFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modlist_ListObjectListView.FullRowSelect = true;
             this.modlist_ListObjectListView.HideSelection = false;
@@ -653,7 +748,7 @@
             this.modlist_ListObjectListView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modlist_ListObjectListView.Name = "modlist_ListObjectListView";
             this.modlist_ListObjectListView.ShowItemCountOnGroups = true;
-            this.modlist_ListObjectListView.Size = new System.Drawing.Size(1296, 414);
+            this.modlist_ListObjectListView.Size = new System.Drawing.Size(1296, 419);
             this.modlist_ListObjectListView.SortGroupItemsByPrimaryColumn = false;
             this.modlist_ListObjectListView.SpaceBetweenGroups = 10;
             this.modlist_ListObjectListView.TabIndex = 0;
@@ -669,6 +764,7 @@
             this.modlist_ListObjectListView.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.ModListCellToolTipShowing);
             this.modlist_ListObjectListView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.ModListFormatRow);
             this.modlist_ListObjectListView.SelectionChanged += new System.EventHandler(this.ModListSelectionChanged);
+            this.modlist_ListObjectListView.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ModListItemCheck);
             this.modlist_ListObjectListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ModListItemChecked);
             this.modlist_ListObjectListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ModListKeyDown);
             // 
@@ -829,7 +925,6 @@
             this.olvForWOTC.IsEditable = false;
             this.olvForWOTC.Searchable = false;
             this.olvForWOTC.Text = "是否兼容WOTC";
-            this.olvForWOTC.ToolTipText = "需要MOD信息中有,不一定准确";
             // 
             // pModsLegend
             // 
@@ -843,7 +938,7 @@
             this.pModsLegend.Controls.Add(this.cFilterNotLoaded);
             this.pModsLegend.Controls.Add(this.cFilterDuplicate);
             this.pModsLegend.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pModsLegend.Location = new System.Drawing.Point(0, 452);
+            this.pModsLegend.Location = new System.Drawing.Point(0, 457);
             this.pModsLegend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pModsLegend.Name = "pModsLegend";
             this.pModsLegend.Size = new System.Drawing.Size(1296, 36);
@@ -925,7 +1020,8 @@
             this.cFilterNew.TabIndex = 12;
             this.cFilterNew.Text = "新 (000)";
             this.cFilterNew.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterNew, "在上次Mod导入/更新过程中添加Mod时，将其标记为“新”。\r\n重新启动AML后，将删除所有mod的“新”标志。\r\n选择单个mod的“新”标志将被删除。");
+            this.toolTip.SetToolTip(this.cFilterNew, "在上次Mod导入/更新过程中添加Mod时，将其标记为“新”。\n    重新启动AML后，将删除所有mod的“新”标志。\n    选择单个mod的“新”标志将被删除" +
+        "。");
             this.cFilterNew.UseVisualStyleBackColor = false;
             this.cFilterNew.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -943,7 +1039,7 @@
             this.cFilterConflicted.TabIndex = 11;
             this.cFilterConflicted.Text = "冲突 (00)";
             this.cFilterConflicted.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterConflicted, "一对mod被标记为 \"冲突\", 说明它们的class 互相覆盖,可能会导致运行错误");
+            this.toolTip.SetToolTip(this.cFilterConflicted, "一些mod被标记为 \"冲突\", 说明它们的class 互相覆盖,可能会导致运行错误");
             this.cFilterConflicted.UseVisualStyleBackColor = false;
             this.cFilterConflicted.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -961,8 +1057,7 @@
             this.cFilterNotInstalled.TabIndex = 10;
             this.cFilterNotInstalled.Text = "未安装 (00)";
             this.cFilterNotInstalled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.cFilterNotInstalled, "A mod is flagged as \"Not installed\" when the mod folder \r\nno longer exists, or wh" +
-        "en the XComMod file is missing.");
+            this.toolTip.SetToolTip(this.cFilterNotInstalled, "一个mod如果被标记为\"未安装\" 说明mod文件夹不存在 \r\n或者文件内相应的XComMod文件不存在");
             this.cFilterNotInstalled.UseVisualStyleBackColor = false;
             this.cFilterNotInstalled.CheckedChanged += new System.EventHandler(this.cStateFilter_CheckedChanged);
             // 
@@ -1032,9 +1127,9 @@
             this.modTabToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.modTabToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.quickLaunchToolstripButton});
-            this.modTabToolStrip.Location = new System.Drawing.Point(102, 5);
+            this.modTabToolStrip.Location = new System.Drawing.Point(103, 5);
             this.modTabToolStrip.Name = "modTabToolStrip";
-            this.modTabToolStrip.Size = new System.Drawing.Size(116, 27);
+            this.modTabToolStrip.Size = new System.Drawing.Size(116, 31);
             this.modTabToolStrip.TabIndex = 4;
             this.modTabToolStrip.Text = "toolStrip1";
             // 
@@ -1050,7 +1145,7 @@
             this.quickLaunchToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("quickLaunchToolstripButton.Image")));
             this.quickLaunchToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.quickLaunchToolstripButton.Name = "quickLaunchToolstripButton";
-            this.quickLaunchToolstripButton.Size = new System.Drawing.Size(113, 24);
+            this.quickLaunchToolstripButton.Size = new System.Drawing.Size(113, 28);
             this.quickLaunchToolstripButton.Text = "快速启动参数";
             this.quickLaunchToolstripButton.ToolTipText = "你可以在设置页面自定义启动参数\r\n";
             // 
@@ -1174,17 +1269,6 @@
             this.modlist_filterClearButton.UseVisualStyleBackColor = true;
             this.modlist_filterClearButton.Click += new System.EventHandler(this.modlist_filterClearButton_Click);
             // 
-            // modlist_FilterCueTextBox
-            // 
-            this.modlist_FilterCueTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.modlist_FilterCueTextBox.CueText = "筛选MOD";
-            this.modlist_FilterCueTextBox.Location = new System.Drawing.Point(4, 6);
-            this.modlist_FilterCueTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modlist_FilterCueTextBox.Name = "modlist_FilterCueTextBox";
-            this.modlist_FilterCueTextBox.Size = new System.Drawing.Size(232, 25);
-            this.modlist_FilterCueTextBox.TabIndex = 1;
-            this.modlist_FilterCueTextBox.TextChanged += new System.EventHandler(this.filterMods_TextChanged);
-            // 
             // modinfo_groupbox
             // 
             this.modinfo_groupbox.Controls.Add(this.tableLayoutPanel3);
@@ -1193,7 +1277,7 @@
             this.modinfo_groupbox.Margin = new System.Windows.Forms.Padding(0);
             this.modinfo_groupbox.Name = "modinfo_groupbox";
             this.modinfo_groupbox.Padding = new System.Windows.Forms.Padding(0);
-            this.modinfo_groupbox.Size = new System.Drawing.Size(1296, 266);
+            this.modinfo_groupbox.Size = new System.Drawing.Size(1296, 261);
             this.modinfo_groupbox.TabIndex = 3;
             this.modinfo_groupbox.TabStop = false;
             this.modinfo_groupbox.Text = "Mod信息";
@@ -1211,7 +1295,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1296, 248);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1296, 243);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
             // modinfo_tabcontrol
@@ -1229,7 +1313,7 @@
             this.modinfo_tabcontrol.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             this.modinfo_tabcontrol.Name = "modinfo_tabcontrol";
             this.modinfo_tabcontrol.SelectedIndex = 0;
-            this.modinfo_tabcontrol.Size = new System.Drawing.Size(1026, 246);
+            this.modinfo_tabcontrol.Size = new System.Drawing.Size(1026, 241);
             this.modinfo_tabcontrol.TabIndex = 9;
             this.modinfo_tabcontrol.Selected += new System.Windows.Forms.TabControlEventHandler(this.ModInfoTabSelected);
             // 
@@ -1251,7 +1335,7 @@
             this.modinfo_details_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_details_tab.Name = "modinfo_details_tab";
             this.modinfo_details_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_details_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_details_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_details_tab.TabIndex = 0;
             this.modinfo_details_tab.Text = "信息";
             this.modinfo_details_tab.UseVisualStyleBackColor = true;
@@ -1374,7 +1458,7 @@
             this.modinfo_info_DescriptionRichTextBox.Location = new System.Drawing.Point(128, 67);
             this.modinfo_info_DescriptionRichTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_info_DescriptionRichTextBox.Name = "modinfo_info_DescriptionRichTextBox";
-            this.modinfo_info_DescriptionRichTextBox.Size = new System.Drawing.Size(882, 142);
+            this.modinfo_info_DescriptionRichTextBox.Size = new System.Drawing.Size(882, 137);
             this.modinfo_info_DescriptionRichTextBox.TabIndex = 8;
             this.modinfo_info_DescriptionRichTextBox.Text = "";
             this.modinfo_info_DescriptionRichTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1387,7 +1471,7 @@
             this.modinfo_readme_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_readme_tab.Name = "modinfo_readme_tab";
             this.modinfo_readme_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_readme_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_readme_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_readme_tab.TabIndex = 1;
             this.modinfo_readme_tab.Text = "须知";
             this.modinfo_readme_tab.UseVisualStyleBackColor = true;
@@ -1402,7 +1486,7 @@
             this.modinfo_readme_RichTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_readme_RichTextBox.Name = "modinfo_readme_RichTextBox";
             this.modinfo_readme_RichTextBox.ReadOnly = true;
-            this.modinfo_readme_RichTextBox.Size = new System.Drawing.Size(1013, 186);
+            this.modinfo_readme_RichTextBox.Size = new System.Drawing.Size(1013, 185);
             this.modinfo_readme_RichTextBox.TabIndex = 0;
             this.modinfo_readme_RichTextBox.Text = "";
             this.modinfo_readme_RichTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1414,7 +1498,7 @@
             this.modinfo_inspect_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_inspect_tab.Name = "modinfo_inspect_tab";
             this.modinfo_inspect_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_inspect_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_inspect_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_inspect_tab.TabIndex = 2;
             this.modinfo_inspect_tab.Text = "检查";
             this.modinfo_inspect_tab.UseVisualStyleBackColor = true;
@@ -1427,7 +1511,7 @@
             this.modinfo_inspect_propertygrid.Location = new System.Drawing.Point(4, 3);
             this.modinfo_inspect_propertygrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_inspect_propertygrid.Name = "modinfo_inspect_propertygrid";
-            this.modinfo_inspect_propertygrid.Size = new System.Drawing.Size(1010, 211);
+            this.modinfo_inspect_propertygrid.Size = new System.Drawing.Size(1010, 206);
             this.modinfo_inspect_propertygrid.TabIndex = 9;
             this.modinfo_inspect_propertygrid.Layout += new System.Windows.Forms.LayoutEventHandler(this.modinfo_inspect_propertygrid_Layout);
             // 
@@ -1438,7 +1522,7 @@
             this.modinfo_config_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_config_tab.Name = "modinfo_config_tab";
             this.modinfo_config_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_config_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_config_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_config_tab.TabIndex = 3;
             this.modinfo_config_tab.Text = "配置(Config)";
             this.modinfo_config_tab.UseVisualStyleBackColor = true;
@@ -1461,7 +1545,7 @@
             this.modinfo_config_TableLayoutPanel.RowCount = 2;
             this.modinfo_config_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.modinfo_config_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.modinfo_config_TableLayoutPanel.Size = new System.Drawing.Size(1010, 211);
+            this.modinfo_config_TableLayoutPanel.Size = new System.Drawing.Size(1010, 206);
             this.modinfo_config_TableLayoutPanel.TabIndex = 13;
             // 
             // modinfo_ConfigFCTB
@@ -1496,25 +1580,11 @@
             this.modinfo_ConfigFCTB.Paddings = new System.Windows.Forms.Padding(0);
             this.modinfo_ConfigFCTB.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.modinfo_ConfigFCTB.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("modinfo_ConfigFCTB.ServiceColors")));
-            this.modinfo_ConfigFCTB.Size = new System.Drawing.Size(1004, 174);
+            this.modinfo_ConfigFCTB.Size = new System.Drawing.Size(1004, 169);
             this.modinfo_ConfigFCTB.TabIndex = 11;
             this.modinfo_ConfigFCTB.WordWrap = true;
             this.modinfo_ConfigFCTB.Zoom = 100;
             this.modinfo_ConfigFCTB.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.modinfo_ConfigFCTB_TextChanged);
-            // 
-            // modinfo_config_FileSelectCueComboBox
-            // 
-            this.modinfo_config_FileSelectCueComboBox.CueText = "选择 要编辑的 INI";
-            this.modinfo_config_FileSelectCueComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.modinfo_config_FileSelectCueComboBox.FormattingEnabled = true;
-            this.modinfo_config_FileSelectCueComboBox.Location = new System.Drawing.Point(4, 3);
-            this.modinfo_config_FileSelectCueComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_config_FileSelectCueComboBox.Name = "modinfo_config_FileSelectCueComboBox";
-            this.modinfo_config_FileSelectCueComboBox.Size = new System.Drawing.Size(257, 23);
-            this.modinfo_config_FileSelectCueComboBox.TabIndex = 12;
-            this.toolTip.SetToolTip(this.modinfo_config_FileSelectCueComboBox, "选择一个INI文件进行查看或编辑");
-            this.modinfo_config_FileSelectCueComboBox.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
-            this.modinfo_config_FileSelectCueComboBox.SelectedIndexChanged += new System.EventHandler(this.modinfo_config_FileSelectCueComboBox_SelectedIndexChanged);
             // 
             // modinfo_config_buttonsTableLayoutPanel
             // 
@@ -1613,7 +1683,7 @@
             this.modinfo_changelog_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_changelog_tab.Name = "modinfo_changelog_tab";
             this.modinfo_changelog_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_changelog_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_changelog_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_changelog_tab.TabIndex = 4;
             this.modinfo_changelog_tab.Text = "更改日志";
             this.modinfo_changelog_tab.UseVisualStyleBackColor = true;
@@ -1626,7 +1696,7 @@
             this.modinfo_changelog_richtextbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_changelog_richtextbox.Name = "modinfo_changelog_richtextbox";
             this.modinfo_changelog_richtextbox.ReadOnly = true;
-            this.modinfo_changelog_richtextbox.Size = new System.Drawing.Size(1010, 211);
+            this.modinfo_changelog_richtextbox.Size = new System.Drawing.Size(1010, 206);
             this.modinfo_changelog_richtextbox.TabIndex = 0;
             this.modinfo_changelog_richtextbox.Text = "";
             this.modinfo_changelog_richtextbox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ControlLinkClicked);
@@ -1638,7 +1708,7 @@
             this.modinfo_dependencies_tab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_dependencies_tab.Name = "modinfo_dependencies_tab";
             this.modinfo_dependencies_tab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.modinfo_dependencies_tab.Size = new System.Drawing.Size(1018, 217);
+            this.modinfo_dependencies_tab.Size = new System.Drawing.Size(1018, 212);
             this.modinfo_dependencies_tab.TabIndex = 5;
             this.modinfo_dependencies_tab.Text = "依赖关系";
             this.modinfo_dependencies_tab.UseVisualStyleBackColor = true;
@@ -1656,7 +1726,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1010, 211);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1010, 206);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // panel4
@@ -1667,7 +1737,7 @@
             this.panel4.Location = new System.Drawing.Point(4, 3);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1002, 99);
+            this.panel4.Size = new System.Drawing.Size(1002, 97);
             this.panel4.TabIndex = 1;
             // 
             // olvRequiredMods
@@ -1701,7 +1771,7 @@
             this.olvRequiredMods.Name = "olvRequiredMods";
             this.olvRequiredMods.ShowGroups = false;
             this.olvRequiredMods.ShowItemCountOnGroups = true;
-            this.olvRequiredMods.Size = new System.Drawing.Size(1002, 74);
+            this.olvRequiredMods.Size = new System.Drawing.Size(1002, 72);
             this.olvRequiredMods.SortGroupItemsByPrimaryColumn = false;
             this.olvRequiredMods.TabIndex = 1;
             this.olvRequiredMods.TintSortColumn = true;
@@ -1754,7 +1824,7 @@
             this.olvColReqModsWotc.IsEditable = false;
             this.olvColReqModsWotc.Searchable = false;
             this.olvColReqModsWotc.Text = "兼容WOTC";
-            this.olvColReqModsWotc.Width = 79;
+            this.olvColReqModsWotc.Width = 63;
             // 
             // olvColReqModsIgnore
             // 
@@ -1801,10 +1871,10 @@
             this.panel5.Controls.Add(this.olvDependentMods);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(4, 108);
+            this.panel5.Location = new System.Drawing.Point(4, 106);
             this.panel5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1002, 100);
+            this.panel5.Size = new System.Drawing.Size(1002, 97);
             this.panel5.TabIndex = 3;
             // 
             // olvDependentMods
@@ -1836,7 +1906,7 @@
             this.olvDependentMods.Name = "olvDependentMods";
             this.olvDependentMods.ShowGroups = false;
             this.olvDependentMods.ShowItemCountOnGroups = true;
-            this.olvDependentMods.Size = new System.Drawing.Size(1002, 79);
+            this.olvDependentMods.Size = new System.Drawing.Size(1002, 76);
             this.olvDependentMods.SortGroupItemsByPrimaryColumn = false;
             this.olvDependentMods.TabIndex = 2;
             this.olvDependentMods.TintSortColumn = true;
@@ -1899,7 +1969,7 @@
             this.olvColDepModsWotc.IsEditable = false;
             this.olvColDepModsWotc.Searchable = false;
             this.olvColDepModsWotc.Text = "兼容WOTC";
-            this.olvColDepModsWotc.Width = 81;
+            this.olvColDepModsWotc.Width = 63;
             // 
             // label6
             // 
@@ -1918,7 +1988,7 @@
             this.modinfo_image_picturebox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.modinfo_image_picturebox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.modinfo_image_picturebox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modinfo_image_picturebox.Location = new System.Drawing.Point(6, 13);
+            this.modinfo_image_picturebox.Location = new System.Drawing.Point(6, 11);
             this.modinfo_image_picturebox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.modinfo_image_picturebox.Name = "modinfo_image_picturebox";
             this.modinfo_image_picturebox.Size = new System.Drawing.Size(255, 221);
@@ -1985,6 +2055,33 @@
             this.conflicts_tab_tableLayoutPanel.SetRowSpan(this.conflicts_datagrid, 2);
             this.conflicts_datagrid.Size = new System.Drawing.Size(888, 754);
             this.conflicts_datagrid.TabIndex = 6;
+            // 
+            // ColumnModName
+            // 
+            this.ColumnModName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnModName.FillWeight = 30F;
+            this.ColumnModName.HeaderText = "Mod";
+            this.ColumnModName.MinimumWidth = 6;
+            this.ColumnModName.Name = "ColumnModName";
+            this.ColumnModName.ReadOnly = true;
+            // 
+            // ColumnInternalClass
+            // 
+            this.ColumnInternalClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnInternalClass.FillWeight = 30F;
+            this.ColumnInternalClass.HeaderText = "内部类别";
+            this.ColumnInternalClass.MinimumWidth = 6;
+            this.ColumnInternalClass.Name = "ColumnInternalClass";
+            this.ColumnInternalClass.ReadOnly = true;
+            // 
+            // ColumnModClass
+            // 
+            this.ColumnModClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnModClass.FillWeight = 40F;
+            this.ColumnModClass.HeaderText = "Mod类别";
+            this.ColumnModClass.MinimumWidth = 6;
+            this.ColumnModClass.Name = "ColumnModClass";
+            this.ColumnModClass.ReadOnly = true;
             // 
             // conflicts_textbox
             // 
@@ -2062,7 +2159,7 @@
             // export_all_mods_checkbox
             // 
             this.export_all_mods_checkbox.AutoSize = true;
-            this.export_all_mods_checkbox.Location = new System.Drawing.Point(436, 7);
+            this.export_all_mods_checkbox.Location = new System.Drawing.Point(349, 7);
             this.export_all_mods_checkbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_all_mods_checkbox.Name = "export_all_mods_checkbox";
             this.export_all_mods_checkbox.Size = new System.Drawing.Size(113, 19);
@@ -2088,7 +2185,7 @@
             this.export_group_checkbox.AutoSize = true;
             this.export_group_checkbox.Checked = true;
             this.export_group_checkbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.export_group_checkbox.Location = new System.Drawing.Point(237, 7);
+            this.export_group_checkbox.Location = new System.Drawing.Point(199, 7);
             this.export_group_checkbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.export_group_checkbox.Name = "export_group_checkbox";
             this.export_group_checkbox.Size = new System.Drawing.Size(89, 19);
@@ -2104,7 +2201,7 @@
             this.export_load_button.Name = "export_load_button";
             this.export_load_button.Size = new System.Drawing.Size(99, 27);
             this.export_load_button.TabIndex = 4;
-            this.export_load_button.Text = "Load";
+            this.export_load_button.Text = "载入";
             this.export_load_button.UseVisualStyleBackColor = true;
             // 
             // export_save_button
@@ -2115,7 +2212,7 @@
             this.export_save_button.Name = "export_save_button";
             this.export_save_button.Size = new System.Drawing.Size(99, 27);
             this.export_save_button.TabIndex = 3;
-            this.export_save_button.Text = "Save";
+            this.export_save_button.Text = "保存";
             this.export_save_button.UseVisualStyleBackColor = true;
             // 
             // tabImageList
@@ -2127,7 +2224,7 @@
             // olvcSavedIni
             // 
             this.olvcSavedIni.DisplayIndex = 6;
-            this.olvcSavedIni.Text = "Saved INI";
+            this.olvcSavedIni.Text = "保存INI";
             // 
             // fillPanel
             // 
@@ -2141,32 +2238,30 @@
             this.fillPanel.TabIndex = 6;
             this.fillPanel.Visible = false;
             // 
-            // ColumnModName
+            // modlist_FilterCueTextBox
             // 
-            this.ColumnModName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnModName.FillWeight = 30F;
-            this.ColumnModName.HeaderText = "Mod";
-            this.ColumnModName.MinimumWidth = 6;
-            this.ColumnModName.Name = "ColumnModName";
-            this.ColumnModName.ReadOnly = true;
+            this.modlist_FilterCueTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.modlist_FilterCueTextBox.CueText = "过滤Mod";
+            this.modlist_FilterCueTextBox.Location = new System.Drawing.Point(4, 6);
+            this.modlist_FilterCueTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modlist_FilterCueTextBox.Name = "modlist_FilterCueTextBox";
+            this.modlist_FilterCueTextBox.Size = new System.Drawing.Size(232, 25);
+            this.modlist_FilterCueTextBox.TabIndex = 1;
+            this.modlist_FilterCueTextBox.TextChanged += new System.EventHandler(this.filterMods_TextChanged);
             // 
-            // ColumnInternalClass
+            // modinfo_config_FileSelectCueComboBox
             // 
-            this.ColumnInternalClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnInternalClass.FillWeight = 30F;
-            this.ColumnInternalClass.HeaderText = "内部类别";
-            this.ColumnInternalClass.MinimumWidth = 6;
-            this.ColumnInternalClass.Name = "ColumnInternalClass";
-            this.ColumnInternalClass.ReadOnly = true;
-            // 
-            // ColumnModClass
-            // 
-            this.ColumnModClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnModClass.FillWeight = 40F;
-            this.ColumnModClass.HeaderText = "Mod类别";
-            this.ColumnModClass.MinimumWidth = 6;
-            this.ColumnModClass.Name = "ColumnModClass";
-            this.ColumnModClass.ReadOnly = true;
+            this.modinfo_config_FileSelectCueComboBox.CueText = "选择 要编辑的 INI";
+            this.modinfo_config_FileSelectCueComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.modinfo_config_FileSelectCueComboBox.FormattingEnabled = true;
+            this.modinfo_config_FileSelectCueComboBox.Location = new System.Drawing.Point(4, 3);
+            this.modinfo_config_FileSelectCueComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.modinfo_config_FileSelectCueComboBox.Name = "modinfo_config_FileSelectCueComboBox";
+            this.modinfo_config_FileSelectCueComboBox.Size = new System.Drawing.Size(257, 23);
+            this.modinfo_config_FileSelectCueComboBox.TabIndex = 12;
+            this.toolTip.SetToolTip(this.modinfo_config_FileSelectCueComboBox, "选择一个INI文件进行查看或编辑");
+            this.modinfo_config_FileSelectCueComboBox.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
+            this.modinfo_config_FileSelectCueComboBox.SelectedIndexChanged += new System.EventHandler(this.modinfo_config_FileSelectCueComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -2182,7 +2277,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MinimumSize = new System.Drawing.Size(1061, 685);
             this.Name = "MainForm";
-            this.Text = "XCOM Alternative Mod Launcher(AML启动器)";
+            this.Text = "XCOM Alternative Mod Launcher(AML启动器 汉化:重楼一叶Coralfox)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
@@ -2256,6 +2351,9 @@
         private System.Windows.Forms.Label conflicts_log_label;
         private System.Windows.Forms.TextBox conflicts_textbox;
         private System.Windows.Forms.DataGridView conflicts_datagrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInternalClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModClass;
         private System.Windows.Forms.ToolStripMenuItem importActiveModsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cleanModsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
@@ -2407,8 +2505,18 @@
         private System.Windows.Forms.Button bClearStateFilter;
         private System.Windows.Forms.ToolStripMenuItem runChimeraSquadToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem importFromChimeraSquadToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInternalClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModClass;
+        private System.Windows.Forms.ToolStripMenuItem openSpecialFoldersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToAmlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToX2InstallToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToX2DataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToWotcDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem amlLogFileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem x2LogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wotcLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem folderToChimeraDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chimeraLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToChimeraInstallToolStripMenuItem;
     }
 }

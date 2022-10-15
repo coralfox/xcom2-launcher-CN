@@ -15,7 +15,7 @@ namespace XCOM2Launcher.Forms
         {
             Text = $"About {AssemblyTitle}";
             labelProductName.Text = AssemblyProduct;
-            // labelVersion.Text = $"{Program.GetCurrentVersionString(true)}";
+            labelVersion.Text = $"{Program.GetCurrentVersionString(true)}";
             labelCopyright.Text = $"License {AssemblyCopyright}";
             labelCompanyName.Text = $"Created by {AssemblyCompany}";
             textBoxDescription.Text = AssemblyDescription;
@@ -99,6 +99,6 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-        #endregion Assembly Attribute Accessors
+        #endregion
     }
 }

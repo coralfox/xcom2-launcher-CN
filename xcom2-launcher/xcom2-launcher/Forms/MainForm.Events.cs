@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using JR.Utils.GUI.Forms;
 using Steamworks;
+using XCOM2Launcher.Classes;
 using XCOM2Launcher.Helper;
 using XCOM2Launcher.Mod;
 using XCOM2Launcher.PropertyGrid;
@@ -23,18 +24,9 @@ namespace XCOM2Launcher.Forms
         {
             // Register Events
             // run buttons
-            runXCOM2ToolStripMenuItem.Click += (a, b) =>
-            {
-                RunVanilla();
-            };
-            runWarOfTheChosenToolStripMenuItem.Click += (a, b) =>
-            {
-                RunWotC();
-            };
-            runChallengeModeToolStripMenuItem.Click += (a, b) =>
-            {
-                RunChallengeMode();
-            };
+            runXCOM2ToolStripMenuItem.Click += (a, b) => { RunVanilla(); };
+            runWarOfTheChosenToolStripMenuItem.Click += (a, b) => { RunWotC(); };
+            runChallengeModeToolStripMenuItem.Click += (a, b) => { RunChallengeMode(); };
             runChimeraSquadToolStripMenuItem.Click += (sender, args) => RunChimeraSquad();
 
             #region Menu->File
@@ -103,6 +95,92 @@ namespace XCOM2Launcher.Forms
                 Close();
             };
 
+            #region Menu->File->Open Log
+            amlLogFileToolStripMenuItem1.Click += delegate
+            {
+                Tools.StartProcess(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath) ?? string.Empty, "AML.log"));
+            };
+
+            x2LogFileToolStripMenuItem.Visible = Program.XEnv.Game == GameId.X2;
+            x2LogFileToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is Xcom2Env env) {
+                    Tools.StartProcess(env.LogFilePath);
+                }
+            };
+
+            wotcLogFileToolStripMenuItem.Visible = Program.XEnv.Game == GameId.X2;
+            wotcLogFileToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is Xcom2Env env) {
+                    Tools.StartProcess(env.LogFilePathWotC);
+                }
+            };
+
+            chimeraLogFileToolStripMenuItem.Visible = Program.XEnv.Game == GameId.ChimeraSquad;
+            chimeraLogFileToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is XComChimeraSquadEnv env) {
+                    Tools.StartProcess(env.LogFilePath);
+                }
+            };
+
+            #endregion
+
+            #region Menu->File->Open Folder
+
+            folderToAmlToolStripMenuItem.Click += delegate
+            {
+                Tools.StartProcess("explorer", Path.GetDirectoryName(Application.ExecutablePath));
+            };
+
+            folderToX2InstallToolStripMenuItem.Visible = Program.XEnv.Game == GameId.X2;
+            folderToX2InstallToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is Xcom2Env env)
+                {
+                    Tools.StartProcess("explorer", env.GameDir);
+                }
+            };
+
+            folderToX2DataToolStripMenuItem.Visible = Program.XEnv.Game == GameId.X2;
+            folderToX2DataToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is Xcom2Env env)
+                {
+                    Tools.StartProcess("explorer", env.DataDir);
+                }
+            };
+
+            folderToWotcDataToolStripMenuItem.Visible = Program.XEnv.Game == GameId.X2;
+            folderToWotcDataToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is Xcom2Env env)
+                {
+                    Tools.StartProcess("explorer", env.DataDirWotC);
+                }
+            };
+
+            folderToChimeraInstallToolStripMenuItem.Visible = Program.XEnv.Game == GameId.ChimeraSquad;
+            folderToChimeraInstallToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is XComChimeraSquadEnv env)
+                {
+                    Tools.StartProcess("explorer", env.GameDir);
+                }
+            };
+
+            folderToChimeraDataToolStripMenuItem.Visible = Program.XEnv.Game == GameId.ChimeraSquad;
+            folderToChimeraDataToolStripMenuItem.Click += delegate
+            {
+                if (Program.XEnv is XComChimeraSquadEnv env)
+                {
+                    Tools.StartProcess("explorer", env.DataDir);
+                }
+            };
+
+            #endregion
+
             #endregion Menu->File
 
             #region Menu->Options
@@ -137,11 +215,7 @@ namespace XCOM2Launcher.Forms
 
                     // refresh/update settings dependent functions
                     RefreshModList();
-                    showHiddenModsToolStripMenuItem.Checked = Settings.ShowHiddenElements;
-                    modlist_ListObjectListView.UseTranslucentSelection = Settings.UseTranslucentModListSelection;
-                    olvRequiredMods.UseTranslucentSelection = Settings.UseTranslucentModListSelection;
-                    olvDependentMods.UseTranslucentSelection = Settings.UseTranslucentModListSelection;
-                    cShowPrimaryDuplicates.Visible = Settings.EnableDuplicateModIdWorkaround;
+                    InitMainGui(Settings);
                     InitQuickArgumentsMenu(Settings);
 
                     if (dialog.IsRestartRequired)
@@ -159,10 +233,7 @@ namespace XCOM2Launcher.Forms
             #region Menu->Tools
 
             // -> Tools
-            cleanModsToolStripMenuItem.Click += delegate
-            {
-                new CleanModsForm(Settings).ShowDialog();
-            };
+            cleanModsToolStripMenuItem.Click += delegate { new CleanModsForm(Settings).ShowDialog(); };
 
             importFromXCOM2ToolStripMenuItem.Click += delegate
             {
@@ -200,26 +271,14 @@ namespace XCOM2Launcher.Forms
             {
                 Log.Info("Menu->Tools->Resubscribe");
                 var modsToDownload = Mods.All.Where(m => m.State.HasFlag(ModState.NotInstalled) && m.Source == ModSource.SteamWorkshop).ToList();
-                var choice = false;
 
                 if (modsToDownload.Count == 0)
-                    MessageBox.Show("未安装MOD未找到.", "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else if (modsToDownload.Count == 1)
-                    choice = MessageBox.Show($"您确定要下载mod {modsToDownload[0].Name}?", "确认下载", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
-                else
-                    choice = MessageBox.Show($"您确定要下载{modsToDownload.Count} mod?", "确认下载", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK;
-
-                if (choice)
                 {
-                    foreach (var m in modsToDownload)
-                    {
-                        Log.Info("Subscribe and download " + m.ID);
-                        Workshop.Subscribe((ulong)m.WorkshopID);
-                        Workshop.DownloadItem((ulong)m.WorkshopID);
-                    }
-
-                    MessageBox.Show("下载完成后启动XCOM以使用mod" + (modsToDownload.Count == 1 ? "." : "们."), "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No uninstalled workshop mods were found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
+
+                ResubscribeToMods(modsToDownload);
             };
 
             #endregion Menu->Tools
@@ -236,24 +295,20 @@ namespace XCOM2Launcher.Forms
             checkForUpdatesToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->About->Check Update");
-            };
 
-            openHomepageToolStripMenuItem.Click += delegate
+                if (!Program.CheckForUpdate())
             {
-                Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher");
+                    MessageBox.Show("No updates available", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             };
 
-            amlWikiToolStripMenuItem.Click += delegate
-            {
-                Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher/wiki");
-            };
+            openHomepageToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher"); };
 
-            openDiscordToolStripMenuItem.Click += delegate
-            {
-                Tools.StartProcess(@"https://discord.gg/QHSVGRn");
-            };
+            amlWikiToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://github.com/X2CommunityCore/xcom2-launcher/wiki"); };
 
-            #endregion Menu->About
+            openDiscordToolStripMenuItem.Click += delegate { Tools.StartProcess(@"https://discord.gg/QHSVGRn"); };
+
+            #endregion
 
             // RichTextBox clickable links
             //modinfo_readme_RichTextBox.LinkClicked += ControlLinkClicked;
@@ -285,8 +340,7 @@ namespace XCOM2Launcher.Forms
             };
         }
 
-        private void QuickArgumentItemClick(object sender, EventArgs e)
-        {
+        private void QuickArgumentItemClick(object sender, EventArgs e) {
             // Add or remove the respective argument from the argument list, depending on its check-state.
             if (sender is ToolStripMenuItem item)
             {
@@ -321,7 +375,7 @@ namespace XCOM2Launcher.Forms
 
             if (mod != null && (mod.State & ModState.NotInstalled) != ModState.None && e.Result.m_eResult == EResult.k_EResultOK)
             {
-                mod.RemoveState(ModState.NotInstalled);
+                mod.RemoveState(ModState.NotInstalled | ModState.Downloading);
                 mod.isHidden = false;
                 modlist_ListObjectListView.RefreshObject(mod);
             }
@@ -357,7 +411,7 @@ namespace XCOM2Launcher.Forms
                 });
 
                 // Close the form as soon as the ModUpdateTask finished
-                waitForUpdateTaskToComplete.ContinueWith(x =>
+                waitForUpdateTaskToComplete.ContinueWith((x) =>
                 {
                     Log.Info("Closing form (mod update task completed)");
                     Close();
@@ -373,10 +427,7 @@ namespace XCOM2Launcher.Forms
             Log.Info("MainForm is about to close");
 
             // Save dimensions
-            Settings.Windows["main"] = new WindowSettings(this)
-            {
-                Data = modlist_ListObjectListView.SaveState()
-            };
+            Settings.Windows["main"] = new WindowSettings(this) { Data = modlist_ListObjectListView.SaveState() };
             Settings.ShowStateFilter = cShowStateFilter.Checked;
             Settings.ShowModListGroups = cEnableGrouping.Checked;
             Settings.ShowPrimaryDuplicateAsDependency = cShowPrimaryDuplicates.Checked;
@@ -390,7 +441,7 @@ namespace XCOM2Launcher.Forms
             modinfo_inspect_propertygrid.SetLabelColumnWidth(100);
         }
 
-        #endregion Form
+        #endregion
 
         #region Event Handlers
 
@@ -423,7 +474,8 @@ namespace XCOM2Launcher.Forms
 
             if (!Settings.NeverImportTags)
             {
-                OverrideTags = MessageBox.Show("您是否要使用个性配置中的标签覆盖当前的标签和分类?\r\n" + "警告：此操作无法撤消", "导入配置", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+                OverrideTags = MessageBox.Show("您是否要使用个性配置中的标签覆盖当前的标签和分类?\r\n" + 
+				"警告：此操作无法撤消", "导入配置", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
             }
             else
             {
@@ -611,7 +663,9 @@ namespace XCOM2Launcher.Forms
             int width = senderComboBox.DropDownWidth;
             Font font = senderComboBox.Font;
 
-            int vertScrollBarWidth = senderComboBox.Items.Count > senderComboBox.MaxDropDownItems ? SystemInformation.VerticalScrollBarWidth : 0;
+            int vertScrollBarWidth = (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                ? SystemInformation.VerticalScrollBarWidth
+                : 0;
 
             var itemsList = senderComboBox.Items.Cast<object>().Select(item => item.ToString());
 
@@ -839,6 +893,6 @@ namespace XCOM2Launcher.Forms
             }
         }
 
-        #endregion Event Handlers
+        #endregion
     }
 }

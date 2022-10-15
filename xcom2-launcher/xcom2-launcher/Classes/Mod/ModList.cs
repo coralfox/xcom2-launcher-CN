@@ -276,9 +276,9 @@ namespace XCOM2Launcher.Mod
             Log.Info($"Mod '{mod.ID}' removed from category '{category}'");
         }
 
-        public async void UpdateModAsync(ModEntry m, Settings settings)
+        public async Task<List<ModEntry>> UpdateModAsync(ModEntry m, Settings settings)
         {
-            await UpdateModsAsync(new List<ModEntry> { m }, settings);
+            return await UpdateModsAsync(new List<ModEntry> {m}, settings);
         }
 
         public async Task<List<ModEntry>> UpdateModsAsync(List<ModEntry> mods, Settings settings, IProgress<ModUpdateProgress> progress = null, CancellationToken cancelToken = default(CancellationToken))
@@ -416,7 +416,7 @@ namespace XCOM2Launcher.Mod
             return updatedEntries;
         }
 
-        private bool VerifyModState(ModEntry m, Settings settings)
+        bool VerifyModState(ModEntry m, Settings settings)
         {
             // Check if mod directory exists
             if (!Directory.Exists(m.Path))
@@ -470,7 +470,7 @@ namespace XCOM2Launcher.Mod
             return true;
         }
 
-        private void UpdateLocalMod(ModEntry m)
+        void UpdateLocalMod(ModEntry m)
         {
             Log.Debug("Processing local information for " + m.ID);
 
@@ -501,7 +501,7 @@ namespace XCOM2Launcher.Mod
             }
         }
 
-        private void UpdateSteamMod(ModEntry m, SteamUGCDetails_t workshopDetails)
+        void UpdateSteamMod(ModEntry m, SteamUGCDetails_t workshopDetails)
         {
             if (m == null || m.WorkshopID <= 0)
             {
@@ -662,11 +662,15 @@ namespace XCOM2Launcher.Mod
                     {
                         var details = Workshop.GetDetails((ulong)id);
 
-                        if (details.m_nPublishedFileId.m_PublishedFileId != 0)
+                        if (details.m_eResult == EResult.k_EResultOK)
                         {
                             var newMod = new ModEntry(details);
                             requiredMods.Add(newMod);
                             _DependencyCache.Add(newMod);
+                        }
+                        else
+                        {
+                            Log.Warn($"Workshop request for WorkshopId={id} failed with result '{details.m_eResult}'");
                         }
                     }
                 }
