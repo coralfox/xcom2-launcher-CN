@@ -9,7 +9,6 @@ namespace XCOM2Launcher.Forms
         public AboutBox()
         {
             InitializeComponent();
-            CancelButton = okButton;
         }
 
         private void AboutBox_Load(object sender, EventArgs e)
@@ -31,7 +30,7 @@ namespace XCOM2Launcher.Forms
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
                     if (titleAttribute.Title != "")
                     {
                         return titleAttribute.Title;
@@ -54,7 +53,7 @@ namespace XCOM2Launcher.Forms
                     return "";
                 }
 
-                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
+                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
         }
 
@@ -68,7 +67,7 @@ namespace XCOM2Launcher.Forms
                     return "";
                 }
 
-                return ((AssemblyProductAttribute) attributes[0]).Product;
+                return ((AssemblyProductAttribute)attributes[0]).Product;
             }
         }
 
@@ -82,7 +81,7 @@ namespace XCOM2Launcher.Forms
                     return "";
                 }
 
-                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
 
@@ -96,7 +95,7 @@ namespace XCOM2Launcher.Forms
                     return "";
                 }
 
-                return ((AssemblyCompanyAttribute) attributes[0]).Company;
+                return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
 

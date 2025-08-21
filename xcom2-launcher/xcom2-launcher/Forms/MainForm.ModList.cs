@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,8 +28,7 @@ namespace XCOM2Launcher.Forms
         public ModEntry CurrentMod;
 
         private bool _CheckTriggeredFromContextMenu;
-
-        private void InitModListView()
+        public void InitModListView()
         {
             var categoryGroupingDelegate = new GroupKeyGetterDelegate(o => Mods.GetCategory(o as ModEntry));
 
@@ -191,9 +191,6 @@ namespace XCOM2Launcher.Forms
                 column.GroupFormatter = (g, param) => { param.GroupComparer = Comparer<OLVGroup>.Create((a, b) => (param.GroupByOrder == SortOrder.Descending ? -1 : 1)*a.Header.CompareTo(b.Header)); };
             }
 
-            // Start out sorted by name
-            modlist_ListObjectListView.Sort(olvcName, SortOrder.Ascending);
-            
             // Wrapper
             ModList = new TypedObjectListView<ModEntry>(modlist_ListObjectListView);
 
@@ -201,61 +198,10 @@ namespace XCOM2Launcher.Forms
             if (Settings.Windows.ContainsKey("main") && Settings.Windows["main"].Data != null)
                 modlist_ListObjectListView.RestoreState(Settings.Windows["main"].Data);
 
-            olvColNotes.AspectGetter += rowObject =>
-            {
-                if (!(rowObject is ModEntry mod))
-                {
-                    return "";
-                }
-
-                // Return only the first line of the note
-                if (String.IsNullOrWhiteSpace(mod.Note))
-                {
-                    return "";
-                }
-                    
-                var firstLine = new Regex("[^\r\n]*").Match(mod.Note).Value;
-                return firstLine;
-            };
-            
-            modlist_ListObjectListView.CellEditStarting += (sender, args) =>
-            {
-                if (!(args.RowObject is ModEntry mod))
-                {
-                    return;
-                }
-
-                // Use Multi-Line editor for notes
-                if (args.Column == olvColNotes)
-                {
-                    var tb = new TextBox
-                             {
-                                 Multiline = true,
-                                 ScrollBars = ScrollBars.Both,
-                                 Bounds = args.CellBounds,
-                             };
-                    
-                    tb.Height *= 4;
-                    tb.Text = mod.Note?.Replace("\n", "\r\n") ?? "";
-                    args.Control = tb;
-                }
-            };
-
-            modlist_ListObjectListView.CellEditFinished += (sender, args) =>
-            {
-                if (!(args.RowObject is ModEntry mod))
-                {
-                    return;
-                }
-
-                // Refresh info in mod overview if note was changed in OLV
-                if (args.Column == olvColNotes)
-                {
-                    modInfoNotesText.Text = mod.Note;
-                }
-            };
-            
             RefreshModList();
+
+            // Start out sorted by name
+            modlist_ListObjectListView.Sort(olvcName, SortOrder.Ascending);
         }
 
         private object StateAspectGetter(object rowobject)
@@ -422,12 +368,8 @@ namespace XCOM2Launcher.Forms
 
             if (mod.State.HasFlag(ModState.NotLoaded))
                 tooltip = "mod没有被加载.检查您的Mod目录设置.";
-
-
             else if (mod.State.HasFlag(ModState.ModConflict))
                 tooltip = "这个mod的设置与另一个mod冲突.";
-
-
             else if (mod.State.HasFlag(ModState.DuplicateID))
                 tooltip = "MOD编码不是唯一的。具有相同ID的Mod只能一起停用(等待进一步处理).";
 
@@ -440,7 +382,7 @@ namespace XCOM2Launcher.Forms
         /// </summary>
         /// <param name="mods">Mods that should be updated.</param>
         /// <param name="afterUpdateAction">This Action will be executed after the update processing completed.</param>
-        private void UpdateMods(List<ModEntry> mods, Func<Task> afterUpdateAction = null)
+        private void UpdateMods(List<ModEntry> mods, Action afterUpdateAction = null)
         {
             if (IsModUpdateTaskRunning)
             {
@@ -450,18 +392,13 @@ namespace XCOM2Launcher.Forms
             Log.Info($"Updating {mods.Count} mods...");
             SetStatus($"更新 {mods.Count} mod中...");
             progress_toolstrip_progressbar.Visible = true;
-            UseWaitCursor = true;
-            
-            var reporter = new Progress<ModUpdateProgress>();
-            reporter.ProgressChanged += UpdateProgress;
 
-            void UpdateProgress(object sender, ModUpdateProgress progress)
+            Progress<ModUpdateProgress> reporter = new Progress<ModUpdateProgress>();
+            reporter.ProgressChanged += delegate (object sender, ModUpdateProgress progress)
             {
-                if (InvokeRequired) Invoke(new Action(() => UpdateProgress(sender, progress)));
-                
+                Debug.WriteLine("Progress: " + progress.Message);
                 try
                 {
-                    
                     progress_toolstrip_progressbar.Maximum = progress.Max;
                     progress_toolstrip_progressbar.Value = progress.Current;
                     status_toolstrip_label.Text = progress.Message;
@@ -471,20 +408,20 @@ namespace XCOM2Launcher.Forms
                     // This can happen, when the main form is closed and the wrapped progress bar control of
                     // the ToolStripProgressBar has already been disposed while the mod update task is still reporting progress.
                 }
-            }
+            };
 
             ModUpdateCancelSource = new CancellationTokenSource();
             ModUpdateTask = Settings.Mods.UpdateModsAsync(mods, Settings, reporter, ModUpdateCancelSource.Token);
 
-            ModUpdateTask.ContinueWith(async e =>
+            ModUpdateTask.ContinueWith(e =>
             {
                 switch (e.Status)
                 {
                     case TaskStatus.RanToCompletion:
                         Log.Info("ModUpdateTask completed");
-                        SetStatus("正在处理Mod列表...");
-                        await PostProcessModUpdateTask();
+                        PostProcessModUpdateTask();
                         break;
+
                     case TaskStatus.Canceled:
                         Log.Info("ModUpdateTask was cancelled");
                         SetStatus("Mod更新中止");
@@ -501,7 +438,7 @@ namespace XCOM2Launcher.Forms
                         Log.Error("At least one mod failed to update", aggregateException);
                         SetStatus("1个或以上Mod更新失败");
 
-                        await PostProcessModUpdateTask();
+                        PostProcessModUpdateTask();
 
                         MessageBox.Show("1个或以上Mod更新失败: " +
 						 Environment.NewLine + Environment.NewLine +
@@ -514,26 +451,17 @@ namespace XCOM2Launcher.Forms
                         throw new ArgumentOutOfRangeException();
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
-            
-            return;
 
-            async Task PostProcessModUpdateTask()
+            void PostProcessModUpdateTask()
             {
-                foreach (var mod in mods)
-                {
-                    Settings.Mods.UpdatedModDependencyState(mod);
-                }
+                Cursor.Current = Cursors.WaitCursor;
+                // After an update refresh all mods that depend on this one
+                mods.ForEach(updatedMod => Mods.GetDependentMods(updatedMod).ForEach(dependentMod => Mods.UpdatedModDependencyState(dependentMod)));
+                modlist_ListObjectListView.RefreshObjects(mods);
+                afterUpdateAction?.Invoke();
 
-                RefreshModList();
-                
-                if (afterUpdateAction != null)
-                {
-                    await afterUpdateAction();
-                }
-
+                Cursor.Current = Cursors.Default;
                 SetStatusIdle();
-                UseWaitCursor = false;
-                
                 Log.Info("ModUpdateTask post processing completed");
             }
         }
@@ -588,7 +516,8 @@ namespace XCOM2Launcher.Forms
                 }
             }
 
-            RefreshModList();
+            //RefreshModList();
+            UpdateConflictInfo();
         }
 
         private void ResubscribeToMods(List<ModEntry> mods)
@@ -620,7 +549,7 @@ namespace XCOM2Launcher.Forms
             }
 
             string plural = (mods.Count == 1 ? "" : "s");
-            MessageBox.Show($"你必须先等待下载{plural}完成才能使用Mod{plural}.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"You will have to wait for the download{plural} to finish in order to use the mod{plural}.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ConfirmDeleteMods(List<ModEntry> mods)
@@ -632,10 +561,10 @@ namespace XCOM2Launcher.Forms
 
             // Confirmation dialog
             var text = mods.Count == 1
-                ? $"你确定要删除 '{mods[0]?.Name}'?"
-                : $"你确定要删除 {mods.Count} Mod?";
+                ? $"Are you sure you want to delete '{mods[0]?.Name}'?"
+                : $"Are you sure you want to delete {mods.Count} mods?";
 
-            var result = MessageBox.Show(text, "确认删除", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            var result = MessageBox.Show(text, "Confirm deletion", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             
             if (result != DialogResult.OK)
                 return;
@@ -654,16 +583,16 @@ namespace XCOM2Launcher.Forms
             
             if (!mods.Any())
             {
-                MessageBox.Show("没有已订阅的Mod被选中.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No subscribed Workshop mods selected.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             // Confirmation dialog
             var text = mods.Count == 1
-                ? $"你确定要取消订阅 '{mods[0]?.Name}'?"
-                : $"你确定要取消订阅 {mods.Count} 工坊Mod?";
+                ? $"Are you sure you want to unsubscribe from the Workshop mod '{mods[0]?.Name}'?"
+                : $"Are you sure you want to unsubscribe from {mods.Count} Workshop mods?";
 
-            var result = MessageBox.Show(text, "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            var result = MessageBox.Show(text, "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             
             if (result != DialogResult.OK)
                 return;
@@ -734,11 +663,6 @@ namespace XCOM2Launcher.Forms
         /// <param name="rebuildColumns">Set to true if visibility for some columns was changed for example.</param>
         private void RefreshModList(bool rebuildColumns = false)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(() => RefreshModList(rebuildColumns)));
-                return;
-            }
             var selectedMod = ModList.SelectedObject;
 
             // Un-register events
@@ -756,7 +680,6 @@ namespace XCOM2Launcher.Forms
             {
                 modlist_ListObjectListView.RebuildColumns();
             }
-            modlist_ListObjectListView.Sort();
 
             modlist_ListObjectListView.EndUpdate();
 
@@ -769,7 +692,6 @@ namespace XCOM2Launcher.Forms
                 modlist_ListObjectListView.SelectObject(selectedMod);
 
             UpdateStateFilterLabels();
-            UpdateConflictInfo();
         }
 
         private void RenameTagPrompt(ModEntry m, ModTag tag, bool renameAll)
@@ -816,7 +738,7 @@ namespace XCOM2Launcher.Forms
 
             editColor.Click += (sender, e) =>
             {
-                using var colorPicker = new ColorDialog
+                var colorPicker = new ColorDialog
                 {
                     AllowFullOpen = true,
                     Color = tag.Color,
@@ -1085,15 +1007,9 @@ namespace XCOM2Launcher.Forms
                     mod.isHidden = !m.isHidden;
 
                     if (!Settings.ShowHiddenElements && mod.isHidden)
-                    {
                         modlist_ListObjectListView.RemoveObject(mod);
-                        RefreshModelFilter();
-                    }
                     else
-                    {
                         modlist_ListObjectListView.RefreshObject(mod);
-                        RefreshModelFilter();
-                    }
                 }
             };
 
@@ -1170,7 +1086,7 @@ namespace XCOM2Launcher.Forms
                 enableAllItem.Click += delegate
                 {
                     // If mods get enabled with OnlyUpdateEnabledOrNewModsOnStartup active, we perform an update because mod data could be outdated.
-                    if (!Settings.UpdateModsOnStartup || Settings.OnlyUpdateEnabledOrNewModsOnStartup)
+                    if (Settings.OnlyUpdateEnabledOrNewModsOnStartup)
                     {
                         if (IsModUpdateTaskRunning)
                         {
@@ -1185,9 +1101,8 @@ namespace XCOM2Launcher.Forms
                             Invoke(new Action(() => 
                             {
                                 EnabledModsInModList(modsNotActive);
+                                Cursor.Current = Cursors.Default;
                             }));
-
-                            return Task.CompletedTask;
                         });
                     }
                     else
@@ -1333,11 +1248,10 @@ namespace XCOM2Launcher.Forms
             //Debug.WriteLine("ProcessModListItemCheckChanged " + modChecked.Name);
 
             // If a mod gets enabled with OnlyUpdateEnabledOrNewModsOnStartup active, we perform an update because mod data could be outdated.
-            if (modChecked.isActive && (!Settings.UpdateModsOnStartup || Settings.OnlyUpdateEnabledOrNewModsOnStartup) && !_CheckTriggeredFromContextMenu)
+            if (modChecked.isActive && Settings.OnlyUpdateEnabledOrNewModsOnStartup && !_CheckTriggeredFromContextMenu)
             {
                 Log.Info($"Updating mod before enabling because {nameof(Settings.OnlyUpdateEnabledOrNewModsOnStartup)} is enabled");
-                
-                Task.Run(() => Mods.UpdateModAsync(modChecked, Settings)).GetAwaiter().GetResult();
+                Task.Run(() => Mods.UpdateModAsync(modChecked, Settings)).Wait();
             }
 
             _CheckTriggeredFromContextMenu = false;
@@ -1369,17 +1283,14 @@ namespace XCOM2Launcher.Forms
                 modlist_ListObjectListView.RefreshObject(mod);
 
                 // refresh dependent mods
-                var dependentMods = Mods.GetDependentMods(mod, false);
-                foreach (var m in dependentMods)
-                {
-                    Mods.UpdatedModDependencyState(m);
-                }
+                var dependentMods = Mods.GetDependentMods(mod);
+                dependentMods.ForEach(m => Mods.UpdatedModDependencyState(m));
                 modlist_ListObjectListView.RefreshObjects(dependentMods);
             }
 
+            UpdateDependencyInformation(ModList.SelectedObject);
             UpdateStateFilterLabels();
             UpdateLabels();
-            UpdateDependencyInformation(ModList.SelectedObject);
         }
 
         #region Events
@@ -1452,7 +1363,7 @@ namespace XCOM2Launcher.Forms
 
         private void ModListItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (!Settings.UpdateModsOnStartup || Settings.OnlyUpdateEnabledOrNewModsOnStartup)
+            if (Settings.OnlyUpdateEnabledOrNewModsOnStartup)
             {
                 // With OnlyUpdateEnabledOrNewModsOnStartup enabled, we prevent multiple mods from getting enabled
                 // by multiselecting and clicking on the check box. This would cause every checked mod to get updated individually,
@@ -1486,7 +1397,7 @@ namespace XCOM2Launcher.Forms
             UpdateStateFilterLabels();
         }
 
-        private async void ModListEditFinished(object sender, CellEditEventArgs e)
+        private void ModListEditFinished(object sender, CellEditEventArgs e)
         {
             var mod = e.RowObject as ModEntry;
             if (mod == null) return;
@@ -1497,12 +1408,11 @@ namespace XCOM2Launcher.Forms
                     mod.ManualName = !string.IsNullOrEmpty(e.NewValue as string);
 
                     if (!mod.ManualName)
-                    {
                         // Restore name
-                        await Mods.UpdateModAsync(mod, Settings);
-                    }
+                        _ = Mods.UpdateModAsync(mod, Settings);
 
                     break;
+
                 case "Index":
                     if (Settings.AutoNumberIndexes == false) break;
                     if ((int)e.NewValue == (int)e.Value) break;
@@ -1532,13 +1442,9 @@ namespace XCOM2Launcher.Forms
             int startPos = (currentIndex > oldIndex) ? oldIndex : currentIndex;
             int endPos = (currentIndex < oldIndex) ? oldIndex : currentIndex;
             int i = 0;
-            
-            // Make sure the old indexes go from 0 to Length - 1
             mod.Index = oldIndex;
             foreach (var modEntry in modList.OrderBy(m => m.Index))
                 modEntry.Index = i++;
-            
-            // Fix new indexes outside of the valid range
             if (currentIndex < 0)
                 currentIndex = 0;
             else if (currentIndex >= Mods.All.ToArray().Length)

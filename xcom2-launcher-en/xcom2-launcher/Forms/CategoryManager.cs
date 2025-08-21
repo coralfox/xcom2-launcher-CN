@@ -20,8 +20,7 @@ namespace XCOM2Launcher.Forms
         public CategoryManager(Settings settings)
         {
             InitializeComponent();
-            
-            CancelButton = bClose;
+
             Settings = settings;
 
             foreach (var cat in settings.Mods.CategoryNames)

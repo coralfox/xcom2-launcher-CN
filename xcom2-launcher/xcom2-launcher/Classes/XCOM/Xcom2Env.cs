@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using XCOM2Launcher.Steam;
+using XCOM2Launcher.Classes.Steam;
 
 namespace XCOM2Launcher.XCOM
 {
@@ -56,7 +56,7 @@ namespace XCOM2Launcher.XCOM
         {
             Log.Info("Starting XCOM 2 (vanilla)");
 
-            if (!SteamManager.IsSteamRunning())
+            if (!SteamAPIWrapper.Init())
                 MessageBox.Show("Could not connect to steam.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             var p = new Process
@@ -78,6 +78,8 @@ namespace XCOM2Launcher.XCOM
                 Log.Warn("Failed to start game process", ex);
                 MessageBox.Show("An error occured while trying to run the game. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            SteamAPIWrapper.Shutdown();
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace XCOM2Launcher.XCOM
         {
             Log.Info("Starting WotC");
 
-            if (!SteamManager.IsSteamRunning())
+            if (!SteamAPIWrapper.Init())
                 MessageBox.Show("Could not connect to steam.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             var p = new Process
@@ -111,6 +113,10 @@ namespace XCOM2Launcher.XCOM
                 Log.Warn("Failed to start game process", ex);
                 MessageBox.Show("An error occured while trying to run the game. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            SteamAPIWrapper.Shutdown();
         }
+
+        
     }
 }

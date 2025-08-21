@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using XCOM2Launcher.Helper;
@@ -103,7 +102,6 @@ namespace XCOM2Launcher
         public bool EnableDuplicateModIdWorkaround { get; set; }
         public bool HideXcom2Button { get; set; } = true;
         public bool HideChallengeModeButton { get; set; } = true;
-        public bool UpdateModsOnStartup { get; set; } = true;
         public bool OnlyUpdateEnabledOrNewModsOnStartup { get; set; }
         public ModList Mods { get; set; } = new ModList();
         public Dictionary<string, ModTag> Tags { get; set; } = new Dictionary<string, ModTag>();
@@ -119,8 +117,7 @@ namespace XCOM2Launcher
 
         internal List<ModEntry> ImportMods()
         {
-            var newMods = Mods.ImportMods(ModPaths);
-            return newMods;
+            return Mods.ImportMods(ModPaths);
         }
 
         /// <summary>
@@ -180,12 +177,6 @@ namespace XCOM2Launcher
                 settings.Arguments = null;
             }
             #pragma warning restore 612
-
-            // update mod overrides
-            // run on a new thread to not deadlock main thread
-            Task.Run(() => Task.WhenAll(settings.Mods.All.Select(x => x.LoadOverridesAsync())))
-                .GetAwaiter()
-                .GetResult();
 
             return settings;
         }

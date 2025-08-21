@@ -12,12 +12,12 @@ namespace XCOM2Launcher.Forms
         {
             InitializeComponent();
 
-            CancelButton = bClose;
+            // 
             Mods = settings.Mods;
 
             // todo save cleaning settings?
             // Register Events
-            bStart.Click += onStartButtonClicked;
+            button1.Click += onStartButtonClicked;
         }
 
         private ModList Mods { get; }

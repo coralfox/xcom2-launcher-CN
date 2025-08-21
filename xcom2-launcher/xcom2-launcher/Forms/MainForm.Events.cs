@@ -66,10 +66,9 @@ namespace XCOM2Launcher.Forms
                     {
                         Invoke(new Action(() =>
                         {
+                            RefreshModList();
                             modlist_ListObjectListView.EnsureModelVisible(importedMods.FirstOrDefault());
                         }));
-                        
-                        return Task.CompletedTask;
                     });
                 }
             };
@@ -199,7 +198,7 @@ namespace XCOM2Launcher.Forms
             editOptionsToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->Options->Settings");
-                using var dialog = new SettingsDialog(Settings);
+                var dialog = new SettingsDialog(Settings);
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -234,11 +233,7 @@ namespace XCOM2Launcher.Forms
             #region Menu->Tools
 
             // -> Tools
-            cleanModsToolStripMenuItem.Click += delegate
-            {
-                using var dlg = new CleanModsForm(Settings);
-                dlg.ShowDialog();
-            };
+            cleanModsToolStripMenuItem.Click += delegate { new CleanModsForm(Settings).ShowDialog(); };
 
             importFromXCOM2ToolStripMenuItem.Click += delegate
             {
@@ -293,7 +288,7 @@ namespace XCOM2Launcher.Forms
             infoToolStripMenuItem.Click += delegate
             {
                 Log.Info("Menu->About->About");
-                using var about = new AboutBox();
+                AboutBox about = new AboutBox();
                 about.ShowDialog();
             };
 
@@ -303,7 +298,7 @@ namespace XCOM2Launcher.Forms
 
                 if (!Program.CheckForUpdate())
             {
-                    MessageBox.Show("无可用更新", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No updates available", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             };
 
@@ -360,7 +355,7 @@ namespace XCOM2Launcher.Forms
         {
             Log.Info("Menu->Options->Categories");
 
-            using var catManager = new CategoryManager(Settings);
+            CategoryManager catManager = new CategoryManager(Settings);
             var result = catManager.ShowDialog();
 
             if (result == DialogResult.OK)
@@ -397,7 +392,6 @@ namespace XCOM2Launcher.Forms
                 WindowState = setting.State;
             }
         }
-
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -464,9 +458,9 @@ namespace XCOM2Launcher.Forms
 
         private void ExportLoadButtonClick(object sender, EventArgs e)
         {
-            using var dialog = new OpenFileDialog
+            var dialog = new OpenFileDialog
             {
-                Filter = "文本文件|*.txt",
+                Filter = "Text files|*.txt",
                 DefaultExt = "txt",
                 CheckPathExists = true,
                 CheckFileExists = true,
@@ -541,7 +535,7 @@ namespace XCOM2Launcher.Forms
             }
 
             // Check entries
-            if (activeMods.Count == 0 && missingMods.Count == 0)
+            if (activeMods.Count == 0)
             {
                 MessageBox.Show("找不到MOD.配置文件不正确?", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -613,7 +607,7 @@ namespace XCOM2Launcher.Forms
 
         private void ExportSaveButtonClick(object sender, EventArgs eventArgs)
         {
-            using var dialog = new SaveFileDialog
+            var dialog = new SaveFileDialog
             {
                 Filter = "文本文件|*.txt",
                 DefaultExt = "txt",
@@ -816,6 +810,34 @@ namespace XCOM2Launcher.Forms
             }
         }
 
+        private void modinfo_info_DescriptionRichTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //var contents = modinfo_info_DescriptionRichTextBox.Text;
+            //if (!CurrentMod.Description.Equals(contents))
+            //    CurrentMod.Description = contents;
+            btnDescSave.Enabled = true;
+            btnDescUndo.Enabled = true;
+        }
+
+        private void btnDescSave_Click(object sender, EventArgs e)
+        {
+            if (CurrentMod != null)
+            {
+                var contents = modinfo_info_DescriptionRichTextBox.Text;
+
+                if (!CurrentMod.Description.Equals(contents))
+                    CurrentMod.Description = contents;
+            }
+
+            btnDescSave.Enabled = false;
+            btnDescUndo.Enabled = false;
+        }
+
+        private void btnDescUndo_Click(object sender, EventArgs e)
+        {
+            UpdateModDescription(CurrentMod);
+        }
+
         private void modlist_toggleGroupsButton_Click(object sender, EventArgs e)
         {
             if (modlist_ListObjectListView.OLVGroups == null)
@@ -868,15 +890,6 @@ namespace XCOM2Launcher.Forms
             if (modlist_ListObjectListView.SelectedObject is ModEntry mod)
             {
                 UpdateDependencyInformation(mod);
-            }
-        }
-        
-        private void modInfoNotesText_TextChanged(object sender, EventArgs e)
-        {
-            if (CurrentMod != null)
-            {
-                CurrentMod.Note = modInfoNotesText.Text;
-                modlist_ListObjectListView.RefreshObject(CurrentMod);
             }
         }
 

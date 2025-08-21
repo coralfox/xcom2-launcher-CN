@@ -35,7 +35,6 @@ namespace XCOM2Launcher.Forms
 		public ConfigDiff()
 		{
 			InitializeComponent();
-			CancelButton = bClose;
 		}
 
 		public void CompareStrings(string s1, string s2)
@@ -91,6 +90,11 @@ namespace XCOM2Launcher.Forms
 			_updating++;
 		}
 
+		private void btCompare_Click(object sender, EventArgs e)
+		{
+			Compare();
+		}
+
 		private void Compare()
 		{
 			fctb1.Clear();
@@ -140,16 +144,11 @@ namespace XCOM2Launcher.Forms
 		{
 			IniLanguage.Process(e);
 		}
-
-		private void bClose_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
 	}
 
-    #region Merge stuffs
+	#region Merge stuffs
 
-    namespace DiffMergeStuffs
+	namespace DiffMergeStuffs
 	{
 		public class SimpleDiff<T>
 		{
